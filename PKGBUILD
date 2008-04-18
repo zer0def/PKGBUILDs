@@ -1,4 +1,3 @@
-# $Id: PKGBUILD,v 1.40 2008/02/29 12:07:03 thomas Exp $
 # Maintainer: Thomas Baechler <thomas@archlinux.org>
 pkgname=iptables
 pkgver=1.4.0
