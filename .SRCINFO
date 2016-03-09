@@ -1,0 +1,18 @@
+pkgbase = android-x86-system-image-16
+	pkgdesc = Android x86 Atom System Image, API-16
+	pkgver = 4.1.2_r07
+	pkgrel = 1
+	arch = any
+	license = custom
+	depends = android-platform-16
+	optdepends = qemu
+	optdepends = libvirt
+	options = !strip
+	source = https://dl.google.com/android/repository/sys-img/android/x86-16_r07.zip
+	source = package.xml
+	sha512sums = 044042d0e5bb566f2c7c1f7c4245fae96b921f6580d416d750c6563873be3541f2b175acc4f74ec7ec07ac7f4a55e3b6733882133e94a53404a077ade70346c1
+	sha512sums = 9392703cb4614330b142eba8d60fcfed794a3b30176e38e4651c08bb57d5391735f575e24589281a439555df7fcf49015ec876a6ab1c0e2df2adbde4168f44be
+	b2sums = 7047a603a05ba664a9ebfd22140a8ca28c8ebedfb279bc9759d5edd13e8f32d2daa1673390c00d38cedc63eb678969a36cd31a8b894c2919f3ad5866bf6839f3
+	b2sums = a0b2d83466c93737d724bee12d97f36e89f290525c0236ad18d432a9f6a25d2a1d7c76c948ec5a483e0224445e58b63a45e26cc31efa6a1183c6513405cd7269
+
+pkgname = android-x86-system-image-16
