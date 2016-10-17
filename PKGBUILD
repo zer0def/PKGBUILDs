@@ -1,7 +1,7 @@
 # Maintainer: Sébastien Luttringer
 
 pkgname=ipset
-pkgver=6.29
+pkgver=6.30
 pkgrel=1
 pkgdesc='Administration tool for IP sets'
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ depends=('glibc' 'libmnl')
 backup=("etc/$pkgname.conf")
 source=("http://ipset.netfilter.org/$pkgname-$pkgver.tar.bz2"
         "$pkgname.service")
-md5sums=('fd8ea35997115c5c630eee22f0beecec'
+md5sums=('41c32e3b884ec714f0aac95e7675f9d1'
          'e20fe62881993078591f1bb8b2fa22bb')
 
 prepare() {
@@ -33,6 +33,10 @@ build() {
   cd $pkgname-$pkgver
   ./configure --prefix=/usr --sbindir=/usr/bin --with-kmod=no
   make
+}
+
+check() {
+  $pkgname-$pkgver/src/ipset version
 }
 
 package() {
