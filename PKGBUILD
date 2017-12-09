@@ -3,7 +3,7 @@
 
 pkgname=iptables
 pkgver=1.6.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux kernel packet control tool'
 arch=(x86_64)
 license=(GPL2)
