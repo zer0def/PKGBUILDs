@@ -1,9 +1,10 @@
+# Maintainer: Zanny <lordzanny@gmail.com>
 # Maintainer: ProfessorKaos64 <mdeguzis@gmail.com>
 # Contributor: zer0def <zer0def on freenode>
 # Mod: http://www.moddb.com/mods/brutal-doom
 pkgname=brutal-doom
-pkgver=21.2019.05.18
-pkgrel=1
+pkgver=21
+pkgrel=2
 pkgdesc="Brutal Doom via the GzDoom engine."
 arch=(any)
 url="http://www.moddb.com/mods/brutal-doom"
