@@ -2,15 +2,16 @@
  
 _realname='gst-plugins-vr'
 pkgname="$_realname-git"
-pkgver=0.1.0.140.4477a0e
+pkgver=0.1.0.154.1f6d4c3
 pkgrel=1
 pkgdesc='Virtual Reality plugins for GStreamer '
 arch=('i686' 'x86_64')
 url='https://github.com/lubosz/gst-plugins-vr'
-depends=('glib2' 'gst-plugins-bad')
+depends=('glib2' 'gst-plugins-bad' 'assimp')
 provides=("$_realname="$pkgver)
 conflicts=("$_realname")
-makedepend=('meson' 'git')
+makedepends=('meson')
+optdepends=('libfreenect2' 'opencv' 'openhmd-git')
 license=('LGPLv2')
  
 source=('git+https://github.com/lubosz/gst-plugins-vr.git')
