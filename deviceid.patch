@@ -1,0 +1,17 @@
+diff --git a/primus_vk.cpp b/primus_vk.cpp
+index c492c3e..995c149 100644
+--- a/primus_vk.cpp
++++ b/primus_vk.cpp
+@@ -124,12 +124,6 @@ private:
+       TRACE("  Type: " << props.deviceType);
+       return true;
+     }
+-    if(props.vendorID == vendor){
+-      TRACE("Got device from env! (via vendorID)");
+-      TRACE("Device: " << props.deviceName);
+-      TRACE("  Type: " << props.deviceType);
+-      return true;
+-    }
+     return false;
+   }
+ 
