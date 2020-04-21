@@ -1,0 +1,195 @@
+diff --git a/examples/responsecurve-generator.py b/examples/responsecurve-generator.py
+index c74e34d..652b057 100755
+--- a/examples/responsecurve-generator.py
++++ b/examples/responsecurve-generator.py
+@@ -4,11 +4,13 @@ import sys
+ import string
+ 
+ if len(sys.argv) != 3:
+-    print "Usage:", sys.argv[0], "STEPS", "EQUATION"
+-    print "Simple generator for generating responsecurve data from equations."
+-    print ""
+-    print "Example:"
+-    print "   ", sys.argv[0], "6 i**2"
++    print("""
++Usage: {appname} STEPS EQUATION
++Simple generator for generating responsecurve data from equations.
++
++Example:
++    {appname} 6 i**2
++""".format(appname=sys.argv[0])
+ else:
+     steps = int(sys.argv[1])
+     equation = sys.argv[2]
+diff --git a/runxboxdrv/runxboxdrv b/runxboxdrv/runxboxdrv
+index 360c836..588b273 100755
+--- a/runxboxdrv/runxboxdrv
++++ b/runxboxdrv/runxboxdrv
+@@ -482,7 +482,7 @@ class RunXBoxDrv(object):
+ 
+     @staticmethod
+     def runCommandAndGetOutput(command):
+-        print command
++        print(command)
+         callcommand = Popen(command, shell=True, stdout=PIPE)
+         outputcommand = callcommand.communicate()
+         return outputcommand[0].split("\n")
+@@ -513,11 +513,11 @@ class RunXBoxDrv(object):
+                     RunXBoxDrv.sudo_command = sudo_command
+                     break
+             if RunXBoxDrv.sudo_command is None:
+-                raise Exception("Cannot find one of: %s!" % str(SUDO_COMMANDS))
++                raise Exception("Cannot find one of: {}!".format(str(SUDO_COMMANDS)))
+         if RunXBoxDrv.which(RunXBoxDrv.sudo_command) is None:
+-            raise Exception("Cannot find %s!" % RunXBoxDrv.sudo_command)
+-        commandline = "%s %s" % (RunXBoxDrv.sudo_command, command)
+-        print commandline
++            raise Exception("Cannot find {}!".format(RunXBoxDrv.sudo_command))
++        commandline = "{} {}".format(RunXBoxDrv.sudo_command, command)
++        print(commandline)
+         callcommand = Popen(commandline, shell=True, stdout=PIPE)
+         outputcommand = callcommand.communicate()
+         return outputcommand[0]
+@@ -525,14 +525,14 @@ class RunXBoxDrv(object):
+     @staticmethod
+     def killExistingXBoxDrv(sig, signame):
+         for line in RunXBoxDrv.runCommandAndGetOutput("ps"):
+-            print line
++            print(line)
+             fields = line.split()
+             if len(fields) < 4:
+                 continue
+             pid = fields[0]
+             process = fields[3]
+             if process.find(XBOXDRVNAME) != -1:
+-                print "Using %s on existing %s" % (signame, XBOXDRVNAME)
++                print("Using {} on existing {}".format(signame, XBOXDRVNAME))
+                 os.kill(int(pid), sig)
+                 return True
+         return False
+@@ -542,7 +542,7 @@ class RunXBoxDrv(object):
+         loadedmodules = []
+         unloadedmodules = []
+         for line in RunXBoxDrv.runCommandAndGetOutput("lsmod"):
+-            print line            
++            print(line)
+             fields = line.split()
+             if len(fields) < 3:
+                 continue
+@@ -555,17 +555,17 @@ class RunXBoxDrv(object):
+                     unloadedmodules.append(modulename)
+         for modulename in MODULELOAD:
+             if modulename in loadedmodules:
+-                print "%s already loaded!" % modulename
++                print("{} already loaded!".format(modulename))
+             else:
+-                print "Loading %s!" % modulename
+-                print RunXBoxDrv.runCommandAsRoot("modprobe %s" % modulename)
++                print("Loading {}!".format(modulename))
++                print(RunXBoxDrv.runCommandAsRoot("modprobe {}".format(modulename)))
+ 
+         for modulename in MODULEUNLOAD:
+             if modulename in unloadedmodules:
+-                print "Unloading %s!" % modulename
+-                print RunXBoxDrv.runCommandAsRoot("rmmod %s" % modulename)
++                print("Unloading {}!".format(modulename))
++                print(RunXBoxDrv.runCommandAsRoot("rmmod {}".format(modulename)))
+             else:
+-                print "%s already unloaded!" % modulename
++                print("{} already unloaded!".format(modulename))
+ 
+ 
+     @staticmethod
+@@ -576,16 +576,16 @@ class RunXBoxDrv(object):
+                 location = nextlocation
+                 break
+         if location is None:
+-            raise Exception("Cannot find one of: %s!" % str(UINPUT_LOCATIONS))
++            raise Exception("Cannot find one of: {}!".format(str(UINPUT_LOCATIONS)))
+ 
+         if not os.access(location, os.W_OK):
+-            print "Trying to change permissions of: %s" % location
+-            print RunXBoxDrv.runCommandAsRoot("chmod 0660 %s" % location)
++            print("Trying to change permissions of: {}".format(location))
++            print(RunXBoxDrv.runCommandAsRoot("chmod 0660 {}".format(location)))
+ 
+         if os.access(location, os.W_OK):
+-            print "%s is writable!" % location
++            print("{} is writable!".format(location))
+         else:
+-            raise Exception("Could not set write permissions on %s" % location)
++            raise Exception("Could not set write permissions on {}".format(location))
+ 
+ 
+     @staticmethod
+@@ -595,7 +595,7 @@ class RunXBoxDrv(object):
+             try:
+                 number = float(valstr)
+             except ValueError:
+-                return ("-%s" % key, valstr)
++                return ("-{}".format(key), valstr)
+         return (key, value)
+ 
+     @staticmethod
+@@ -606,7 +606,7 @@ class RunXBoxDrv(object):
+         buf = out
+         while out != "":
+             out = myProc.read()
+-            buf = "%s%s" % (buf, out)
++            buf = "{}{}".format(buf, out)
+         return buf
+ 
+     @staticmethod
+@@ -614,14 +614,14 @@ class RunXBoxDrv(object):
+         out = ""
+         while out.lower().find(LOADEDTEXT) == -1:
+             out = RunXBoxDrv.getNext(myProc)
+-            print out
++            print(out)
+         
+     def process(self):
+         commandlist = [self.xboxdrvpath]
+ 
+         if self.configfile:
+-             commandlist = commandlist + ["--config=%s" % self.configfile]
+-        print commandlist        
++             commandlist = commandlist.append("--config={}".format(self.configfile))
++        print(commandlist)
+         myProc = Process(commandlist)
+         with_timeout(1, self.checkLoaded, myProc)        
+         if len(self.appandparams) == 0:
+@@ -629,21 +629,21 @@ class RunXBoxDrv(object):
+         else:
+             print(self.appandparams)
+             check_call(self.appandparams)
+-        print "Sending SIGINT"
++        print("Sending SIGINT")
+         myProc.kill(SIGINT)
+         try:
+             with_timeout(1, myProc.wait)
+             sys.exit(0)
+         except Timeout:
+             pass
+-        print "Sending SIGINT again"
++        print("Sending SIGINT again")
+         myProc.kill(SIGINT)
+         try:
+             with_timeout(1, myProc.wait)
+             sys.exit(0)
+         except Timeout:
+             pass
+-        print "Killing"
++        print("Killing")
+         myProc.terminate()
+ 
+ def main():
+diff --git a/xboxdrvctl b/xboxdrvctl
+index efb5c03..8b1e618 100755
+--- a/xboxdrvctl
++++ b/xboxdrvctl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python
+ 
+ ##  Xbox360 USB Gamepad Userspace Driver
+ ##  Copyright (C) 2011 Ingo Ruhnke <grumbel@gmail.com>
