@@ -2,21 +2,32 @@
 
 set -e
 
-VERSION=$1
+declare -A SUPPORTED_ARCHS=(
+  ['x86_64']='amd64'
+  ['i486']='386'
+  ['i686']='386'
+  ['aarch64']='arm64'
+)
 
-echo $VERSION
-FILE=helmfile_linux_amd64_${VERSION}
+VERSION="${1}"
 
-wget https://github.com/roboll/helmfile/releases/download/v${VERSION}/helmfile_linux_amd64 -O $FILE
-SUM=$(sha256sum $FILE | awk '{print $1}')
-echo $SUM
-rm $FILE
+echo "${VERSION}"
 
-sed -i /pkgver=/c\pkgver=$VERSION PKGBUILD
+for _ARCH in "${!SUPPORTED_ARCHS[@]}"; do
+  FILE="helmfile_linux_${SUPPORTED_ARCHS[${_ARCH}]}_${VERSION}"
+  wget "https://github.com/roboll/helmfile/releases/download/v${VERSION}/helmfile_linux_${SUPPORTED_ARCHS[${_ARCH}]}" -O "${FILE}"
+  SHA512SUM="$(sha512sum "${FILE}" | awk '{print $1}')"
+  echo "sha512: ${SHA512SUM}"
+  B2SUM="$(b2sum "${FILE}" | awk '{print $1}')"
+  echo "b2: ${B2SUM}"
+  rm "${FILE}"
+
+  sed -i "s/${_ARCH}. _CARCH=${SUPPORTED_ARCHS[${_ARCH}]}; sha512sums=.*; b2sums=.*;;/${_ARCH}\) _CARCH=${SUPPORTED_ARCHS[${_ARCH}]}; sha512sums=\(\'${SHA512SUM}\'\); b2sums=\(\'${B2SUM}\'\);;/" PKGBUILD
+done
+sed -i /pkgver=/c\pkgver=${VERSION} PKGBUILD
 sed -i /pkgrel=/c\pkgrel=1 PKGBUILD
-sed -i /sha256sums=/c\sha256sums=\(\'$SUM\'\) PKGBUILD
 
 makepkg --printsrcinfo > .SRCINFO
-git add -A
-git commit -m "Updated to v${VERSION}"
-git push
+#git add PKGBUILD .SRCINFO update.sh
+#git commit -m "${VERSION}"
+#git push
