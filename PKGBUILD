@@ -12,7 +12,7 @@ license=('GPL')
 arch=('x86_64')
 makedepends=('git')
 depends=('dkms')
-conflicts=('rtl8812au-aircrack-dkms-git' 'rtl8812au-dkms-git' 'rtl8821au-dkms-git' 'rtl8814au-dkms-git' 'rtl8812au-inject-dkms-git')
+conflicts=('rtl8812au-aircrack-dkms-git' 'rtl8812au-dkms-git' 'rtl8821au-dkms-git' 'rtl8812au-inject-dkms-git')
 
 source=('rtl88xxau::git+https://github.com/aircrack-ng/rtl8812au.git#branch=v5.6.4.2'
         'dkms.conf')
