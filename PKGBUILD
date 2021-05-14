@@ -3,21 +3,18 @@
 # Contributor: Shaun Ren <shaun DOT ren (at) linux (dOt) com>
 # Contributor: Simon Hanna <simon DOT hanna (at) serve-me (dOt) info>
 
-pkgname=rtl8814au-aircrack-dkms-git
+pkgname=rtl8814au-dkms-git
 _pkgbase=rtl8814au
 pkgver=r94.bdf80b5
 pkgrel=1
 pkgdesc="Aircrack-ng kernel module for Realtek (USB adapters only) network cards with 8814au chipset"
-url="https://github.com/aircrack-ng/rtl8814au"
+url="https://github.com/morrownr/8814au"
 license=('GPL')
 arch=('x86_64')
 makedepends=('git')
 depends=('dkms')
 
-replaces=('rtl8814au-dkms-git')
-conflicts=('rtl8814au-dkms-git')
-
-source=('rtl8814au::git+https://github.com/aircrack-ng/rtl8814au.git'
+source=('rtl8814au::git+https://github.com/morrownr/8814au.git'
         'dkms.conf')
 
 sha256sums=('SKIP'
