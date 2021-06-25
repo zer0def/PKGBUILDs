@@ -1,14 +1,14 @@
 pkgbase = rke2-bin
 	pkgdesc = Rancher Kubernetes Engine 2
-	pkgver = v1.20.7~rke2r2
+	pkgver = v1.21.2~rke2r1
 	pkgrel = 1
 	url = https://github.com/rancher/rke2
 	arch = x86_64
 	license = Apache:2.0
 	provides = rke2
 	conflicts = rke2
-	source = https://github.com/rancher/rke2/releases/download/v1.20.7+rke2r2/rke2.linux-amd64.tar.gz
-	sha512sums = f1288881480fa0aa1415e8e7eb91ef353762e4629c040768f5dc946ab4861f293ad9e27fb65d945ec96ef9c106d414fc2e9c562c2a435e89d172bad6772f570d
-	b2sums = cde1ecf85b9f17c93573369aab2bf9878eb4a5f99e4c9acd9a7020c7e52054f4d608f8d499702dab378606c0032271d14d2bbeae002c410410db19162b5a8057
+	source = https://github.com/rancher/rke2/releases/download/v1.21.2+rke2r1/rke2.linux-amd64.tar.gz
+	sha512sums = 7999bccbe56845cccda8f87612c7d4b34d41f4f407911e64bcd5283622c6ce95f93dda8c3b7c0e250ed8883a9c4752c25e411336f8cb327218a9113b93667fed
+	b2sums = 637a6471f7463fb134116728721a7d054fe9c85b3d73fc48e08f9bb4de44d7bf03b3bb8fe06f578c5df071a922b6b8b8e0846f08ed89f45d50cddd6ae1df2f70
 
 pkgname = rke2-bin
