@@ -1,0 +1,19 @@
+pkgbase = toxproxy
+	pkgdesc = Offline messages for Tox
+	pkgver = 0.99.7
+	pkgrel = 1
+	url = https://github.com/zoff99/toxproxy
+	arch = x86_64
+	license = AGPL3
+	makedepends = git
+	makedepends = ffmpeg
+	depends = libsodium
+	depends = curl
+	source = c-toxcore::git+https://github.com/zoff99/c-toxcore#branch=zoff99/zoxcore_local_fork
+	source = toxproxy::git+https://github.com/zoff99/ToxProxy#branch=zoff99/tweaks_001
+	sha512sums = SKIP
+	sha512sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+
+pkgname = toxproxy
