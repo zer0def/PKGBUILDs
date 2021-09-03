@@ -1,6 +1,6 @@
 # Maintainer: Vincent Bernardoff <vb AT luminar.eu.org>
 pkgname=boringssl-git
-pkgver=fips.20170615.1031.g548c27646
+pkgver=fips.20210429.205.gc0fcb4e245
 pkgrel=1
 pkgdesc="BoringSSL is a fork of OpenSSL that is designed to meet Google's needs"
 arch=(arm armv6h armv7h aarch64 x86_64 i686)
@@ -43,13 +43,15 @@ package() {
     for i in *.md ; do
         install -Dm644 $i "$pkgdir/usr/share/doc/$pkgname/$i"
     done
-    install -d "$pkgdir/usr/lib"
+    install -d "$pkgdir/usr/lib" "$pkgdir/usr/bin"
+
+    install -Dm755 build/tool/bssl "$pkgdir/usr/bin/bssl"
 
     # install -Dm644 build/crypto/libcrypto.a "$pkgdir/usr/lib/crypto/libcrypto.a"
     install -Dm755 build/crypto/libcrypto.so "$pkgdir/usr/lib/crypto/libcrypto.so"
 
-    # install -Dm644 build/ssl/libssl.a "$pkgdir/usr/lib/ssl/libssl.a"
-    install -Dm755 build/ssl/libssl.so "$pkgdir/usr/lib/ssl/libssl.so"
+    # install -Dm644 build/ssl/libssl.a "$pkgdir/usr/lib/boringssl/libssl.a"
+    install -Dm755 build/ssl/libssl.so "$pkgdir/usr/lib/boringssl/libssl.so"
 
     # install -Dm644 build/decrepit/libdecrepit.a "$pkgdir/usr/lib/decrepit/libdecrepit.a"
     install -Dm755 build/decrepit/libdecrepit.so "$pkgdir/usr/lib/decrepit/libdecrepit.so"
