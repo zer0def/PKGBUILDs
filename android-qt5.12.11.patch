@@ -1,0 +1,29 @@
+commit d721300fe0c4ee45e6dfdea011d436896eba235d
+Author: Andy Shaw <andy.shaw@qt.io>
+Date:   Tue Jun 23 23:32:37 2020 +0200
+
+    [REVERT]
+    Android: Don't pause when in multi window mode
+    
+    When the application is in multi window mode then when pausing it should
+    not suspend the application as it can still be visible in the
+    background.
+    
+    Change-Id: I03a561459b2aa04c808b7d4220cd3e558671dd17
+    Reviewed-by: Assam Boudjelthia <assam.boudjelthia@qt.io>
+    (cherry picked from commit 33c24b9b9d0c6ae1899cec2e01bad9df01ca05f6)
+
+diff --git a/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtActivityDelegate.java b/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtActivityDelegate.java
+index f776888652..98d9e81ba9 100644
+--- a/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtActivityDelegate.java
++++ b/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtActivityDelegate.java
+@@ -878,8 +878,7 @@ public class QtActivityDelegate
+ 
+     public void onPause()
+     {
+-        if (Build.VERSION.SDK_INT < 24 || !m_activity.isInMultiWindowMode())
+-            QtNative.setApplicationState(ApplicationInactive);
++        QtNative.setApplicationState(ApplicationInactive);
+     }
+ 
+     public void onResume()
