@@ -1,0 +1,30 @@
+--- a/qtbase/src/corelib/global/qglobal.h	2021-09-29 22:07:08.895969831 +0200
++++ b/qtbase/src/corelib/global/qglobal.h	2021-09-29 22:07:36.662360331 +0200
+@@ -45,6 +45,7 @@
+ #  include <type_traits>
+ #  include <cstddef>
+ #  include <utility>
++#  include <limits>
+ #endif
+ #ifndef __ASSEMBLER__
+ #  include <assert.h>
+--- a/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp	2021-09-30 09:55:12.180546305 +0200
++++ b/qtlocation/src/3rdparty/mapbox-gl-native/platform/default/bidi.cpp	2021-09-30 09:55:21.137126810 +0200
+@@ -5,6 +5,7 @@
+ #include <unicode/ushape.h>
+ 
+ #include <memory>
++#include <stdexcept>
+ 
+ namespace mbgl {
+ 
+--- a/qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/convert.hpp	2021-09-30 10:09:28.069157538 +0200
++++ b/qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/convert.hpp	2021-09-30 10:09:37.265738391 +0200
+@@ -3,6 +3,7 @@
+ #include <array>
+ #include <type_traits>
+ #include <utility>
++#include <cstdint>
+ 
+ namespace mbgl {
+ namespace util {

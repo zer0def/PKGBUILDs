@@ -1,0 +1,10 @@
+--- a/qtimageformats/src/plugins/imageformats/jp2/qjp2handler.cpp	2021-09-30 11:11:33.541224340 +0200
++++ b/qtimageformats/src/plugins/imageformats/jp2/qjp2handler.cpp	2021-09-30 11:11:17.391375409 +0200
+@@ -45,6 +45,7 @@
+ #include "qcolor.h"
+ 
+ #include <jasper/jasper.h>
++#include <math.h>
+ 
+ QT_BEGIN_NAMESPACE
+ 
