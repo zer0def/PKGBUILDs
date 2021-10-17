@@ -1,0 +1,463 @@
+#!/usr/bin/env bash
+
+# luks-tpm2 -- Manage TPM 2.0 sealed LUKS keys
+# Copyright (C) 2018-2020 Corey Hinshaw <corey@electrickite.org>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+version() {
+  echo "luks-tpm2 2.1.1"
+}
+
+usage() {
+  cat <<EOF
+Usage: luks-tpm2 [OPTION]... [DEVICE] ACTION
+
+Actions:
+  init        Initialize the LUKS TPM key slot
+  temp        Set a temporary LUKS passphrase
+  reset       Reset the LUKS TPM key using a passphrase
+  replace     Replace (overwrite) a LUKS TPM key
+  compute     Precompute PCR values and replace a LUKS TPM key
+
+Options:
+  -h          Print this help text
+  -v          Print version information
+  -m PATH     Mount point for the tmpfs file system used to store TPM keyfiles
+              Default: /root/keyfs
+  -p PATH     Sealed keyfile path
+              .priv will be added to the path for the private section and .pub
+              will be added for the public portion
+              Default: /boot/keyfile  (/boot/keyfile.priv /boot/keyfile.pub)
+  -H HEX      The TPM handle of the parent object for the sealed key
+              Default: 0x81000001
+  -K          Prompt for parent key password
+  -k PATH     Path to a file containing the parent key password
+  -x HEX      Index of the TPM NVRAM area holding the key
+  -s NUMBER   Key size in bytes
+              Default: 32
+  -t NUMBER   LUKS slot number for the TPM key
+              Default: 1
+  -r NUMBER   LUKS slot number for temporary reset passphrase
+              Default: 2
+  -L STRING   List of PCR banks used to seal LUKS key
+              Default: sha256:0,2,4,7
+  -l STRING   List of PCR banks used to unseal LUKS key
+              Default: <value of -L>
+  -T STRING   TCTI module used to communicate with the TPM
+              Default: device:/dev/tpmrm0
+  -c COMMAND  The command used to precompute PCR values
+              Ex: tpm_futurepcr -L '::pcr::' -o '::output::'
+EOF
+}
+
+# Create an initial LUKS key in TPM_KEY_SLOT sealed by the TPM
+init_tpm_key() {
+  echo "Initializing LUKS TPM key for $ROOT_DEVICE"
+  echo "WARNING: This will permanently delete the key in slot $TPM_KEY_SLOT!"
+  read -p "Do you wish to proceed? [y/N] " choice
+  if [ "$choice" != "y" ] && [ "$choice" != "Y" ]; then
+    echo "Canceled."
+    RETURN_CODE=0
+    return
+  fi
+
+  read -s -p "Enter any existing LUKS passphrase: " PASSPHRASE
+  echo
+
+  echo "Generating new LUKS key..."
+  generate_keyfile
+
+  echo "Removing existing key from slot $TPM_KEY_SLOT..."
+  echo $PASSPHRASE | cryptsetup luksKillSlot $ROOT_DEVICE $TPM_KEY_SLOT
+
+  echo "Adding new key to slot $TPM_KEY_SLOT..."
+  echo $PASSPHRASE | cryptsetup luksAddKey $ROOT_DEVICE "$KEYFILE" --key-slot $TPM_KEY_SLOT
+  addkey=$?
+
+  seal_key
+  seal=$?
+
+  if [ $addkey -ne 0 ] || [ $seal -ne 0 ]; then
+    echo "There was an error initializing the TPM key in slot $TPM_KEY_SLOT!" >&2
+    RETURN_CODE=8
+  fi
+}
+
+# Set a temporary LUKS passphrase in RESET_KEY_SLOT
+add_temp_key() {
+  unseal_key
+
+  echo "Preparing to set a temporary LUKS passphrase for $ROOT_DEVICE..."
+  cryptsetup luksKillSlot --key-file "$KEYFILE" $ROOT_DEVICE $RESET_KEY_SLOT >/dev/null 2>&1
+
+  if cryptsetup luksAddKey --key-slot $RESET_KEY_SLOT --key-file "$KEYFILE" $ROOT_DEVICE < /dev/tty; then
+    echo "After booting into the current kernel, run"
+    echo "  luks-tpm2 $(echo $ORIGINAL_ARGS | sed 's/temp$/reset/')"
+    echo "to generate a new LUKS key and remove this temporary key"
+  else
+    echo "A temporary passphrase was not set" >&2
+    RETURN_CODE=5
+  fi
+}
+
+# Reset the TPM LUKS key and remove the temporary passphrase
+reset_tpm_key() {
+  read -s -p "Enter any existing LUKS passphrase for $ROOT_DEVICE: " PASSPHRASE
+  echo
+
+  generate_keyfile
+
+  echo "Removing current TPM key from slot $TPM_KEY_SLOT..."
+  echo $PASSPHRASE | cryptsetup luksKillSlot $ROOT_DEVICE $TPM_KEY_SLOT
+
+  echo "Adding new key to slot $TPM_KEY_SLOT..."
+  echo $PASSPHRASE | cryptsetup luksAddKey $ROOT_DEVICE "$KEYFILE" --key-slot $TPM_KEY_SLOT
+  addkey=$?
+
+  seal_key
+  seal=$?
+
+  if [ $addkey -eq 0 ] && [ $seal -eq 0 ]; then
+    echo "Removing temporary passphrase from slot $RESET_KEY_SLOT..."
+    cryptsetup luksKillSlot --key-file "$KEYFILE" $ROOT_DEVICE $RESET_KEY_SLOT
+  else
+    echo "There was an error resetting the TPM key in slot $TPM_KEY_SLOT!" >&2
+    echo "The temporary reset ket in slot $RESET_KEY_SLOT has not been removed." >&2
+    RETURN_CODE=4
+  fi
+}
+
+# Replace the LUKS TPM key with a new value
+replace_tpm_key() {
+  original_keyfile="$KEYFILE.orig"
+  unseal_key
+  mv "$KEYFILE" "$original_keyfile"
+
+  generate_keyfile
+
+  echo "Replacing LUKS key in slot $TPM_KEY_SLOT on $ROOT_DEVICE..."
+  if cryptsetup luksChangeKey $ROOT_DEVICE "$KEYFILE" --key-slot $TPM_KEY_SLOT --key-file "$original_keyfile"; then
+    if ! seal_key; then
+      echo "There was an error sealing the new keyfile!" >&2
+      RETURN_CODE=7
+    fi
+  else
+    echo "There was an error replacing the TPM key in slot $TPM_KEY_SLOT!" >&2
+    RETURN_CODE=6
+  fi
+}
+
+# Pre-compute PCR values and replace tpm key
+compute_tpm_key() {
+  echo "Precomputing PCR values..."
+  PCR_LIST="$PCRS" OUTPUT_PATH="$PCR_VALUES" sh -c "$COMPUTE_COMMAND" > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "There was an error computing the PCR values"
+    RETURN_CODE=10
+    return
+  fi
+  replace_tpm_key
+}
+
+# Create a temporary in-memory file system to store key files
+create_ramfs() {
+  mkdir -p "$TMPFS_MOUNT"
+  if ! mount ramfs "$TMPFS_MOUNT" -t ramfs -o size=1m; then
+    echo "Could not create tmpfs. Aborting..." >&2
+    exit 3
+  fi
+  chmod 700 "$TMPFS_MOUNT"
+}
+
+# Remove the temporary in-memory file system
+destroy_ramfs() {
+  if [ -f "$KEYFILE" ]; then
+    dd if=/dev/urandom of="$KEYFILE" bs=$(stat --printf="%s" "$KEYFILE") count=1 conv=notrunc >/dev/null 2>&1
+    rm -f "$KEYFILE"
+  fi
+  umount "$TMPFS_MOUNT"
+}
+
+# Unseal a key using the TPM
+unseal_key() {
+  if use_nvram; then
+    echo "Reading key from TPM NVRAM..."
+    tpm2_nvread -P "pcr:$UNSEAL_PCRS" -o "$KEYFILE" $NVRAM_INDEX >/dev/null
+  else
+    echo "Unsealing keyfile..."
+    set_parent_key
+    tpm2_load -C $PARENT_HANDLE "${parent_key[@]}" -r "$SEALED_KEY_PRIVATE" -u "$SEALED_KEY_PUBLIC" -c "$OBJECT_CONTEXT" >/dev/null
+    tpm2_unseal -c "$OBJECT_CONTEXT" -o "$KEYFILE" -p "pcr:$UNSEAL_PCRS" >/dev/null
+    retval=$?
+    rm -f "$OBJECT_CONTEXT"
+    return $retval
+  fi
+}
+
+# Seal a key to the TPM
+seal_key() {
+  if [ ! -f "$PCR_VALUES" ]; then
+    tpm2_pcrread -o "$PCR_VALUES" "$PCRS" >/dev/null
+  fi
+
+  if ! tpm2_createpolicy --policy-pcr -l "$PCRS" -f "$PCR_VALUES" -L "$POLICY_DIGEST" >/dev/null; then
+    return 1
+  fi
+
+  if use_nvram; then
+    echo "Storing key in TPM NVRAM..."
+    if ! tpm2_getcap properties-variable 2>&1 | grep ownerAuthSet | grep -sq 0; then
+      read -s -p "Enter TPM owner password: " tpm_auth_pass
+      echo
+      [ -n "$tpm_auth_pass" ] && tpm_auth_pass="-P $tpm_auth_pass"
+    fi
+
+    tpm2_nvundefine $tpm_auth_pass "$NVRAM_INDEX" >/dev/null 2>&1
+    tpm2_nvdefine $tpm_auth_pass -L "$POLICY_DIGEST" -s $KEY_SIZE -a "policyread|policywrite" "$NVRAM_INDEX" >/dev/null
+    tpm2_nvwrite -P "pcr:$PCRS" -i "$KEYFILE" "$NVRAM_INDEX" >/dev/null
+  else
+    echo "Sealing keyfile with the TPM..."
+    rm -f "$SEALED_KEY_PRIVATE" "$SEALED_KEY_PUBLIC"
+
+    set_parent_key
+    tpm2_create -C "$PARENT_HANDLE" -a 'fixedtpm|fixedparent|adminwithpolicy|noda' "${parent_key[@]}" -i "$KEYFILE" -L "$POLICY_DIGEST" -r "$SEALED_KEY_PRIVATE" -u "$SEALED_KEY_PUBLIC" >/dev/null
+  fi
+  retval=$?
+
+  rm -f "$POLICY_DIGEST"
+  return $retval
+}
+
+# Determine if we are using NVRAM for key storage
+use_nvram() {
+  [ -n "$NVRAM_INDEX" ]
+}
+
+set_parent_key() {
+  [ -n "$parent_key" ] && return
+
+  if [ -n "$PARENT_KEY_PROMPT" ]; then
+    read -s -p "Enter parent key password: " parent_key
+    echo
+  elif [ -f "$PARENT_KEY_PATH" ]; then
+    parent_key=$(cat "$PARENT_KEY_PATH")
+  fi
+
+  [ -n "$parent_key" ] && parent_key=(-P "$parent_key")
+}
+
+# Generate a random key of KEY_SIZE bytes
+generate_keyfile() {
+  dd bs=$KEY_SIZE count=1 if=/dev/urandom of="$KEYFILE" >/dev/null 2>&1
+}
+
+# Find first LUKS boock device
+find_luks_device() {
+  lsblk -pfln -o NAME,FSTYPE | grep crypto_LUKS | head -1 | cut -f1 -d' '
+}
+
+# Set default config values and load configuration file
+load_defaults() {
+  TMPFS_MOUNT=/root/keyfs
+  SEALED_KEY_PUBLIC=/boot/keyfile.pub
+  SEALED_KEY_PRIVATE=/boot/keyfile.priv
+  PARENT_HANDLE="0x81000001"
+  PARENT_KEY_PROMPT=""
+  PARENT_KEY_PATH=""
+  NVRAM_INDEX=""
+  KEY_SIZE=32
+  TPM_KEY_SLOT=1
+  RESET_KEY_SLOT=2
+  PCRS="sha256:0,2,4,7"
+  UNSEAL_PCRS=""
+  TPM2TOOLS_TCTI="${TPM2TOOLS_TCTI:-device:/dev/tpmrm0}"
+  COMPUTE_COMMAND=""
+
+  CONFFILE="${CONFFILE:-/etc/default/luks-tpm2}"
+  if [ -r "$CONFFILE" ]; then
+    source "$CONFFILE"
+  fi
+}
+
+# Parse command line arguments
+parse_args() {
+  ORIGINAL_ARGS="$@"
+
+  while getopts ":hvm:p:H:Kk:x:s:t:r:L:l:T:c:" opt; do
+    case $opt in
+      h)
+        version
+        echo "Manage TPM 2.0 sealed LUKS keys on DEVICE"
+        echo
+        usage
+        exit 0
+        ;;
+      v)
+        version
+        exit 0
+        ;;
+      m)
+        TMPFS_MOUNT="$OPTARG"
+        ;;
+      p)
+        SEALED_KEY_PUBLIC="$OPTARG.pub"
+        SEALED_KEY_PRIVATE="$OPTARG.priv"
+        ;;
+      H)
+        PARENT_HANDLE="$OPTARG"
+        ;;
+      K)
+        PARENT_KEY_PROMPT="1"
+        ;;
+      k)
+        PARENT_KEY_PATH="$OPTARG"
+        ;;
+      x)
+        NVRAM_INDEX="$OPTARG"
+        ;;
+      s)
+        if [[ ! $OPTARG =~ ^-?[0-9]+$ ]]; then
+          echo "Invalid key size: $OPTARG" >&2
+          exit 1
+        fi
+        TPM_KEY_SLOT=$OPTARG
+        ;;
+      t)
+        if [[ ! $OPTARG =~ ^-?[0-9]+$ ]] || [ $OPTARG -lt 0 ] || [ $OPTARG -gt 7 ]; then
+          echo "Invalid TPM key slot: $OPTARG" >&2
+          exit 1
+        fi
+        TPM_KEY_SLOT=$OPTARG
+        ;;
+      r)
+        if [[ ! $OPTARG =~ ^-?[0-9]+$ ]] || [ $OPTARG -lt 0 ] || [ $OPTARG -gt 7 ]; then
+          echo "Invalid reset key slot: $OPTARG" >&2
+          exit 1
+        fi
+        RESET_KEY_SLOT=$OPTARG
+        ;;
+      L)
+        PCRS="$OPTARG"
+        ;;
+      l)
+        UNSEAL_PCRS="$OPTARG"
+        ;;
+      T)
+        TPM2TOOLS_TCTI="$OPTARG"
+        ;;
+      c)
+        COMPUTE_COMMAND="$OPTARG"
+        ;;
+      \?)
+        echo "Invalid option: -$OPTARG" >&2
+        usage >&2
+        exit 1
+        ;;
+      :)
+        echo "Option -$OPTARG requires an argument." >&2
+        exit 1
+        ;;
+    esac
+  done
+
+  if [ -n "$PARENT_KEY_PROMPT" ] && [ -n "$PARENT_KEY_PATH" ]; then
+    echo "-K and -k cannot both be set." >&2
+    exit 1
+  fi
+
+  shift $((OPTIND-1))
+
+  if [ -n "$2" ]; then
+    ROOT_DEVICE="$1"
+    ACTION="$2"
+  elif [ -n "$1" ]; then
+    ACTION="$1"
+  fi
+}
+
+# Set addtional global and environment variables
+init_globals() {
+  if [ -z $ROOT_DEVICE ]; then
+    ROOT_DEVICE="$(find_luks_device)"
+  fi
+  if [ -z $ROOT_DEVICE ]; then
+    echo "LUKS device not found!" >&2
+    usage >&2
+    exit 1
+  fi
+
+  case "$ACTION" in
+    init) ACTION=init_tpm_key;;
+    temp) ACTION=add_temp_key;;
+    reset) ACTION=reset_tpm_key;;
+    replace) ACTION=replace_tpm_key;;
+    compute) ACTION=compute_tpm_key;;
+    *)
+      echo "Invalid action!" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+
+  if [ -z "$UNSEAL_PCRS" ]; then
+    UNSEAL_PCRS="$PCRS"
+  fi
+
+  KEYFILE="$TMPFS_MOUNT/keyfile"
+  POLICY_DIGEST="$TMPFS_MOUNT/policy.digest"
+  OBJECT_CONTEXT="$TMPFS_MOUNT/object.context"
+  PCR_VALUES="$TMPFS_MOUNT/pcr.bin"
+  RETURN_CODE=0
+
+  if [ -z "$COMPUTE_COMMAND" ] && [ $ACTION == compute_tpm_key ]; then
+    echo "No PCR compute command specified!" >&2
+    exit 1
+  fi
+  COMPUTE_COMMAND=${COMPUTE_COMMAND//::pcr::/$PCRS}
+  COMPUTE_COMMAND=${COMPUTE_COMMAND//::output::/$PCR_VALUES}
+
+  IFS=: read TPM2TOOLS_TCTI_NAME TPM2TOOLS_DEVICE_FILE <<EOF
+$TPM2TOOLS_TCTI
+EOF
+  unset IFS
+
+  export TPM2TOOLS_TCTI
+  export TPM2TOOLS_TCTI_NAME
+  if [ -n "$TPM2TOOLS_DEVICE_FILE" ]; then
+    export TPM2TOOLS_DEVICE_FILE
+  fi
+}
+
+# Main entry point
+main() {
+  load_defaults
+  parse_args "$@"
+  init_globals
+
+  if [ $EUID -ne 0 ]; then
+    echo "Must be run as root" >&2
+    exit 2
+  fi
+
+  create_ramfs
+  $ACTION
+  destroy_ramfs
+
+  exit $RETURN_CODE
+}
+
+main "$@"
+
+# vim:set ts=2 sw=2 et:
