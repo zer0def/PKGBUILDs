@@ -78,12 +78,10 @@ function parse_args() {
 function find_efi_stub() {
   local uname; uname="$(uname -m)"
   case "${uname}" in
-    x86_64)
-      readonly EFISTUB="/usr/lib/systemd/boot/efi/linuxx64.efi.stub"
-      ;;
-    i686)
-      readonly EFISTUB="/usr/lib/systemd/boot/efi/linuxia32.efi.stub"
-      ;;
+    x86_64)  readonly STUB_ARCH="x64";;
+    i686)    readonly STUB_ARCH="ia32";;
+    aarch64) readonly STUB_ARCH="aa64";;
+    arm*)    readonly STUB_ARCH="arm";;
     *)
       error "unsupported architecture: ${uname}"
       ;;
@@ -169,7 +167,7 @@ function update_image() {
     --add-section .splash="${SPLASH}"                               --change-section-vma .splash=0x40000   \
     --add-section .linux="${linux}"                                 --change-section-vma .linux=0x2000000  \
     --add-section .initrd=<(cat "${INITRD_PREPEND[@]}" "${initrd}") --change-section-vma .initrd=0x3000000 \
-    "${EFISTUB}" "${output}"
+    "/usr/lib/systemd/boot/efi/linux${STUB_ARCH}.efi.stub" "${output}"
   wait $!
 
   # Sign the resulting output file
