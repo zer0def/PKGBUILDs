@@ -1,18 +1,18 @@
-pkgbase = android-armeabi-v7a-system-image-21
-	pkgdesc = Android armeabi-v7a Atom System Image, API-21
-	pkgver = 5.0_r04
+pkgbase = android-arm64-v8a-system-image-30
+	pkgdesc = Android arm64-v8a Atom System Image, API-30
+	pkgver = 11.0_r01
 	pkgrel = 1
 	arch = any
 	license = custom
-	depends = android-platform-21
+	depends = android-platform-30
 	optdepends = qemu
 	optdepends = libvirt
 	options = !strip
-	source = https://dl.google.com/android/repository/sys-img/android/armeabi-v7a-21_r04.zip
+	source = https://dl.google.com/android/repository/sys-img/android/arm64-v8a-30_r01.zip
 	source = package.xml
-	sha512sums = 4078c5da74894a9c2b8c0bdb8fd08f9e593463c86ae994a3f2e9421780f4740e4c9b680f4e21109bf977744adcea234c7738174e3a1f8b7272383c8660230c4f
+	sha512sums = 20b210e9f1db96e0abc5e992ed5f38b34fc1fa5dec213029b6a4c14bd56ace82d4cdfc6e1ad42130ecb9fa6d8b74570e6b9a567a901e430001558d262ed01fe0
 	sha512sums = 7eca4dd52fe2f27d43dcdf11169bff2cbbd7800637bef5a1ed211b6ca031da175b0e4ab24ea90b139520ec35de978434d2a4784975c3007b1dab92d1b0e6ab94
-	b2sums = 73b25ea6651ee616656ade6aaa44746a53f1046f6c4a5f37b0b6baf263fced4be0f7e06f88db3d52b5dbf04a428491619c696e5202aec16dd321382851ef3cd5
+	b2sums = c4920bb2cb622fa437d5530d322d1195d56bb8cf779c71f1e476dd62df46d4a682592601a9cbd90b10e7715a8674394bff802356df940bad81edcd17fc4071e3
 	b2sums = aff19be3c37ef68bd4c642319d6c011ce9a39cc1b4241a2dd51a25a1c9ced5eaf3ba6e6060d294e067af055e052ed2970e7a295cef361b23a8b9cf7d9bf4ae74
 
-pkgname = android-armeabi-v7a-system-image-21
+pkgname = android-arm64-v8a-system-image-30
