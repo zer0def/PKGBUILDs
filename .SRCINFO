@@ -1,6 +1,6 @@
-pkgbase = android-ndk-22b
+pkgbase = android-ndk-23
 	pkgdesc = Android C/C++ developer kit
-	pkgver = 22b
+	pkgver = 23
 	pkgrel = 1
 	url = https://developer.android.com/ndk/
 	install = android-ndk.install
@@ -27,10 +27,10 @@ pkgbase = android-ndk-22b
 	sha512sums = 66004f6ecaf6ae2c6a6ea92392b80280281cced620f49a23734fe779be2aede29ae7e7b4315e9b8c36612659eb326519ce11c878884d672ba5d943a50ffd9f06
 	b2sums = 60a1d5ad85b186b1c942902425b82794d62ac3ec06e39a2de30157a7d76ee0a6a6e93790482cdd6914161eaa9a29d2b97440768150e9a62b9d060c5b6b755d6f
 	b2sums = 31bcce4d569918e5658a920f23357a89e4d450713866204b670e5ebd5fac204895e94277dd752ef20c5e16275a6b0c6f14d1eb691593d7b722d7f9a9b168856f
-	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip
-	sha1sums_x86_64 = 9ece64c7f19763dd67320d512794969930fce9dc
-	sha256sums_x86_64 = ac3a0421e76f71dd330d0cd55f9d99b9ac864c4c034fc67e0d671d022d4e806b
-	sha512sums_x86_64 = 6f7e52ef68b2ab465d43e0392e21fb0eecc33c5bea29ee8bdfbf47754bb90f9abf9aaf48eee0bb94b763852055586756238398ba0d0bbf2a2380cc60840adec7
-	b2sums_x86_64 = ca79aa639ebeead37d44ea43820aeec816de950381589fb8573ece977a119957721fd694a0a3e36c12d51f88908a20ce4cc6f53dec5833260c939743c66e5623
+	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r23-linux.zip
+	sha1sums_x86_64 = 9bad35f442caeda747780ba1dd92f2d98609d9cd
+	sha256sums_x86_64 = e3eacf80016b91d4cd2c8ca9f34eebd32df912bb799c859cc5450b6b19277b4f
+	sha512sums_x86_64 = 6ae9fbf4f5946bd8a80f5a45dd929265d92f8191d92ef86e25539aee4495402183269621fc8c4e26ec3032acc0f7a72cb7dd7d3bc52cf4f644e3e0397f4659f0
+	b2sums_x86_64 = a15b1322ec218699f8314fff73ef7b93698dfc529eaf157f1c0b05456f5ad52ab286fab71746dc85cb3d5e3d99dc25209170d6f07ad3556c3c0098fa58093933
 
-pkgname = android-ndk-22b
+pkgname = android-ndk-23
