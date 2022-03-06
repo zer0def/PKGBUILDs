@@ -1,18 +1,18 @@
-pkgbase = android-x86_64-system-image-30
-	pkgdesc = Android x86_64 Atom System Image, API-30
-	pkgver = 11.0_r10
+pkgbase = android-x86_64-system-image-31
+	pkgdesc = Android x86_64 Atom System Image, API-31
+	pkgver = 12.0_r03
 	pkgrel = 1
 	arch = any
 	license = custom
-	depends = android-platform-30
+	depends = android-platform-31
 	optdepends = qemu
 	optdepends = libvirt
 	options = !strip
-	source = https://dl.google.com/android/repository/sys-img/android/x86_64-30_r10.zip
+	source = https://dl.google.com/android/repository/sys-img/android/x86_64-31_r03.zip
 	source = package.xml
-	sha512sums = 32ac63c70d6188baeb27fd480d5ee2eaf8a2a5a75c7e2153128fe131206d7cf837ca5d5304d5603e40f4af4bcdea6d68d9df364b876fb263495f4a247eeaeca6
+	sha512sums = 6401a30cf17adf4d235075d13d8afafaabc6bf79946e7d61725a74c26f2d9998c3a917d20c66a098f25b49145b470e10c4e77e55d747998e6969bec2a1a6325e
 	sha512sums = 9392703cb4614330b142eba8d60fcfed794a3b30176e38e4651c08bb57d5391735f575e24589281a439555df7fcf49015ec876a6ab1c0e2df2adbde4168f44be
-	b2sums = 63ffb9c22ab81d293e3c35eb2091be3527214d1b7c58840ce4f3d4570824c6309d4c2522080ae2deff42775905fa1ddea0f9a35ad054eeb10925076bbb0ff446
+	b2sums = 8f5af42bc75d684f8c89b872871a813a9a6e016052563f96195344a0e414ff7275f24eb3611a7e60123989eb2612ded6cca781254651e754dc11db9bcc2b35fa
 	b2sums = a0b2d83466c93737d724bee12d97f36e89f290525c0236ad18d432a9f6a25d2a1d7c76c948ec5a483e0224445e58b63a45e26cc31efa6a1183c6513405cd7269
 
-pkgname = android-x86_64-system-image-30
+pkgname = android-x86_64-system-image-31
