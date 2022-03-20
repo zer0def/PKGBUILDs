@@ -10,6 +10,7 @@ pkgbase = unrealtournament4
 	depends = sdl2
 	depends = qt4
 	depends = python
+	depends = gconf
 	noextract = UnrealTournament-Client-XAN-3525360-Linux.zip
 	options = !strip
 	options = staticlibs
@@ -23,4 +24,3 @@ pkgbase = unrealtournament4
 	sha512sums = 44088e2eb5231d509fe943bd72afad80df7ae63200df190097e78a02c6e0412f61fdea465ebf1a6a29025a1b7e65fbb6bab06ca83f43543d273246bfe736858d
 
 pkgname = unrealtournament4
-

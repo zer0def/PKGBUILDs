@@ -16,7 +16,7 @@ pkgrel=1
 pkgdesc='A first-person shooter by Epic Games based on Unreal Engine 4.'
 arch=('x86_64')
 url='https://www.epicgames.com/unrealtournament/'
-depends=('icu' 'xdg-user-dirs' 'sdl2' 'qt4' 'python')
+depends=('icu' 'xdg-user-dirs' 'sdl2' 'qt4' 'python' 'gconf')
 license=('custom:UnrealTournament')
 source=(
   "https://s3.amazonaws.com/unrealtournament/ShippedBuilds/%2B%2BUT%2BRelease-Next-CL-${pkgver}/UnrealTournament-Client-XAN-${pkgver}-Linux.zip"
