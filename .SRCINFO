@@ -12,8 +12,3 @@ pkgbase = python-sip-pyqt4
 pkgname = python-sip-pyqt4
 	pkgdesc = Python 3.x SIP bindings for C and C++ libraries (PyQt4 version)
 	depends = python
-
-pkgname = python2-sip-pyqt4
-	pkgdesc = Python 2.x SIP bindings for C and C++ libraries (PyQt4 version)
-	depends = python2
-

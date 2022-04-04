@@ -6,13 +6,19 @@
 # based on https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/sip
 
 pkgbase='python-sip-pyqt4'
-pkgname=('python-sip-pyqt4' 'python2-sip-pyqt4')
+pkgname=(
+  'python-sip-pyqt4'
+  #'python2-sip-pyqt4'
+)
 pkgver=4.19.25
 pkgrel=1
 arch=('x86_64')
 url='https://www.riverbankcomputing.com/software/sip/intro'
 license=('custom:"sip"')
-makedepends=('python' 'python2')
+makedepends=(
+  'python'
+  'python2'
+)
 source=("https://www.riverbankcomputing.com/static/Downloads/sip/$pkgver/sip-$pkgver.tar.gz")
 sha256sums=('b39d93e937647807bac23579edbff25fe46d16213f708370072574ab1f1b4211')
 
