@@ -5,14 +5,21 @@
 # Contributor: riai <riai@bigfoot.com> Ben <ben@benmazer.net>
 
 pkgbase=pyqt4
-pkgname=('pyqt4-common' 'python-pyqt4' 'python2-pyqt4')
+pkgname=(
+  'pyqt4-common'
+  'python-pyqt4'
+  #'python2-pyqt4'
+)
 pkgver=4.12.3
 pkgrel=5
 arch=('x86_64')
 url='https://riverbankcomputing.com/software/pyqt/intro'
 license=('GPL')
-makedepends=('sip4' 'python-sip-pyqt4' 'python2-sip-pyqt4' 'python-dbus' 'phonon-qt4'
-             'mesa' 'python2-opengl' 'python2-dbus')
+makedepends=(
+  'sip4' 'phonon-qt4' 'mesa'
+  'python-sip-pyqt4' 'python-dbus'
+  #'python2-sip-pyqt4' 'python2-dbus' 'python2-opengl'
+)
 source=("https://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-${pkgver}/PyQt4_gpl_x11-${pkgver}.tar.gz")
 sha256sums=('a00f5abef240a7b5852b7924fa5fdf5174569525dc076cd368a566619e56d472')
 
