@@ -9,9 +9,6 @@ pkgbase = pyqt4
 	makedepends = mesa
 	makedepends = python-sip-pyqt4
 	makedepends = python-dbus
-	makedepends = python2-sip-pyqt4
-	makedepends = python2-dbus
-	makedepends = python2-opengl
 	source = https://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-4.12.3/PyQt4_gpl_x11-4.12.3.tar.gz
 	source = 0001-Fix-compilation-against-Python-3.11.patch
 	source = 0002-Fix-compilation-against-Python-3.13.patch
@@ -35,14 +32,3 @@ pkgname = python-pyqt4
 	provides = pyqt=4.12.3
 	conflicts = pyqt
 	replaces = pyqt
-
-pkgname = python2-pyqt4
-	pkgdesc = A set of Python 2.x bindings for the Qt toolkit
-	depends = python2-sip-pyqt4
-	depends = python2-dbus
-	depends = pyqt4-common
-	optdepends = phonon-qt4: enable audio and video in PyQt applications
-	optdepends = python2-opengl: enable OpenGL 3D graphics in PyQt applications
-	provides = python2-pyqt=4.12.3
-	conflicts = python2-pyqt
-	replaces = python2-pyqt

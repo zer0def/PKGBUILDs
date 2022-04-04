@@ -8,7 +8,7 @@ pkgbase=pyqt4
 pkgname=(
   'pyqt4-common'
   'python-pyqt4'
-  'python2-pyqt4'
+  #'python2-pyqt4'
 )
 pkgver=4.12.3
 pkgrel=7
@@ -18,7 +18,7 @@ license=('GPL')
 makedepends=(
   'sip4' 'phonon-qt4' 'mesa'
   'python-sip-pyqt4' 'python-dbus'
-  'python2-sip-pyqt4' 'python2-dbus' 'python2-opengl'
+  #'python2-sip-pyqt4' 'python2-opengl' 'python2-dbus'
 )
 source=(
   "https://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-${pkgver}/PyQt4_gpl_x11-${pkgver}.tar.gz"
@@ -44,8 +44,10 @@ prepare() {
     patch -Np1 -i "../$src"
   done
 
+  :||(
   cd ..
   cp -a PyQt4_gpl_x11-${pkgver}{,-py2}
+  )
 }
 
 build() {
@@ -60,6 +62,7 @@ build() {
   find -name 'Makefile' | xargs sed -i 's|-Wl,-rpath,/usr/lib||g;s|-Wl,-rpath,.* ||g'
   make
 
+  :||(
   ### Python2 version ###
   cd ../PyQt4_gpl_x11-${pkgver}-py2
   python2 configure-ng.py \
@@ -71,6 +74,7 @@ build() {
   # Thanks Gerardo for the rpath fix
   find -name 'Makefile' | xargs sed -i 's|-Wl,-rpath,/usr/lib||g;s|-Wl,-rpath,.* ||g'
   make
+  )
 }
 
 package_pyqt4-common() {
