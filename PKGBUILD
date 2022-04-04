@@ -6,23 +6,40 @@
 # based on https://git.archlinux.org/svntogit/packages.git/tree/trunk/PKGBUILD?h=packages/sip
 
 pkgbase='python-sip-pyqt4'
-pkgname=('python-sip-pyqt4' 'python2-sip-pyqt4')
+pkgname=(
+  'python-sip-pyqt4'
+  #'python2-sip-pyqt4'
+)
 pkgver=4.19.25
 pkgrel=2
 arch=('x86_64')
 url='https://www.riverbankcomputing.com/software/sip/intro'
 license=('custom:"sip"')
-makedepends=('python' 'python2')
-source=("https://www.riverbankcomputing.com/static/Downloads/sip/$pkgver/sip-$pkgver.tar.gz"
-        '0001-Fix-compilation-against-Python-3.11.patch')
-sha256sums=('b39d93e937647807bac23579edbff25fe46d16213f708370072574ab1f1b4211'
-            '56ebacabe7f7fade875256ef19f835dc8ecc6bec080802403669352128059fbd')
+makedepends=(
+  'python'
+  'python2'
+)
+source=(
+  "https://www.riverbankcomputing.com/static/Downloads/sip/$pkgver/sip-$pkgver.tar.gz"
+  '0001-Fix-compilation-against-Python-3.11.patch'
+)
+sha256sums=(
+  'b39d93e937647807bac23579edbff25fe46d16213f708370072574ab1f1b4211'
+  '56ebacabe7f7fade875256ef19f835dc8ecc6bec080802403669352128059fbd'
+)
 
 prepare() {
   mkdir -p build-pyqt4{,-py2}
 
   cd "$srcdir"/sip-$pkgver
-  patch --strip=1 --input=../0001-Fix-compilation-against-Python-3.11.patch
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    [[ $src = *.patch ]] || continue
+    msg2 "Applying patch $src..."
+    patch -Np1 -i "../$src"
+  done
 }
 
 build() {
