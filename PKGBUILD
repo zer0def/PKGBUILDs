@@ -10,7 +10,7 @@ pkgname=(
   linux-kata-bin
   #kata-containers-static
 )
-pkgver="2.3.3"
+pkgver="2.4.0"
 _pkgver=${pkgver/\~/-}
 pkgrel=1
 pkgdesc="Lightweight virtual machines for containers (version 2, binary packaging)"
@@ -19,9 +19,9 @@ url="https://katacontainers.io"
 license=('Apache')
 
 source=("https://github.com/kata-containers/kata-containers/releases/download/${_pkgver}/kata-static-${_pkgver}-${CARCH}.tar.xz")
-sha512sums=(47976d7533794c7ba19123ea995e1fc4cb56c11f4ee4b46b0ad332b8eeca62a339e61b0ef30764b69ab00633f1fc396033dd1b911aa11d335fe9a3a12ee94123)
-b2sums=(    aec0d4dfa246b953afba6e23aac6022725f817c07f5691cd83757947b7e84b0602ebdac07ccfa2337211513dd3d9761991b92205b78880dd28fcd5a879dae403)
-b3sums=(    9f01aa881995dbbc98a056be0cc97ec986d81ce90d75bee5cc90aaf431b668b1)
+sha512sums=(770e632c295807cf9846c45f5039d0967c32a9d699a1b32a07c68c934f75afcc131f7cdb208da370b305d64ebfa4df07ffb4e0e89396e820ece07f628535f04d)
+b2sums=(    f808a7b0b0b081d9d000184214c68c4f28ad658e93553f1c1f2f68010cfdd7355f66069a0a3baf5eb03108f9dd6f5ef91e9dea4ac7849603e96865259ea62dce)
+b3sums=(    64360117d7117bfd5fdc569b42c4c7ac35cb43a94fdc02225a53ea7f995a804c)
 
 package_kata-runtime-bin() {
   optdepends=(
@@ -39,7 +39,7 @@ package_kata-runtime-bin() {
     ${srcdir}/opt/kata/bin/containerd-shim-kata-v2 \
     ${srcdir}/opt/kata/bin/kata-runtime \
     ${srcdir}/opt/kata/bin/kata-collect-data.sh
-  install -D -m 0755 ${srcdir}/opt/kata/libexec/kata-containers/kata-netmon ${pkgdir}/usr/lib/kata-containers/kata-netmon
+  #install -D -m 0755 ${srcdir}/opt/kata/libexec/kata-containers/kata-netmon ${pkgdir}/usr/lib/kata-containers/kata-netmon
   install -D -m 0644 ${srcdir}/opt/kata/share/bash-completion/completions/kata-runtime ${pkgdir}/usr/share/bash-completion/completions/kata-runtime
   install -D -m 0644 -t ${pkgdir}/usr/share/defaults/kata-containers ${srcdir}/opt/kata/share/defaults/kata-containers/*.toml
   #install -D -m 0644 ${srcdir}/opt/kata/share/kata-qemu/qemu/pvh.bin ${pkgdir}/usr/share/qemu/pvh.bin
