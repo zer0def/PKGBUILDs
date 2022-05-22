@@ -28,7 +28,7 @@ case "${ANDROID_ARCH:-${CARCH}}" in
   ;;
 esac
 _qt_ver=5.12.12
-_openssl_ver="${ANDROID_OPENSSL_VER:-1.1.1n}"
+_openssl_ver="${ANDROID_OPENSSL_VER:-1.1.1o}"
 pkgver="${_qt_ver}_ssl${_openssl_ver}"
 _prefix="/opt/qt${_qt_ver%.*}${ANDROID_TOGGLE:+/${ANDROID_ARCH}}"
 
@@ -39,25 +39,29 @@ url='http://qt.io/'
 license=('GPL3' 'LGPL' 'FDL' 'custom')
 pkgdesc='A cross-platform application and UI framework'
 options=(!strip !buildflags staticlibs !emptydirs)
-depends=('libjpeg-turbo' 'xcb-util-keysyms' 'xcb-util-wm' 'xcb-util-image'
-         'icu' 'tslib' 'libinput' 'libxkbcommon-x11' 'jasper' 'libmng'
-         'libwebp' 'libpulse' 'openal' 'libxcomposite' 'pciutils'  'libxss'
-         'libvpx' 'opus' 'libevent' 'jsoncpp' 'snappy' 'nss' 'libxslt'
-         'gst-plugins-base-libs' 'libxrandr' 'libsrtp' 'protobuf' 'libxdamage'
-         'minizip' 'ffmpeg' 'openssl')
-makedepends=('mtdev' 'libfbclient' 'libmariadbclient' 'unixodbc' 'alsa-lib' 
-             'postgresql-libs' 'gtk2' 'cups' 'freetds' 'bluez-libs'
-             'libxcursor' 'git' 'gperf' 'python' 'python2' 'git'
+depends=(
+  'libjpeg-turbo' 'xcb-util-keysyms' 'xcb-util-wm' 'xcb-util-image' 'icu'
+  'tslib' 'libinput' 'libxkbcommon-x11' 'jasper' 'libmng' 'libwebp' 'libpulse'
+  'openal' 'libxcomposite' 'pciutils'  'libxss' 'libvpx' 'opus' 'libevent'
+  'jsoncpp' 'snappy' 'nss' 'libxslt' 'gst-plugins-base-libs' 'libxrandr'
+  'libsrtp' 'protobuf' 'libxdamage' 'minizip' 'ffmpeg' 'openssl'
 )
-optdepends=('qt5-svg: to use SVG icon themes'
-            'postgresql-libs: PostgreSQL driver'
-            'libmariadbclient: MariaDB driver'
-            'unixodbc: ODBC driver'
-            'libfbclient: Firebird/iBase driver'
-            'freetds: MS SQL driver'
-            'mtdev: evdev plugin'
-            'gtk2: GTK2 plugin'
-            'bluez-libs: for sdpscanner')
+makedepends=(
+  'mtdev' 'libfbclient' 'libmariadbclient' 'unixodbc' 'alsa-lib'
+  'postgresql-libs' 'gtk2' 'cups' 'freetds' 'bluez-libs' 'libxcursor' 'git'
+  'gperf' 'python' 'python2' 'git'
+)
+optdepends=(
+  'qt5-svg: to use SVG icon themes'
+  'postgresql-libs: PostgreSQL driver'
+  'libmariadbclient: MariaDB driver'
+  'unixodbc: ODBC driver'
+  'libfbclient: Firebird/iBase driver'
+  'freetds: MS SQL driver'
+  'mtdev: evdev plugin'
+  'gtk2: GTK2 plugin'
+  'bluez-libs: for sdpscanner'
+)
 source=(
   "https://download.qt.io/archive/qt/${_qt_ver%.*}/${_qt_ver}/single/qt-everywhere-src-${_qt_ver}.tar.xz"
   "https://www.openssl.org/source/openssl-${_openssl_ver}.tar.gz"
@@ -72,7 +76,7 @@ source=(
 )
 sha512sums=(
   '2e4cd1afff33f7acccac6ae0d1e203369071105fbdf1c843c77ab026275a64dd14695b186ab3ab76d818f4d1cb52096ea27642737c5498451449e13a6ded801c'
-  '1937796736613dcf4105a54e42ecb61f95a1cea74677156f9459aea0f2c95159359e766089632bf364ee6b0d28d661eb9957bce8fecc9d2436378d8d79e8d0a4'
+  '75b2f1499cb4640229eb6cd35d85cbff2e19db17b959ac4d04b60f1b395b73567f9003521452a0fcfeea9b31b26de0a7bccf476ecf9caae02298f3647cfb7e23'
 
   '37da2b705f5ed37c771f93ae36f523f5dab280e6df4ce157c99ab072ecad3994696ea7388c0525871f9385c3ed3b2186e21bd8de962bdaef71bc3b1d7880ceb9'
   #'0f24b01bb261f5d8cf9ec3cf775d050c253fe5135ffaf970b6e512d9b87a6115aaff94eae4248a901ccb3b81f10cd9491ef5a3ecb740bcf5122f719555f6053b'
@@ -80,7 +84,7 @@ sha512sums=(
 )
 b2sums=(
   '01cad83d7e767f23b2449b09018691b3a47e540ac63f1c5377c0dfc1c7f6359f391bc0f6b618972143d914f7b03b62699a38ae3c82da8fdafd134cfda7833b37'
-  'af530258d9f7ca4f1bd1c6c344eb385e766e465c9341dd08797676165f67bbb82d3fd549ed7559dc12fb8c9c4db5e04fa6ec7ab729ec1467f5e8bce469ff5398'
+  '5bd355fd17adf43ba4e3bf1a8036ceb724edd4f4ab80dc25aecc3d2647372e9db2bc12e2b89791fc4b6f7fd95a7b68e00490d09ca6518d25ab990ee27798e641'
 
   '07b29ba37a4c5818c2c233ccde7cc688ac7ae0347fa93dce6da2b12be09a7cd105136c8a4dbbc7ce48800cfa21fd154457437ae0ca454db4d57b021cf5332c83'
   #'1aa8940ab886818c7ed08f2d02de04b2aff6f8c05b24d6dbb777b8ae95121e025b434acdab1faea279e26a130b8fa8d6224de3283af55cf1a2299faab319f7a5'
@@ -88,7 +92,7 @@ b2sums=(
 )
 b3sums=(
   '83fb1e7cfc216162e4a570ed0362100f3299b8511d5c30e7e8d236f1e9c60ef7'
-  '2540b77a7abd0f4b4ff2301e5bbdc15a12b7629c9a3b09549d997ae04fc18dbf'
+  '2c7770253d441f036571315d27eb68a9a7e067556caf0951f6941cce4329b53b'
 
   'b6a3cbf2da2fb4de3da52e3d25d8f9aced80bb6f706deff5b28afd29b6b1c699'
   #'193f37b229cce0d9deb6afe376137413b5489c8a3f42c93a9c01868d8482d8c8'
@@ -102,7 +106,7 @@ _disable=()
 # arch-dependent?
 [ "${ANDROID_PLATFORM}" -lt 21 ] && _skip+=('qtconnectivity' 'qtspeech') && _disable+=('feature-geoservices_mapboxgl') ||:
 if [ -n "${ANDROID_TOGGLE}" ]; then
-  makedepends+=('android-ndk' 'android-sdk' 'android-sdk-build-tools' 'perl')
+  makedepends+=('android-ndk' 'android-sdk' 'android-sdk-build-tools' 'perl' 'java-environment<=11')
   _config_args=(
     # useful: https://wiki.qt.io/Qt_5.12_Tools_and_Versions
     '--disable-rpath'
@@ -203,6 +207,7 @@ build() {
 package() {
   cd "${srcdir}/qt-everywhere-src-${_qt_ver}"
   make INSTALL_ROOT="${pkgdir}" install
+  rm -rf "${pkgdir}/libs"  # examples
 
   sed -i '/QMAKE_PRL_BUILD_DIR/d' "${pkgdir}${_prefix}/lib/"*.prl
 
