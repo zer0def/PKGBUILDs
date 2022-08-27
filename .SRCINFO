@@ -1,0 +1,26 @@
+pkgbase = box64-git-bin
+	pkgdesc = Linux Userspace x86_64 Emulator with a twist
+	pkgver = 0.1.8
+	pkgrel = 1
+	url = https://github.com/ptitSeb/box64
+	arch = aarch64
+	license = MIT
+	makedepends = jq
+	depends = gcc-libs
+	depends = libpng12
+	optdepends = libstdc++5
+	provides = box64
+	provides = box64-git
+	conflicts = box64
+	conflicts = box64-git
+	source_aarch64 = box64.zip::https://github.com/ptitSeb/box64
+	source_aarch64 = box64.sh
+	source_aarch64 = box64-git::git+https://github.com/ptitSeb/box64#branch=main
+	sha512sums_aarch64 = SKIP
+	sha512sums_aarch64 = f450bfea8212eb1bb68e575791abe94e43bd91a58080b8f372c3b6ef1b275363a181c5e50cd35e0e4a383c472ecacf1b5f7f66990d48ec03e66fd53518cf6e19
+	sha512sums_aarch64 = SKIP
+	b2sums_aarch64 = SKIP
+	b2sums_aarch64 = fd0d0ca08ad8fc458f122963b4e2f2da79e1ab5b64a0e16660013b93b24a0acbb83701c34ada1564aff8e9679777e8fe9f6a7a6639ead126eed4cd6aa17676b0
+	b2sums_aarch64 = SKIP
+
+pkgname = box64-git-bin
