@@ -1,0 +1,28 @@
+pkgbase = box86-git-bin
+	pkgdesc = Linux Userspace x86 Emulator with a twist
+	pkgver = 0.2.6
+	pkgrel = 1
+	url = https://github.com/ptitSeb/box86
+	arch = aarch64
+	arch = armv7h
+	arch = armv8l
+	license = MIT
+	makedepends = jq
+	depends = gcc-libs
+	depends = libpng12
+	optdepends = libstdc++5
+	provides = box86
+	provides = box86-git
+	conflicts = box86
+	conflicts = box86-git
+	source = box86.zip::https://github.com/ptitSeb/box86
+	source = box86.sh
+	source = box86-git::git+https://github.com/ptitSeb/box86#branch=master
+	sha512sums = SKIP
+	sha512sums = baf57544f107a41b80ab6be3e1feda937b38276a3c32e35154818d3049a61507d9bb0a909ef088118ee4a2d1eb7feac5320c47e8368ef5e9a7c676c0561eb9e2
+	sha512sums = SKIP
+	b2sums = SKIP
+	b2sums = ae6622991aba0227539e6b77424918c24cb6ea7726b85dfc3da81ca3481b5676597b148fd1e80b5f6742849eafa47668f5ac8a8ad4a051304cb7350ff5d18cdb
+	b2sums = SKIP
+
+pkgname = box86-git-bin
