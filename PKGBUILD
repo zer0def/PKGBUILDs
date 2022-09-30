@@ -55,12 +55,15 @@ url='https://www.psc.edu/index.php/hpn-ssh/'
 license=('BSD-2-Clause' 'BSD-3-Clause' 'ISC' 'MIT')
 arch=('x86_64' 'i486' 'i686' 'arm' 'armv6h' 'armv7h' 'aarch64')
 depends=('krb5' 'ldns' 'libedit' 'openssl')
-makedepends=('git' 'libfido2')
+makedepends=('git' 'libfido2' 'radare2')
 optdepends=('xorg-xauth: X11 forwarding'
             'x11-ssh-askpass: input passphrase in X'
             'libfido2: FIDO/U2F support')
 conflicts=('openssh-hpn-git')
+options=('!strip' 'debug')
 source=(
+  #"https://github.com/openssh/openssh-portable/archive/refs/heads/master.zip"
+  "https://github.com/openssh/openssh-portable/archive/refs/tags/${openssh_rev}.tar.gz"
   "https://github.com/rapier1/hpn-ssh/archive/${git_rev}.tar.gz"
   "hpn-revert-default-port-2222.patch"
   'http://www.eworm.de/download/linux/openssh-tests-scp.patch'
@@ -80,6 +83,7 @@ source=(
 )
 
 sha512sums=(
+  'a1e7e712796bc9311c0383d41ee5ad08c32280ad058c9d7f54f01b248fcd43213ac85779e4e53a29f6f92f1ad3136aa51870abbd699785751eae51e3daecfa96'
   '13a5adb1e6e3d2e24dfbd757984bf2286be6e639761de5b5628d9c5dc6d81c4bebe7fd4893725a4ea71511e20e7c666c076858d9e897ce3aadab4e52c1d74355'
   '4e4cff34a096e6966f92341c14b2283d726268f76172d6265d077278b93094e598eca5f1e8c2bc806f54048840e5c48f532d2dfc12fd3c9c4ce1c169648c80da'
   '62e2d60fdd39243e6245d90a0940b67ac4e72d042d8146203d50cdaa2df51611d91831d3b152d42302490afd677ae3433a3eba975dee68dbf7c06728167bb6d4'
@@ -98,6 +102,7 @@ sha512sums=(
 )
 
 b2sums=(
+  'fb395b85f19c4cd7573d59d66cb06a9466f64e49fcaf0be36460be5fba30c466b97904938a2dcefabf563ea0b36fbe7318803799d44dbb577fddcad6dcb1f0a3'
   '4ae2ae91700b659c2290109c824c520c0b984d1024b83f5ff892574b5d1f7f17673f6331d2c128352ee7cb5ec0f7e25090d9fe37119718d6ab8ec0125c0d4d7f'
   '61f29a5fe568e1e3c1d0b4b122f16943b2cd5f27eecc855d07d40b7f91100c73a93f310c37668d8147985618e4390040d7915455921863e18cc87ba92219d1e8'
   '1e6c8d39052bdc268c584488341e260a2695d4b9afabca41919710bb34833dd580ff1813c01b8ba91f2629273c8101ce0ed3b2749dabce054137b4ef37b2a548'
@@ -116,6 +121,7 @@ b2sums=(
 )
 
 b3sums=(
+  '5a4b7eea3b2c9917c2d6033d2304f8856d87364a60a10abe110988ec30105cad'
   '97802f86eb47f707fd64f57f3415e9740dac73fab27f5735b195b76b3a5c1d29'
   '4d3b697b24197c5ca50d8f251ca6cd1f8737f6d85689f343358f3d5b4fe28eb0'
   'db9e75e396c8f45aacb0e14003aabdcf29b812e468a5a40b371957ffe9c7f52f'
@@ -165,6 +171,31 @@ prepare() {
 }
 
 build() {
+  cd "${srcdir}/openssh-portable-${openssh_rev}"
+
+  autoreconf -fi
+  # --without-retpoline on mold, because it doesn't identify "-z retpolineplt"
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/ssh \
+    --sysconfdir=/etc \
+    --disable-strip \
+    --with-ldns \
+    --with-libedit \
+    --with-security-key-builtin \
+    --with-ssl-engine \
+    --with-pam \
+    --with-privsep-user=nobody \
+    --with-kerberos5=/usr \
+    --with-xauth=/usr/bin/xauth \
+    --with-mantype=man \
+    --with-md5-passwords \
+    --with-pid-dir=/run \
+    --without-retpoline \
+    --host="${CHOST}"
+  make
+
   cd "${srcdir}/hpn-ssh-${git_rev}/"
 
   autoreconf -fi
@@ -186,8 +217,20 @@ build() {
     --with-md5-passwords \
     --with-pid-dir=/run \
     --without-zlib-version-check \
+    --without-retpoline \
     --host="${CHOST}"
   make
+
+  mkdir -p "${srcdir}/zign"; pushd "${srcdir}/zign"
+  for i in scp sftp ssh ssh-add ssh-agent ssh-keygen ssh-keyscan sshd sftp-server ssh-keysign ssh-pkcs11-helper ssh-sk-helper; do
+    for j in $(find "${srcdir}/hpn-ssh-${git_rev}/" -executable -iname "*${i}"); do
+      echo "${j}"; local binname="$(basename "${j}")"
+      rasign2 -j "${j}" > "${srcdir}/zign/${binname#hpn}.zdb.json"  # -a -a
+      rasign2 -a -a -o "${srcdir}/zign/${binname#hpn}.zdb" "${j}"
+    done
+  done
+  popd
+  #r2 -q -c "aaaa; zo ${srcdir}/zign/sshd.zdb; zbr <func sym> 100" "$(command -v sshd)" | sort -nrk4  # sort by call-graph score? print offset?
 }
 
 #check() {
@@ -230,6 +273,8 @@ package_openssh-hpn() {
     -e '/^#PrintMotd yes$/c PrintMotd no # pam does that' \
     -e '/^#UsePAM no$/c UsePAM yes' \
     -i "${pkgdir}"/etc/hpnssh/sshd_config
+
+  install -Dm755 -t "${pkgdir}/usr/share/ssh" "${srcdir}/zign/"*
 }
 
 package_openssh-hpn-shim(){
