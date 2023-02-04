@@ -1,6 +1,6 @@
 # Maintainer: SanskritFritz (gmail)
 
-pkgname=iprange
+pkgname=firehol-iprange
 pkgver=1.0.4
 pkgrel=1
 pkgdesc="Manage IP ranges. From the FireHOL project."
@@ -9,18 +9,20 @@ arch=('i686' 'x86_64' 'armv7h' 'aarch64')
 license=('GPL')
 depends=('glibc')
 makedepends=('git' 'help2man')
+#conflicts=('haproxy')
+provides=('iprange')
 source=("https://github.com/firehol/iprange/archive/v$pkgver.tar.gz")
 
 build() {
-	cd "$pkgname-$pkgver"
+	cd "iprange-$pkgver"
 
 	./autogen.sh
-	./configure --enable-maintainer-mode --prefix="/usr" --sysconfdir="/etc" --sbindir="/usr/bin"
+	./configure --enable-maintainer-mode --prefix="/usr" --sysconfdir="/etc" --sbindir="/usr/bin" --program-prefix=firehol-
 	make
 }
 
 package() {
-	cd "$pkgname-$pkgver"
+	cd "iprange-$pkgver"
 
 	make prefix="$pkgdir/usr" sysconfdir="$pkgdir/etc" sbindir="$pkgdir/usr/bin" install
 }
