@@ -8,7 +8,14 @@ pkgdesc='Real-time network topology and protocols analyzer'
 arch=('x86_64' 'i686')
 url="https://${pkgname}.network"
 license=('Apache')
-makedepends=('go' 'libpcap' 'libxml2' 'protobuf' 'libvirt' 'npm')
+makedepends=(
+  'go'  # 'go<1.19'
+  'npm'
+  'libpcap'
+  'libxml2'
+  'protobuf'
+  'libvirt'
+)
 source=("https://github.com/${pkgname}-project/${pkgname}/archive/v${pkgver}.tar.gz"
 	"${pkgname}.tmpfiles"
 	"${pkgname}.sysusers")
