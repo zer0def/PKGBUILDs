@@ -1,0 +1,64 @@
+diff --git a/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_linux.c b/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_linux.c
+index 248fa12..25e4f80 100644
+--- a/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_linux.c
++++ b/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_linux.c
+@@ -640,7 +640,7 @@ int kbase_mem_evictable_init(struct kbase_context *kctx)
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 1, 0)
+ 	kctx->reclaim.batch = 0;
+ #endif
+-	register_shrinker(&kctx->reclaim);
++	register_shrinker(&kctx->reclaim, "mali-midgard");
+ 	return 0;
+ }
+ 
+@@ -2417,18 +2417,10 @@ void kbasep_os_process_page_usage_update(struct kbase_context *kctx, int pages)
+ 	if (mm) {
+ 		atomic_add(pages, &kctx->nonmapped_pages);
+ #ifdef SPLIT_RSS_COUNTING
+-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 5, 0))
+ 		add_mm_counter(mm, MM_FILEPAGES, pages);
+-#else
+-		atomic_long_add(pages, &mm->rss_stat.count[MM_FILEPAGES]);
+-#endif
+ #else
+ 		spin_lock(&mm->page_table_lock);
+-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 5, 0))
+ 		add_mm_counter(mm, MM_FILEPAGES, pages);
+-#else
+-		atomic_long_add(pages, &mm->rss_stat.count[MM_FILEPAGES]);
+-#endif
+ 		spin_unlock(&mm->page_table_lock);
+ #endif
+ 	}
+@@ -2453,18 +2445,10 @@ static void kbasep_os_process_page_usage_drain(struct kbase_context *kctx)
+ 
+ 	pages = atomic_xchg(&kctx->nonmapped_pages, 0);
+ #ifdef SPLIT_RSS_COUNTING
+-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 5, 0))
+ 	add_mm_counter(mm, MM_FILEPAGES, -pages);
+-#else
+-	atomic_long_add(pages, &mm->rss_stat.count[MM_FILEPAGES]);
+-#endif
+ #else
+ 	spin_lock(&mm->page_table_lock);
+-#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 5, 0))
+ 	add_mm_counter(mm, MM_FILEPAGES, -pages);
+-#else
+-	atomic_long_add(pages, &mm->rss_stat.count[MM_FILEPAGES]);
+-#endif
+ 	spin_unlock(&mm->page_table_lock);
+ #endif
+ }
+diff --git a/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_pool.c b/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_pool.c
+index 0f91be1..8dcd8ae 100644
+--- a/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_pool.c
++++ b/driver/product/kernel/drivers/gpu/arm/midgard/mali_kbase_mem_pool.c
+@@ -397,7 +397,7 @@ int kbase_mem_pool_init(struct kbase_mem_pool *pool,
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 1, 0)
+ 	pool->reclaim.batch = 0;
+ #endif
+-	register_shrinker(&pool->reclaim);
++	register_shrinker(&pool->reclaim, "mali-midgard");
+ 
+ 	pool_dbg(pool, "initialized\n");
+ 
