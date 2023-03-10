@@ -28,7 +28,7 @@ case "${ANDROID_ARCH:-${CARCH}}" in
   ;;
 esac
 _qt_ver=5.12.12
-_openssl_ver="${ANDROID_OPENSSL_VER:-1.1.1o}"
+_openssl_ver="${ANDROID_OPENSSL_VER:-1.1.1t}"
 pkgver="${_qt_ver}_ssl${_openssl_ver}"
 _prefix="/opt/qt${_qt_ver%.*}${ANDROID_TOGGLE:+/${ANDROID_ARCH}}"
 
@@ -73,30 +73,35 @@ source=(
   # https://bugs.gentoo.org/show_bug.cgi?id=694960#c7 # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/274842
   # https://bugs.gentoo.org/show_bug.cgi?id=734356#c16 # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/310361
   #'0003-qt5.12.5-qtwebengine.patch'
+
+  '0004-qt5.12.12-qtwebengine-breakpad.patch'  # https://chromium-review.googlesource.com/c/breakpad/breakpad/+/3340721
 )
 sha512sums=(
   '2e4cd1afff33f7acccac6ae0d1e203369071105fbdf1c843c77ab026275a64dd14695b186ab3ab76d818f4d1cb52096ea27642737c5498451449e13a6ded801c'
-  '75b2f1499cb4640229eb6cd35d85cbff2e19db17b959ac4d04b60f1b395b73567f9003521452a0fcfeea9b31b26de0a7bccf476ecf9caae02298f3647cfb7e23'
+  '628676c9c3bc1cf46083d64f61943079f97f0eefd0264042e40a85dbbd988f271bfe01cd1135d22cc3f67a298f1d078041f8f2e97b0da0d93fe172da573da18c'
 
   '37da2b705f5ed37c771f93ae36f523f5dab280e6df4ce157c99ab072ecad3994696ea7388c0525871f9385c3ed3b2186e21bd8de962bdaef71bc3b1d7880ceb9'
   #'0f24b01bb261f5d8cf9ec3cf775d050c253fe5135ffaf970b6e512d9b87a6115aaff94eae4248a901ccb3b81f10cd9491ef5a3ecb740bcf5122f719555f6053b'
   #'76063687ef3dfd2aecc5ea4f0a11e666b44cc630534ab149a17457ca1aeabba99aadf481e1b321d799817626da7eadb39a4f118dbbc610e01adac0d50ea63e20'
+  '6ed9aca4f61c07a3c0877f3a89c6eab1701771f49147e078d6f94a214c62fc199a9fd841ccee8a498cbb994ba9f9678ff8c11e857d5c4aacb8c24a60f190f3e0'
 )
 b2sums=(
   '01cad83d7e767f23b2449b09018691b3a47e540ac63f1c5377c0dfc1c7f6359f391bc0f6b618972143d914f7b03b62699a38ae3c82da8fdafd134cfda7833b37'
-  '5bd355fd17adf43ba4e3bf1a8036ceb724edd4f4ab80dc25aecc3d2647372e9db2bc12e2b89791fc4b6f7fd95a7b68e00490d09ca6518d25ab990ee27798e641'
+  '66d76ea0c05a4afc3104e22602cffc2373e857728625d31ab3244881cafa91c099a817a09def7746bce4133585bfc90b769f43527e77a81ed13e60a8c2fb4d8d'
 
   '07b29ba37a4c5818c2c233ccde7cc688ac7ae0347fa93dce6da2b12be09a7cd105136c8a4dbbc7ce48800cfa21fd154457437ae0ca454db4d57b021cf5332c83'
   #'1aa8940ab886818c7ed08f2d02de04b2aff6f8c05b24d6dbb777b8ae95121e025b434acdab1faea279e26a130b8fa8d6224de3283af55cf1a2299faab319f7a5'
   #'abb816246de2cb1794aef473a3e17857e73dfe0ec37d24afe6db181f7bf1f4ed2f7478e9c8a6c422f27dcc33e13990a8fb9031ce78ea26c22d3b787539cab9c2'
+  '1ac91ac316b9a598236bd9c9618a603a79aeeb9a88f1d6b2542e249848da675ffb1018e4d3479622c7e75952796b0d89c856a3cde5008a23ddd73dc79ed58454'
 )
 b3sums=(
   '83fb1e7cfc216162e4a570ed0362100f3299b8511d5c30e7e8d236f1e9c60ef7'
-  '2c7770253d441f036571315d27eb68a9a7e067556caf0951f6941cce4329b53b'
+  '8768ec2c23b7479b7172958bd4dfe9bf99a537256878f76f9e16e1e04df6be63'
 
   'b6a3cbf2da2fb4de3da52e3d25d8f9aced80bb6f706deff5b28afd29b6b1c699'
   #'193f37b229cce0d9deb6afe376137413b5489c8a3f42c93a9c01868d8482d8c8'
   #'34fbe69335cbae13eea322f84d76ecd8eccc1ff99d1af2a0184769eeddf7fb99'
+  '78b08cd4f25c267f099a86371c34ccd855a1dd2411c51f57b07e2cb911cd744f'
 )
 _nomake=('tests')
 _skip=(
@@ -211,10 +216,12 @@ package() {
 
   sed -i '/QMAKE_PRL_BUILD_DIR/d' "${pkgdir}${_prefix}/lib/"*.prl
 
-  #find "${pkgdir}${_prefix}/bin" -type f ! -name '*.pl' -print0 | xargs -0 -P0 -- strip -s
-  #find "${pkgdir}${_prefix}/lib" -type f -name 'lib*.so' -print0 | xargs -0 -P0 -- ${ANDROID_STRIP} -g --strip-unneeded
-#  find "${pkgdir}${_prefix}/lib" -type f \( -name 'lib*.a' ! -name 'libQt5Bootstrap.a' ! -name 'libQt5QmlDevTools.a' \) -print0 | xargs -0 -P0 -- ${ANDROID_STRIP} -g
-  #find "${pkgdir}${_prefix}/plugins" -type f -name 'lib*.so' -print0 | xargs -0 -P0 -- ${ANDROID_STRIP} -g --strip-unneeded
-  #find "${pkgdir}${_prefix}/qml" -type f -name 'lib*.so' -print0 | xargs -0 -P0 ${ANDROID_STRIP} -g --strip-unneeded
-  cp -rvf qtbase/src/android/jar/src/org/qtproject/qt5/android/* "${pkgdir}${_prefix}/src/android/java/src/org/qtproject/qt5/android/"
+  if [ -n "${ANDROID_TOGGLE}" ]; then
+    #find "${pkgdir}${_prefix}/bin" -type f ! -name '*.pl' -print0 | xargs -0 -P0 -- strip -s
+    #find "${pkgdir}${_prefix}/lib" -type f -name 'lib*.so' -print0 | xargs -0 -P0 -- ${ANDROID_STRIP} -g --strip-unneeded
+#    find "${pkgdir}${_prefix}/lib" -type f \( -name 'lib*.a' ! -name 'libQt5Bootstrap.a' ! -name 'libQt5QmlDevTools.a' \) -print0 | xargs -0 -P0 -- ${ANDROID_STRIP} -g
+    #find "${pkgdir}${_prefix}/plugins" -type f -name 'lib*.so' -print0 | xargs -0 -P0 -- ${ANDROID_STRIP} -g --strip-unneeded
+    #find "${pkgdir}${_prefix}/qml" -type f -name 'lib*.so' -print0 | xargs -0 -P0 ${ANDROID_STRIP} -g --strip-unneeded
+    cp -rvf qtbase/src/android/jar/src/org/qtproject/qt5/android/* "${pkgdir}${_prefix}/src/android/java/src/org/qtproject/qt5/android/"
+  fi
 }
