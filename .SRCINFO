@@ -1,0 +1,47 @@
+pkgbase = qtox
+	pkgdesc = a chat, voice, video, and file transfer IM client using the encrypted peer-to-peer Tox protocol
+	pkgver = 1.17.6.016
+	pkgrel = 1
+	url = https://github.com/Zoxcore/qTox_enhanced
+	arch = x86_64
+	license = GPL3
+	makedepends = qt5-tools
+	makedepends = git
+	makedepends = check
+	makedepends = cmake
+	makedepends = mesa
+	makedepends = libglvnd
+	depends = desktop-file-utils
+	depends = libxss
+	depends = openal
+	depends = ffmpeg
+	depends = qrencode
+	depends = qt5-svg
+	depends = sqlcipher
+	depends = libexif
+	depends = libvpx
+	depends = sonnet5
+	depends = snorenotify
+	depends = libgl
+	source = git+https://github.com/zoxcore/qTox_enhanced#tag=v1.17.6.016
+	source = git+https://github.com/toxext/toxext#tag=v0.0.3
+	source = git+https://github.com/toxext/tox_extension_messages#tag=v0.0.3
+	source = git+https://github.com/zoff99/c-toxcore#commit=4eab66d6ceb3c8feeedbb8cb8d91f9fe557ac3d7
+	source = toxcore-ffmpeg6.patch
+	validpgpkeys = DA262CC93C0E1E525AD21C8596775D454B8EBF44
+	validpgpkeys = BA7883E22F9D35945BA3376053137C3033F09008
+	validpgpkeys = 1157616BBD860C539926F8139591A163FF9BE04C
+	validpgpkeys = 31039166FA902CA50D05D6085AF9F2E29107C727
+	validpgpkeys = C7A2552D0B250F983827742C133203A3AC399151
+	validpgpkeys = 2880C860D95C909D3DA45C687E086DD661263264
+	validpgpkeys = 74ADB7A7F8ECC1009916C4E42AA8E0DA1B31FB3C
+	validpgpkeys = 7EB339FE881747E701B7D472EBE36E66A8429B99
+	validpgpkeys = CA9221C5389B7C50AA5F779352A50775BE13DF17
+	validpgpkeys = 141C880E8BA25B198D0F850F7C132143C1A3A7D4
+	sha512sums = SKIP
+	sha512sums = SKIP
+	sha512sums = SKIP
+	sha512sums = SKIP
+	sha512sums = SKIP
+
+pkgname = qtox
