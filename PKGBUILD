@@ -1,6 +1,6 @@
-export _rev=2 _layout_api=14 _api=22
+export _rev=3 _layout_api=16 _api=23
 _revr="r$(printf '%02d' "${_rev}")"
-_ver=5.1.1
+_ver=6.0
 pkgname="android-platform-${_api}"
 pkgver="${_ver}_${_revr}"
 pkgrel=1
@@ -11,27 +11,27 @@ license=('custom')
 depends=('android-sdk')
 options=('!strip')
 source=(
-  "https://dl.google.com/android/repository/android-${_api}_${_revr}.zip"
+  "https://dl.google.com/android/repository/platform-${_api}_${_revr}.zip"
   "package.xml"
 )
 sha1sums=(
-  '5d1bd10fea962b216a0dece1247070164760a9fc'
+  '027fede3de6aa1649115bbd0bffff30ccd51c9a0'
   'ac422c77ba5124b8be5397ecf4a6d2b3d316a4b4'
 )
 sha256sums=(
-  '45eb581bbe53c9256f34c26b2cea919543c0079140897ac721cf88c0b9f6789e'
+  '4b4bcddead3319708275c54c76294707bfaa953d767e34f1a5b599f3edd0076c'
   '63e6fb65c89c38984a0dacb0a9ecf4c38582f1f9bfc3956327fd42c8004be53e'
 )
 sha512sums=(
-  '7cd640ec74bb871b7162205c075c309f60f6e74792f5f85f5fc40e563520783420971241da08865029e087d1130c5b11617d5a88fd564da5ee17e06b675c5bcd'
+  'f2dac46e6972e2ebf9ea69db1cbc6df6c4fe4bc42e8047bb6d1a15ff7dcfc21ebf6393d4918c017d770e11aa765fb043c10bd134a35631b890fe4121534eba3b'
   '0b369b878e9f59b081e415958afc9c8a30f1c34376a6d21dee72ff7b16e3d29c492fd896a50af9bc9d8383ef98db8eb7945009c190e3731de5578336e254d508'
 )
 b2sums=(
-  '6eb8bd56cd3e914731119f34c5c8d43a809a1dbe59dd679d307391c7f6b535706447f5b4f8482cec1576bf395766f3923e77174790821712b71395b743ac4962'
+  'f1e2fdd83c3a19062b1f700cfa6007ba11213a2ec301aaa38dcae43eb01bcaef07f218cac31154e8eafd7c8ba4ad6c8c295a7ffd34557eab358c115c6e3ef60f'
   '5e1a0523c9826209ab7fca56940f313b70f5e937b21ab123177296e41fdd9dbcb56d7c0babf7482b5f105dea871aaf4fadf8d8455dc2f2845c567fa00fe059bc'
 )
 b3sums=(
-  'ef8569a470af3dcdf0c5c3c2dda5a48d8b4e60efd3212ca276f521661ba2a306'
+  '7f9dc76f28290d16a58f2a0676e68e1f2de75f7236cf78e5d365cfa11eca1f62'
   '1916c72890608efce8d43f4feb465589b6521e1270448e6420a6b5705b700fee'
 )
 
