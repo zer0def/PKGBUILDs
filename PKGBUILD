@@ -6,9 +6,9 @@
 pkgname=qtox
 _pkgname=qTox_enhanced
 _toxextver=0.0.3
-_toxcore_commit=4eab66d6ceb3c8feeedbb8cb8d91f9fe557ac3d7
+_toxcore_commit=ae177c15ebf6705b5a36240bb0a0a6bd15da39ed
 _toxcore_prefix="/usr/lib/${pkgname}"
-pkgver=1.17.6.016
+pkgver=1.17.6.017
 pkgrel=1
 pkgdesc='a chat, voice, video, and file transfer IM client using the encrypted peer-to-peer Tox protocol'
 arch=('x86_64')
@@ -37,10 +37,9 @@ source=(
   "git+https://github.com/toxext/tox_extension_messages#tag=v${_toxextver}"
 
   "git+https://github.com/zoff99/c-toxcore#commit=${_toxcore_commit}"
-  "toxcore-ffmpeg6.patch"
   #"undo.patch"
 )
-sha512sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+sha512sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 
 validpgpkeys=(
   'DA262CC93C0E1E525AD21C8596775D454B8EBF44'  # sudden6 <sudden6@gmx.at>
@@ -57,7 +56,6 @@ validpgpkeys=(
 
 prepare() {
   pushd "${srcdir}/c-toxcore";
-  patch -p1 <"${srcdir}/toxcore-ffmpeg6.patch"
   patch -p1 <"${srcdir}/qTox_enhanced/buildscripts/patches/tc___ftv2_capabilities.patch"
   popd
 
