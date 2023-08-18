@@ -1,6 +1,6 @@
-pkgbase = android-ndk-25b
+pkgbase = android-ndk-25c
 	pkgdesc = Android C/C++ developer kit
-	pkgver = 25b
+	pkgver = 25c
 	pkgrel = 1
 	url = https://developer.android.com/ndk/
 	install = android-ndk.install
@@ -27,10 +27,10 @@ pkgbase = android-ndk-25b
 	sha512sums = 66004f6ecaf6ae2c6a6ea92392b80280281cced620f49a23734fe779be2aede29ae7e7b4315e9b8c36612659eb326519ce11c878884d672ba5d943a50ffd9f06
 	b2sums = 60a1d5ad85b186b1c942902425b82794d62ac3ec06e39a2de30157a7d76ee0a6a6e93790482cdd6914161eaa9a29d2b97440768150e9a62b9d060c5b6b755d6f
 	b2sums = 31bcce4d569918e5658a920f23357a89e4d450713866204b670e5ebd5fac204895e94277dd752ef20c5e16275a6b0c6f14d1eb691593d7b722d7f9a9b168856f
-	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r25b-linux.zip
-	sha1sums_x86_64 = e27dcb9c8bcaa77b78ff68c3f23abcf6867959eb
-	sha256sums_x86_64 = 403ac3e3020dd0db63a848dcaba6ceb2603bf64de90949d5c4361f848e44b005
-	sha512sums_x86_64 = 371c5ddd23c528a826a115d590eff5c5217b99e0506008c3decc9ede49975579aed86d6f41fef1d1c6b955a6b4e569a42ce03eebc6ecd99720b5dab051b18be9
-	b2sums_x86_64 = 08da0fffe3eeb709a93f31af2b4ddc706137fc26dabdaae62e221b8a77295e2ff6918883b5b5b70f3b13ef0bd1d75ca170c009dfcf48f22006f3160d226c87c4
+	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+	sha1sums_x86_64 = 53af80a1cce9144025b81c78c8cd556bff42bd0e
+	sha256sums_x86_64 = 769ee342ea75f80619d985c2da990c48b3d8eaf45f48783a2d48870d04b46108
+	sha512sums_x86_64 = a655759e2d70e4c0be6da0f8476509f50ca87498caa356316866dfd44292580361edc5b132a963b983486eccda2aa81f694f465eb0015cf30e8ff2fc25f07fac
+	b2sums_x86_64 = 2ae1099cbe7de9d8068a3af118d11c00666aba45c3d4f2f7e3fb80fb8437479ebfa0dbddf6d5b1bb6ad658d81b04f4511a05099d890b47df44a6df31f29d7145
 
-pkgname = android-ndk-25b
+pkgname = android-ndk-25c
