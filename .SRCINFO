@@ -1,6 +1,6 @@
 pkgbase = android-ndk-20
 	pkgdesc = Android C/C++ developer kit
-	pkgver = 20
+	pkgver = 20b
 	pkgrel = 1
 	url = https://developer.android.com/ndk/
 	install = android-ndk.install
@@ -27,10 +27,10 @@ pkgbase = android-ndk-20
 	sha512sums = 66004f6ecaf6ae2c6a6ea92392b80280281cced620f49a23734fe779be2aede29ae7e7b4315e9b8c36612659eb326519ce11c878884d672ba5d943a50ffd9f06
 	b2sums = 60a1d5ad85b186b1c942902425b82794d62ac3ec06e39a2de30157a7d76ee0a6a6e93790482cdd6914161eaa9a29d2b97440768150e9a62b9d060c5b6b755d6f
 	b2sums = 31bcce4d569918e5658a920f23357a89e4d450713866204b670e5ebd5fac204895e94277dd752ef20c5e16275a6b0c6f14d1eb691593d7b722d7f9a9b168856f
-	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip
-	sha1sums_x86_64 = 8665fc84a1b1f0d6ab3b5fdd1e30200cc7b9adff
-	sha256sums_x86_64 = 57435158f109162f41f2f43d5563d2164e4d5d0364783a9a6fab3ef12cb06ce0
-	sha512sums_x86_64 = 0f997195db5ad453be703f8ef0a65bc8c3226ba5e6f4c5ede1e8f8dceeb04169519358ce7dc6001af5f1d3663f86020a51ed87f40764b835eb06793d21e293bf
-	b2sums_x86_64 = 0c58a6ecfaae1333e2e1166ccdf3e9121d1a22f35fd5423f47fb0cdcbb49cb250dd55aec1c2e313c7b4501c2318787ccb4c4c635b00d2d42508c18333b1644e8
+	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip
+	sha1sums_x86_64 = d903fdf077039ad9331fb6c3bee78aa46d45527b
+	sha256sums_x86_64 = 8381c440fe61fcbb01e209211ac01b519cd6adf51ab1c2281d5daad6ca4c8c8c
+	sha512sums_x86_64 = af24005b77bd4126f47a98658a989bbb2490ac39516612313bae251bb8517127448134668f6fcb2ff40aba60262e443cf03734fcbe37c505b0ccd9bf4a6d3581
+	b2sums_x86_64 = 5aec36c7b3487b6c84c2e3c7d6950e2f8adf743f87348b3ffce2de3a32d566bb2ea2521914f83b94b95a5dfc69701f420eb30de4b29a34be05da9ff9be333ab2
 
 pkgname = android-ndk-20
