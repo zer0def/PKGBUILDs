@@ -1,6 +1,6 @@
-pkgbase = android-ndk-21
+pkgbase = android-ndk-21b
 	pkgdesc = Android C/C++ developer kit
-	pkgver = 21
+	pkgver = 21b
 	pkgrel = 1
 	url = https://developer.android.com/ndk/
 	install = android-ndk.install
@@ -27,10 +27,10 @@ pkgbase = android-ndk-21
 	sha512sums = 66004f6ecaf6ae2c6a6ea92392b80280281cced620f49a23734fe779be2aede29ae7e7b4315e9b8c36612659eb326519ce11c878884d672ba5d943a50ffd9f06
 	b2sums = 60a1d5ad85b186b1c942902425b82794d62ac3ec06e39a2de30157a7d76ee0a6a6e93790482cdd6914161eaa9a29d2b97440768150e9a62b9d060c5b6b755d6f
 	b2sums = 31bcce4d569918e5658a920f23357a89e4d450713866204b670e5ebd5fac204895e94277dd752ef20c5e16275a6b0c6f14d1eb691593d7b722d7f9a9b168856f
-	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r21-linux-x86_64.zip
-	sha1sums_x86_64 = afc9c0b9faad222898ac8168c78ad4ccac8a1b5c
-	sha256sums_x86_64 = b65ea2d5c5b68fb603626adcbcea6e4d12c68eb8a73e373bbb9d23c252fc647b
-	sha512sums_x86_64 = f0e55de2432efc95a4805542da2ffb2fdd3ed191ebbae636f0589fc65b3e41c6e2d9bb443f825bf741c154d50d207b33957a9a07c2af31b1e83ca42ddb843bd2
-	b2sums_x86_64 = 1a037f6e9b35400b8ec5cfe52830dbb0a0cb216d153b43e32c2a097bb38cbf0fc6933f7e914a4d5148e1657d45a241be8421997f67c621292aeba022a513d1a1
+	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+	sha1sums_x86_64 = 50250fcba479de477b45801e2699cca47f7e1267
+	sha256sums_x86_64 = 0c7af5dd23c5d2564915194e71b1053578438ac992958904703161c7672cbed7
+	sha512sums_x86_64 = 6f5b92c557de1c35ce413735b88829ea43c6c711935a28fdb922ffc11ec27c7ebb0dde85dfa417ea97f8605c88f62e0c183562f501b54e8c763df5e6b6a10e71
+	b2sums_x86_64 = da12f61128457d32c9262936e9b8118d95b933a8eafaef448dbca515457abbf8c8e3d3326df4413fe139cb0667b46406d31e9ffca81389c476c6e0431ae8ecf7
 
-pkgname = android-ndk-21
+pkgname = android-ndk-21b
