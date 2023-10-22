@@ -1,0 +1,23 @@
+pkgbase = libunwind
+	pkgdesc = Determine and manipulate the call-chain of a program
+	pkgver = 1.7.2
+	pkgrel = 1
+	url = https://www.nongnu.org/libunwind/
+	arch = x86_64
+	license = GPL
+	makedepends = texlive-binextra
+	depends = glibc
+	depends = xz
+	depends = zlib
+	provides = libunwind-coredump.so
+	provides = libunwind-ptrace.so
+	provides = libunwind-setjmp.so
+	provides = libunwind-x86_64.so
+	provides = libunwind.so
+	source = https://github.com/libunwind/libunwind/releases/download/v1.7.2/libunwind-1.7.2.tar.gz
+	source = https://github.com/libunwind/libunwind/releases/download/v1.7.2/libunwind-1.7.2.tar.gz.asc
+	validpgpkeys = F86EB09F72717426F20D36470A0FF845B7DB3427
+	b2sums = 519570a02d06ce4a174ca226941e493499054112de1c92938434e9fb56fabc8446f699a886ea8beee672ac5e28acd03d16169257a43e2ee1bab084fb331ef4cf
+	b2sums = SKIP
+
+pkgname = libunwind
