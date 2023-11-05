@@ -1,7 +1,7 @@
 pkgbase = cuda
 	pkgdesc = NVIDIA's GPU programming toolkit
 	pkgver = 12.3.0
-	pkgrel = 3
+	pkgrel = 4
 	url = https://developer.nvidia.com/cuda-zone
 	install = cuda.install
 	arch = x86_64
@@ -44,7 +44,7 @@ pkgbase = cuda
 	source = nvrtc.pc
 	source = nvToolsExt.pc
 	sha512sums = b62e34ac694a2925e6c02ebb94d66c8c3f3773d04ee547284a0940c73769d52e3a2fe10cce6f0c3936a029b4c5f7ad1f6329426d54a5a8519ffd665d1fa654f6
-	sha512sums = a89d3418c3cb97793dbfc51b4c4a1e3c5be53d6bd841cf3994835aafbb5943765687d0b32ec79c48574877d03297dd30c1ebf59f20ead7fcccb4cb6ebc862f85
+	sha512sums = 2f7d939d391048a7a723afd5e1b2e57e77ced47cd02e13ec5f475a1998b7df96ecdd1f19f14e4657a234882ba2b5235b659c61e4b434fedac980630d6b9a6dd8
 	sha512sums = 714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e
 	sha512sums = a4b3b03682801a98a1d8c1d14c084fd35efd384d92d497e230e3a28e0bd97b1fa48a93ccb2150f892f0b4154ca4ea2d66f5484a6a59b5c9b49963de42ecf1736
 	sha512sums = d69d3ec0e270648f55d8c3e420f89d056b120eca5b25e9e7fc1cca799d1a252909ee31ff399c137223eca57cdf82b856221a251b6ff1daf5d6f75c1a582b1e32

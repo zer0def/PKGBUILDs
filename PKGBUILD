@@ -4,12 +4,11 @@ pkgname=(cuda cuda-tools)
 pkgbase=cuda
 pkgver=12.3.0
 _driverver=545.23.06
-pkgrel=3
+pkgrel=4
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
 license=('custom:NVIDIA')
-# NOTE: When changing the gcc version, remember to also update it in profile.d/cuda.sh
 depends=('opencl-nvidia' 'nvidia-utils' 'python' 'gcc12')
 options=(!strip staticlibs)
 install=cuda.install
@@ -45,7 +44,7 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         nvrtc.pc
         nvToolsExt.pc)
 sha512sums=('b62e34ac694a2925e6c02ebb94d66c8c3f3773d04ee547284a0940c73769d52e3a2fe10cce6f0c3936a029b4c5f7ad1f6329426d54a5a8519ffd665d1fa654f6'
-            'a89d3418c3cb97793dbfc51b4c4a1e3c5be53d6bd841cf3994835aafbb5943765687d0b32ec79c48574877d03297dd30c1ebf59f20ead7fcccb4cb6ebc862f85'
+            '2f7d939d391048a7a723afd5e1b2e57e77ced47cd02e13ec5f475a1998b7df96ecdd1f19f14e4657a234882ba2b5235b659c61e4b434fedac980630d6b9a6dd8'
             '714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e'
             'a4b3b03682801a98a1d8c1d14c084fd35efd384d92d497e230e3a28e0bd97b1fa48a93ccb2150f892f0b4154ca4ea2d66f5484a6a59b5c9b49963de42ecf1736'
             'd69d3ec0e270648f55d8c3e420f89d056b120eca5b25e9e7fc1cca799d1a252909ee31ff399c137223eca57cdf82b856221a251b6ff1daf5d6f75c1a582b1e32'
@@ -100,6 +99,14 @@ build() {
 
   # Delete some unnecessary files
   rm -r "${_prepdir}"/opt/cuda/bin/cuda-uninstaller
+
+  # Define compilers for CUDA to use.
+  # This allows us to use older versions of GCC if we have to.
+  # NOTE: As of cuda 12.3, this appears to be broken on its own.
+  # It worked with cuda 12.2. Due to this bug. we now additionally need an
+  # entry in cuda.sh for this to be recognized.
+  ln -s /usr/bin/gcc-12 "${_prepdir}/opt/cuda/bin/gcc"
+  ln -s /usr/bin/g++-12 "${_prepdir}/opt/cuda/bin/g++"
 
   # Install profile and ld.so.config files
   install -Dm755 "${srcdir}/cuda.sh" "${_prepdir}/etc/profile.d/cuda.sh"
