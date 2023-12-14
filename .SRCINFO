@@ -1,7 +1,7 @@
 pkgbase = cuda
 	pkgdesc = NVIDIA's GPU programming toolkit
 	pkgver = 12.3.1
-	pkgrel = 1
+	pkgrel = 2
 	url = https://developer.nvidia.com/cuda-zone
 	install = cuda.install
 	arch = x86_64
