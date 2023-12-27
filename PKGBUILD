@@ -4,7 +4,7 @@
 pkgname=toxic
 pkgdesc='CLI Tox client'
 license=('GPL3')
-pkgver=0.12.0
+pkgver=0.13.0
 pkgrel=1
 depends=(
   'curl'
@@ -19,7 +19,7 @@ arch=('x86_64')
 url='https://github.com/JFreegman/toxic'
 source=(
   # sourced from build script
-  "c-toxcore::git+https://github.com/TokTok/c-toxcore#commit=172f279dc0647a538b30e62c96bab8bb1b0c8960"
+  "c-toxcore::git+https://github.com/TokTok/c-toxcore#commit=425216d9eca8b3c2afd48e52c04c6226b920303a"
   "cmp::git+https://github.com/TokTok/cmp#commit=074e0df43e8a61ea938c4f77f65d1fbccc0c3bf9"
   "${pkgname}::git+${url}#tag=v${pkgver}"
 )
@@ -46,7 +46,8 @@ build() {
   popd
 
   pushd "${srcdir}/${pkgname}"
-  make PREFIX=/usr DISABLE_GAMES=1 USER_CFLAGS=" -I${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/include -L${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/lib"
+  make PREFIX=/usr DISABLE_GAMES=1 ENABLE_TOX_EXPERIMENTAL=1 \
+    USER_CFLAGS=" -I${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/include -L${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/lib"
   popd
 }
 
@@ -56,7 +57,10 @@ package() {
   popd
 
   cd "${srcdir}/${pkgname}"
-  make PREFIX=/usr DESTDIR="${pkgdir}" DISABLE_GAMES=1 USER_CFLAGS=" -I${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/include -L${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/lib" install
+  make PREFIX=/usr DISABLE_GAMES=1 ENABLE_TOX_EXPERIMENTAL=1 \
+    USER_CFLAGS=" -I${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/include -L${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/lib" \
+    DESTDIR="${pkgdir}" \
+    install
 
   mv "${pkgdir}/usr/bin/${pkgname}" "${pkgdir}${_toxcore_prefix}/bin/${pkgname}"
   cat <<EOF >"${pkgdir}/usr/bin/toxic"
