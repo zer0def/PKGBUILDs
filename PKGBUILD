@@ -4,33 +4,64 @@
 pkgname=toxic
 pkgdesc='CLI Tox client'
 license=('GPL3')
-pkgver=0.11.3
-pkgrel=3
-depends=('curl'
-         'freealut'
-         'libnotify'
-         'qrencode'
-         'libx11'
-         'toxcore')
+pkgver=0.12.0
+pkgrel=1
+depends=(
+  'curl'
+  'freealut'
+  'libnotify'
+  'qrencode'
+  'libx11'
+  #'toxcore'
+)
+makedepends=("git")
 arch=('x86_64')
 url='https://github.com/JFreegman/toxic'
-source=("$pkgname-$pkgver.tar.gz::https://github.com/JFreegman/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"
-	"$pkgname-$pkgver.tar.gz.asc::https://github.com/JFreegman/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz.asc"
-	)
-sha512sums=('a0ca010067a07ac10ab1ca3f4e46184cf0d99db2a1a719de2ef5fadde3754435bc5259107b9982c2914e10f6d2d732df9a86957d144479e8c6276fbf47f9620d'
-            'SKIP')
+source=(
+  # sourced from build script
+  "c-toxcore::git+https://github.com/TokTok/c-toxcore#commit=172f279dc0647a538b30e62c96bab8bb1b0c8960"
+  "cmp::git+https://github.com/TokTok/cmp#commit=074e0df43e8a61ea938c4f77f65d1fbccc0c3bf9"
+  "${pkgname}::git+${url}#tag=v${pkgver}"
+)
+sha512sums=('SKIP' 'SKIP' 'SKIP')
+b2sums=('SKIP' 'SKIP' 'SKIP')
 validpgpkeys=('BABD00573A065BFA90D53D563627F3144076AE63')  # Jfreegman <jfreegman@gmail.com>
-
-prepare() {
-  cd "$pkgname-$pkgver"
-}
+_toxcore_prefix=/usr/lib/${pkgname}
 
 build() {
-  cd "$pkgname-$pkgver"
-  make PREFIX=/usr DISABLE_GAMES=1
+  mkdir -p "${srcdir}/c-toxcore/build" "${srcdir}/c-toxcore/pkgdir"
+  pushd "${srcdir}/c-toxcore/third_party"
+  rmdir cmp
+  ln -s ../../cmp
+  popd
+
+  pushd "${srcdir}/c-toxcore/build"
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX="${_toxcore_prefix}" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBOOTSTRAP_DAEMON=OFF
+  make
+  #make test
+  make DESTDIR="${srcdir}/c-toxcore/pkgdir" install
+  popd
+
+  pushd "${srcdir}/${pkgname}"
+  make PREFIX=/usr DISABLE_GAMES=1 USER_CFLAGS=" -I${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/include -L${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/lib"
+  popd
 }
 
 package() {
-  cd "$pkgname-$pkgver"
-  make PREFIX=/usr DESTDIR="$pkgdir" install
+  pushd "${srcdir}/c-toxcore/build"
+  make DESTDIR="${pkgdir}" install
+  popd
+
+  cd "${srcdir}/${pkgname}"
+  make PREFIX=/usr DESTDIR="${pkgdir}" DISABLE_GAMES=1 USER_CFLAGS=" -I${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/include -L${srcdir}/c-toxcore/pkgdir${_toxcore_prefix}/lib" install
+
+  mv "${pkgdir}/usr/bin/${pkgname}" "${pkgdir}${_toxcore_prefix}/bin/${pkgname}"
+  cat <<EOF >"${pkgdir}/usr/bin/toxic"
+#!/bin/sh
+LD_LIBRARY_PATH="${_toxcore_prefix}/lib\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" "\${0%/*}/../lib/${pkgname}/bin/toxic"
+EOF
+  chmod +x "${pkgdir}/usr/bin/toxic"
 }

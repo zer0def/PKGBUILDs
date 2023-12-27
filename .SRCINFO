@@ -1,0 +1,25 @@
+pkgbase = toxic
+	pkgdesc = CLI Tox client
+	pkgver = 0.12.0
+	pkgrel = 1
+	url = https://github.com/JFreegman/toxic
+	arch = x86_64
+	license = GPL3
+	makedepends = git
+	depends = curl
+	depends = freealut
+	depends = libnotify
+	depends = qrencode
+	depends = libx11
+	source = c-toxcore::git+https://github.com/TokTok/c-toxcore#commit=172f279dc0647a538b30e62c96bab8bb1b0c8960
+	source = cmp::git+https://github.com/TokTok/cmp#commit=074e0df43e8a61ea938c4f77f65d1fbccc0c3bf9
+	source = toxic::git+https://github.com/JFreegman/toxic#tag=v0.12.0
+	validpgpkeys = BABD00573A065BFA90D53D563627F3144076AE63
+	sha512sums = SKIP
+	sha512sums = SKIP
+	sha512sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+	b2sums = SKIP
+
+pkgname = toxic
