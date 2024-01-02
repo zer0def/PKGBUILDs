@@ -4,7 +4,7 @@
 pkgname=toxic
 pkgdesc='CLI Tox client'
 license=('GPL3')
-pkgver=0.13.0
+pkgver=0.13.1
 pkgrel=1
 depends=(
   'curl'
@@ -19,7 +19,7 @@ arch=('x86_64')
 url='https://github.com/JFreegman/toxic'
 source=(
   # sourced from build script
-  "c-toxcore::git+https://github.com/TokTok/c-toxcore#commit=425216d9eca8b3c2afd48e52c04c6226b920303a"
+  "c-toxcore::git+https://github.com/TokTok/c-toxcore#commit=ebafd51be77821e062f145506b9c9ab9114591b3"
   "cmp::git+https://github.com/TokTok/cmp#commit=074e0df43e8a61ea938c4f77f65d1fbccc0c3bf9"
   "${pkgname}::git+${url}#tag=v${pkgver}"
 )
