@@ -1,6 +1,6 @@
 pkgbase = ipset
 	pkgdesc = Administration tool for IP sets
-	pkgver = 7.19
+	pkgver = 7.20
 	pkgrel = 1
 	url = https://netfilter.org/projects/ipset/
 	arch = x86_64
@@ -9,7 +9,7 @@ pkgbase = ipset
 	depends = glibc
 	depends = libmnl
 	backup = etc/ipset.conf
-	source = git://git.netfilter.org/ipset.git#tag=v7.19
+	source = git://git.netfilter.org/ipset.git#tag=v7.20
 	source = ipset.service
 	sha256sums = SKIP
 	sha256sums = 5a0e326a80fd5ab2d9545faa1189b647cc866c9568ab6a9dd0833ba5863f39ce
