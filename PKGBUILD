@@ -5,12 +5,12 @@
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.13.3
+pkgver=3.14.0
 pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
 url="https://github.com/helm/helm"
-license=("Apache")
+license=("Apache-2.0")
 depends=('glibc')
 makedepends=("go" "git")
 options=("!lto")
