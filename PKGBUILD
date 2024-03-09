@@ -5,7 +5,7 @@
 # Contributor: keystone <phillip.marvin@gmail.com>
 
 pkgname=libunwind
-pkgver=1.7.2
+pkgver=1.8.1
 pkgrel=1
 pkgdesc="Determine and manipulate the call-chain of a program"
 url="https://www.nongnu.org/libunwind/"
@@ -24,7 +24,7 @@ provides=(
 source=(
   https://github.com/libunwind/libunwind/releases/download/v$pkgver/libunwind-$pkgver.tar.gz{,.asc}
 )
-b2sums=('519570a02d06ce4a174ca226941e493499054112de1c92938434e9fb56fabc8446f699a886ea8beee672ac5e28acd03d16169257a43e2ee1bab084fb331ef4cf'
+b2sums=('936e70f2428d8f6ada3b4d58b3c9e3a9738eb2f7aee1ad5fb4e44dbb7400186d1bd1ead86a698e53d199d5944b102f8380d08b48104a138021286a79fb006ec3'
         'SKIP')
 validpgpkeys=(
   F86EB09F72717426F20D36470A0FF845B7DB3427  # Stephen M. Webb <stephen.webb@bregmasoft.ca>
