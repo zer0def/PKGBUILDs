@@ -5,7 +5,7 @@
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.14.1
+pkgver=3.14.2
 pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
@@ -39,6 +39,7 @@ build() {
     export CGO_CFLAGS="$CFLAGS"
     export CGO_CXXFLAGS="$CXXFLAGS"
     export CGO_CPPFLAGS="$CPPFLAGS"
+    export CGO_ENABLED=1
     make EXT_LDFLAGS="-linkmode external" GOFLAGS="-buildmode=pie -trimpath"
 }
 
