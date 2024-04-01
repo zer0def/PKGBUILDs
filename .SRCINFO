@@ -1,6 +1,6 @@
 pkgbase = qtox
 	pkgdesc = a chat, voice, video, and file transfer IM client using the encrypted peer-to-peer Tox protocol
-	pkgver = 1.17.6.027
+	pkgver = 1.17.6.028
 	pkgrel = 1
 	url = https://github.com/Zoxcore/qTox_enhanced
 	arch = x86_64
@@ -23,10 +23,10 @@ pkgbase = qtox
 	depends = sonnet5
 	depends = snorenotify
 	depends = libgl
-	source = git+https://github.com/zoxcore/qTox_enhanced#tag=v1.17.6.027
+	source = git+https://github.com/zoxcore/qTox_enhanced#tag=v1.17.6.028
 	source = git+https://github.com/toxext/toxext#tag=v0.0.3
 	source = git+https://github.com/toxext/tox_extension_messages#tag=v0.0.3
-	source = git+https://github.com/zoff99/c-toxcore#commit=580fb5369ddf32e0302b4eba1344a72ddc13bfa4
+	source = git+https://github.com/zoff99/c-toxcore#commit=f38805490705ec3196eebd8613ca3513d5b1cc4c
 	validpgpkeys = DA262CC93C0E1E525AD21C8596775D454B8EBF44
 	validpgpkeys = BA7883E22F9D35945BA3376053137C3033F09008
 	validpgpkeys = 1157616BBD860C539926F8139591A163FF9BE04C

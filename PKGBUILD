@@ -6,9 +6,9 @@
 pkgname=qtox
 _pkgname=qTox_enhanced
 _toxextver=0.0.3
-_toxcore_commit=580fb5369ddf32e0302b4eba1344a72ddc13bfa4
+_toxcore_commit=f38805490705ec3196eebd8613ca3513d5b1cc4c
 _toxcore_prefix="/usr/lib/${pkgname}"
-pkgver=1.17.6.027
+pkgver=1.17.6.028
 pkgrel=1
 pkgdesc='a chat, voice, video, and file transfer IM client using the encrypted peer-to-peer Tox protocol'
 arch=('x86_64')
