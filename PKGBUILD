@@ -6,7 +6,7 @@
 
 pkgname=libunwind
 pkgver=1.8.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Determine and manipulate the call-chain of a program"
 url="https://www.nongnu.org/libunwind/"
 arch=(x86_64)
@@ -55,6 +55,7 @@ check() {
 package() {
   cd libunwind-$pkgver
   make DESTDIR="$pkgdir" install
+  rm -r "$pkgdir"/usr/libexec
 }
 
 # vim:set sw=2 sts=-1 et:
