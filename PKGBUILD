@@ -13,7 +13,7 @@ license=(Apache-2.0)
 depends=(tl-expected)
 makedepends=(cmake python nlohmann-json mbedtls python-build python-installer python-wheel python-tomli python-scikit-build-core ninja python-cattrs python-packaging python-rich python-setuptools python-pydantic python-pydantic-core python-pyproject-metadata python-pathspec)
 provides=(libLIEF.so)
-source=($url/archive/$pkgver.tar.gz)
+source=($url/archive/refs/tags/$pkgver.tar.gz)
 sha256sums=('92916dcb3178353d863aef4f409186889983c56e025b774741d5316a72ec3a7d')
 
 prepare() {

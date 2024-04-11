@@ -25,7 +25,7 @@ pkgbase = lief
 	makedepends = python-pathspec
 	depends = tl-expected
 	provides = libLIEF.so
-	source = https://github.com/lief-project/lief/archive/0.14.1.tar.gz
+	source = https://github.com/lief-project/lief/archive/refs/tags/0.14.1.tar.gz
 	sha256sums = 92916dcb3178353d863aef4f409186889983c56e025b774741d5316a72ec3a7d
 
 pkgname = lief
