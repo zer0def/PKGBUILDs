@@ -1,15 +1,17 @@
 # Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
 # Maintainer: Konstantin Gizdov <arch@kge.pw>
+# Maintainer: Jakub Klinkovský <lahwaacz at archlinux dot org>
+
 pkgname=(cuda cuda-tools)
 pkgbase=cuda
 pkgver=12.4.1
 _driverver=550.54.15
-pkgrel=1
+pkgrel=2
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
 license=(LicenseRef-NVIDIA-CUDA)
-depends=('opencl-nvidia' 'nvidia-utils' 'python' 'gcc')
+depends=('opencl-nvidia' 'python' 'gcc')
 options=(!strip staticlibs)
 install=cuda.install
 source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_installers/cuda_${pkgver}_${_driverver}_linux.run
@@ -141,6 +143,7 @@ package_cuda() {
   provides=('cuda-toolkit' 'cuda-sdk' 'libcudart.so' 'libcublas.so' 'libcusolver.so' 'libcusparse.so')
   optdepends=('gdb: for cuda-gdb'
               'glu: required for some profiling tools in CUPTI'
+              'nvidia-utils: for NVIDIA drivers (not needed in CDI containers)'
               'rdma-core: for GPUDirect Storage (libcufile_rdma.so)')
 
   local _prepdir="${srcdir}/prep"
