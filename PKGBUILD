@@ -6,13 +6,13 @@ pkgname=(cuda cuda-tools)
 pkgbase=cuda
 pkgver=12.4.1
 _driverver=550.54.15
-pkgrel=2
+pkgrel=3
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
 license=(LicenseRef-NVIDIA-CUDA)
 depends=('opencl-nvidia' 'python' 'gcc')
-options=(!strip staticlibs)
+options=(!strip !debug staticlibs)
 install=cuda.install
 source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_installers/cuda_${pkgver}_${_driverver}_linux.run
         cuda.sh
