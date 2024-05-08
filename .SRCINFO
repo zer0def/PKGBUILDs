@@ -1,14 +1,14 @@
 pkgbase = cuda
 	pkgdesc = NVIDIA's GPU programming toolkit
 	pkgver = 12.4.1
-	pkgrel = 3
+	pkgrel = 4
 	url = https://developer.nvidia.com/cuda-zone
 	install = cuda.install
 	arch = x86_64
 	license = LicenseRef-NVIDIA-CUDA
 	depends = opencl-nvidia
 	depends = python
-	depends = gcc
+	depends = gcc13
 	options = !strip
 	options = !debug
 	options = staticlibs

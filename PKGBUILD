@@ -6,12 +6,12 @@ pkgname=(cuda cuda-tools)
 pkgbase=cuda
 pkgver=12.4.1
 _driverver=550.54.15
-pkgrel=3
+pkgrel=4
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
 license=(LicenseRef-NVIDIA-CUDA)
-depends=('opencl-nvidia' 'python' 'gcc')
+depends=('opencl-nvidia' 'python' 'gcc13')
 options=(!strip !debug staticlibs)
 install=cuda.install
 source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_installers/cuda_${pkgver}_${_driverver}_linux.run
@@ -107,8 +107,8 @@ build() {
   # NOTE: As of cuda 12.3, this appears to be broken on its own.
   # It worked with cuda 12.2. Due to this bug. we now additionally need an
   # entry in cuda.sh for this to be recognized.
-  ln -s /usr/bin/gcc "${_prepdir}/opt/cuda/bin/gcc"
-  ln -s /usr/bin/g++ "${_prepdir}/opt/cuda/bin/g++"
+  ln -s /usr/bin/gcc-13 "${_prepdir}/opt/cuda/bin/gcc"
+  ln -s /usr/bin/g++-13 "${_prepdir}/opt/cuda/bin/g++"
 
   # Install profile and ld.so.config files
   install -Dm644 "${srcdir}/cuda.sh" "${_prepdir}/etc/profile.d/cuda.sh"
