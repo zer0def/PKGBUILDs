@@ -1,10 +1,10 @@
 pkgbase = libunwind
 	pkgdesc = Determine and manipulate the call-chain of a program
 	pkgver = 1.8.1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://www.nongnu.org/libunwind/
 	arch = x86_64
-	license = GPL
+	license = MIT
 	makedepends = texlive-binextra
 	depends = glibc
 	depends = xz

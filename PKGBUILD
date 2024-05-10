@@ -6,7 +6,7 @@
 
 pkgname=libunwind
 pkgver=1.8.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Determine and manipulate the call-chain of a program"
 url="https://www.nongnu.org/libunwind/"
 arch=(x86_64)
