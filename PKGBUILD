@@ -5,6 +5,8 @@
 pkgname=(cuda cuda-tools)
 pkgbase=cuda
 pkgver=12.5.0
+# Before upgrading, make sure that we ship at least this version of
+# nvidia-utils as otherwise we'll get stuff such as #7.
 _driverver=555.42.02
 pkgrel=1
 pkgdesc="NVIDIA's GPU programming toolkit"
