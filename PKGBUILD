@@ -26,11 +26,6 @@ sha512sums=("bde076ba9d2aeca1c3636558283d6fa417e44d1d6f87fb83a603ed4fd9cb238078a
 b2sums=("d7c67a1195b2d51a80cd0596d45e667deb24eb0f917e3362dd2d5cabd0042eec828e365ed3d8d45af31c38924fdaa867dc48d78741867d60521adf8507a12d2a")
 b3sums=("9e876d370caa3ee096cbb6cb4350136f31b2a9bef8e9e1311b67dd84729c5275")
 
-pkgver() {
-  cd "${pkgname}"
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
-
 prepare() {
   cd "${pkgname}"
   go mod tidy -compat=1.17
