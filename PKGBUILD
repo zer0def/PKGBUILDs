@@ -43,11 +43,12 @@ build() {
 
 check() {
   cd "${pkgname}"
-  export CGO_LDFLAGS="$LDFLAGS"
-  export CGO_CFLAGS="$CFLAGS"
-  export CGO_CXXFLAGS="$CXXFLAGS"
-  export CGO_CPPFLAGS="$CPPFLAGS"
-  make LDFLAGS="-s -w -linkmode external" GOFLAGS="-buildmode=pie -trimpath" test-unit || true
+  local unit_tests=$(
+    go list ./... \
+      | grep -v helm.sh/helm/v3/pkg/registry
+  )
+  # shellcheck disable=2086
+  go test $unit_tests
 }
 
 package() {
