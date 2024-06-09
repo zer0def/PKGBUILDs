@@ -28,7 +28,7 @@ b3sums=("9e876d370caa3ee096cbb6cb4350136f31b2a9bef8e9e1311b67dd84729c5275")
 
 prepare() {
   cd "${pkgname}"
-  go mod tidy -compat=1.17
+  go mod download -x
 }
 
 build() {
