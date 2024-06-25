@@ -27,6 +27,7 @@ pkgbase = qtox
 	source = git+https://github.com/toxext/toxext#tag=v0.0.3
 	source = git+https://github.com/toxext/tox_extension_messages#tag=v0.0.3
 	source = git+https://github.com/zoff99/c-toxcore#commit=f38805490705ec3196eebd8613ca3513d5b1cc4c
+	source = ffmpeg7.patch::https://github.com/zer0def/qTox/commit/ed1b4c8812a5a785b957e47f541e80010ea17af0.patch
 	validpgpkeys = DA262CC93C0E1E525AD21C8596775D454B8EBF44
 	validpgpkeys = BA7883E22F9D35945BA3376053137C3033F09008
 	validpgpkeys = 1157616BBD860C539926F8139591A163FF9BE04C
@@ -41,5 +42,6 @@ pkgbase = qtox
 	sha512sums = SKIP
 	sha512sums = SKIP
 	sha512sums = SKIP
+	sha512sums = 06b9c3142115e541cd63aae4007446ae338ce35d8c776173b4f4a49861743bb29e0e5a73f6961a2afe00d1dd1c001f6efe8878b97dd1999c624f2c020ea26a09
 
 pkgname = qtox

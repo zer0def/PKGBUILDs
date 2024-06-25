@@ -37,9 +37,12 @@ source=(
   "git+https://github.com/toxext/tox_extension_messages#tag=v${_toxextver}"
 
   "git+https://github.com/zoff99/c-toxcore#commit=${_toxcore_commit}"
-  #"undo.patch"
+  "ffmpeg7.patch::https://github.com/zer0def/qTox/commit/ed1b4c8812a5a785b957e47f541e80010ea17af0.patch"
 )
-sha512sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+sha512sums=(
+  'SKIP' 'SKIP' 'SKIP' 'SKIP'
+  '06b9c3142115e541cd63aae4007446ae338ce35d8c776173b4f4a49861743bb29e0e5a73f6961a2afe00d1dd1c001f6efe8878b97dd1999c624f2c020ea26a09'
+)
 
 validpgpkeys=(
   'DA262CC93C0E1E525AD21C8596775D454B8EBF44'  # sudden6 <sudden6@gmx.at>
@@ -60,6 +63,7 @@ prepare() {
   popd
 
   pushd qTox_enhanced
+  patch -p1 <"${srcdir}/ffmpeg7.patch"
   sed -e 's|-Werror||' -i CMakeLists.txt  # disable -Werror for release packaging
   popd
 }
