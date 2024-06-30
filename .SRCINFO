@@ -1,6 +1,6 @@
 pkgbase = vdoestimator-git
 	pkgdesc = Estimate space savings from dm-vdo virtual device
-	pkgver = r23.a33ce60
+	pkgver = r48.3ac5358
 	pkgrel = 1
 	url = https://github.com/dm-vdo/vdoestimator
 	arch = x86_64
@@ -10,4 +10,3 @@ pkgbase = vdoestimator-git
 	md5sums = SKIP
 
 pkgname = vdoestimator-git
-
