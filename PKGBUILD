@@ -14,7 +14,7 @@ pkgname=(
 )
 epoch=1
 pkgver=1.79.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(x86_64)
@@ -87,7 +87,10 @@ prepare() {
   patch -Np1 -i ../0004-compiler-Use-wasm-ld-for-wasm-targets.patch
 
   cat >config.toml <<END
-profile = "user"
+# see src/bootstrap/defaults/
+profile = "dist"
+
+# see src/bootstrap/src/utils/change_tracker.rs
 change-id = 123711
 
 [llvm]
@@ -100,6 +103,9 @@ target = [
   "x86_64-unknown-linux-musl",
   "wasm32-unknown-unknown",
   "wasm32-wasi",
+  "wasm32-wasip1",
+  "wasm32-wasip1-threads",
+  "wasm32-wasip2",
 ]
 cargo = "/usr/bin/cargo"
 rustc = "/usr/bin/rustc"
@@ -166,13 +172,28 @@ profiler = false
 sanitizers = false
 profiler = false
 wasi-root = "/usr/share/wasi-sysroot"
+
+[target.wasm32-wasip1]
+sanitizers = false
+profiler = false
+wasi-root = "/usr/share/wasi-sysroot"
+
+[target.wasm32-wasip1-threads]
+sanitizers = false
+profiler = false
+wasi-root = "/usr/share/wasi-sysroot"
+
+[target.wasm32-wasip2]
+sanitizers = false
+profiler = false
+wasi-root = "/usr/share/wasi-sysroot"
 END
 }
 
 _pick() {
   local p="$1" f d; shift
   for f; do
-    d="$srcdir/$p/$f"
+    d="$srcdir/$p/${f#$pkgdir/}"
     mkdir -p "$(dirname "$d")"
     mv "$f" "$d"
     rmdir -p --ignore-fail-on-non-empty "$(dirname "$f")"
