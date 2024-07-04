@@ -1,10 +1,10 @@
 pkgbase = wasi-compiler-rt
 	pkgdesc = WASI LLVM compiler runtime
 	pkgver = 18.1.8
-	pkgrel = 1
+	pkgrel = 2
 	url = https://compiler-rt.llvm.org/
 	arch = any
-	license = custom:Apache 2.0 with LLVM Exception
+	license = Apache-2.0 WITH LLVM-exception
 	makedepends = cmake
 	makedepends = ninja
 	makedepends = llvm

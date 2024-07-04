@@ -2,11 +2,11 @@
 
 pkgname=wasi-compiler-rt
 pkgver=18.1.8
-pkgrel=1
+pkgrel=2
 pkgdesc='WASI LLVM compiler runtime'
 arch=('any')
 url='https://compiler-rt.llvm.org/'
-license=('custom:Apache 2.0 with LLVM Exception')
+license=('Apache-2.0 WITH LLVM-exception')
 depends=('wasi-libc')
 makedepends=('cmake' 'ninja' 'llvm' 'clang' 'lld')
 source=(https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/compiler-rt-${pkgver}.src.tar.xz{,.sig}
@@ -57,6 +57,9 @@ build() {
 
 package() {
   DESTDIR="${pkgdir}" cmake --install build -v
+
+  ln -sr "${pkgdir}"/usr/lib/clang/${pkgver%%.*}/lib/{wasi,wasip1}
+  ln -sr "${pkgdir}"/usr/lib/clang/${pkgver%%.*}/lib/{wasi,wasip2}
 
   install -Dm644 compiler-rt-${pkgver}.src/LICENSE.TXT "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }
