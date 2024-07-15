@@ -48,6 +48,7 @@ makedepends=(
   python
   rust
   wasi-libc
+  wasm-component-ld
 )
 checkdepends=(
   gdb

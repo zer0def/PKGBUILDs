@@ -21,6 +21,7 @@ pkgbase = rust
 	makedepends = python
 	makedepends = rust
 	makedepends = wasi-libc
+	makedepends = wasm-component-ld
 	depends = bash
 	depends = curl
 	depends = gcc
