@@ -294,6 +294,7 @@ package_rust-wasm() {
   depends=(
     lld
     rust
+    wasm-component-ld
   )
 
   cp -a dest-wasm/* "$pkgdir"

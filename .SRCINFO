@@ -76,6 +76,7 @@ pkgname = rust-wasm
 	pkgdesc = WebAssembly targets for Rust
 	depends = lld
 	depends = rust
+	depends = wasm-component-ld
 
 pkgname = rust-src
 	pkgdesc = Source code for the Rust standard library
