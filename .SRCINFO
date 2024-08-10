@@ -1,6 +1,6 @@
-pkgbase = android-ndk-26d
+pkgbase = android-ndk-27
 	pkgdesc = Android C/C++ developer kit
-	pkgver = 26d
+	pkgver = 27
 	pkgrel = 1
 	url = https://developer.android.com/ndk/
 	install = android-ndk.install
@@ -27,10 +27,10 @@ pkgbase = android-ndk-26d
 	sha512sums = 66004f6ecaf6ae2c6a6ea92392b80280281cced620f49a23734fe779be2aede29ae7e7b4315e9b8c36612659eb326519ce11c878884d672ba5d943a50ffd9f06
 	b2sums = 60a1d5ad85b186b1c942902425b82794d62ac3ec06e39a2de30157a7d76ee0a6a6e93790482cdd6914161eaa9a29d2b97440768150e9a62b9d060c5b6b755d6f
 	b2sums = 31bcce4d569918e5658a920f23357a89e4d450713866204b670e5ebd5fac204895e94277dd752ef20c5e16275a6b0c6f14d1eb691593d7b722d7f9a9b168856f
-	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r26d-linux.zip
-	sha1sums_x86_64 = fcdad75a765a46a9cf6560353f480db251d14765
-	sha256sums_x86_64 = eefeafe7ccf177de7cc57158da585e7af119bb7504a63604ad719e4b2a328b54
-	sha512sums_x86_64 = 8163b196859f5290bdc38d02837544b21f341c9df0f65cd118dbf50beea3125bd6819064409de71a6f2a30531c0ae7e89e0ecfc9e47652e1d017c2c997d9d976
-	b2sums_x86_64 = 2bd859ec8dcc991dbedd5b7251318ba23bc8f715f21078d6e4d2464885ba9d5d49127db294fa1f37539bac69ba4298a047407190cfa04fec9359f7f047d2eceb
+	source_x86_64 = https://dl.google.com/android/repository/android-ndk-r27-linux.zip
+	sha1sums_x86_64 = 5e5cd517bdb98d7e0faf2c494a3041291e71bdcc
+	sha256sums_x86_64 = 2f17eb8bcbfdc40201c0b36e9a70826fcd2524ab7a2a235e2c71186c302da1dc
+	sha512sums_x86_64 = f80dc06d93c399ed768d6dfcae16ac713b996e314ed06c9aabd4e69facbd7db9b52dd090eacbc1ab4b6efdb5e04be3f0c49ca281f76f7cc0d6c6aaa83f69ce42
+	b2sums_x86_64 = ab312bf157d4b43ed4f583e7fcaecab6e4af9ac7b1964f70749407f4ac51a0f2420e315fc63b38040c8bbff4176d1eebfa9354ef17546daf44b7bbfb8dc8f33d
 
-pkgname = android-ndk-26d
+pkgname = android-ndk-27
