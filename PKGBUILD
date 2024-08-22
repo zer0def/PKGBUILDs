@@ -4,10 +4,10 @@
 
 pkgname=(cuda cuda-tools)
 pkgbase=cuda
-pkgver=12.5.1
+pkgver=12.6.0
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
-_driverver=555.42.06
+_driverver=560.28.03
 pkgrel=1
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
@@ -47,7 +47,7 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         nvjpeg.pc
         nvrtc.pc
         nvToolsExt.pc)
-sha512sums=('604843e09717c2af0873b2d5a2e242ff1b99122d515b6a7a29e70c55ab605524744359781f5b642059550b4def57877597111914965efe7d3a1a1387c9dbb1a0'
+sha512sums=('fe5710c168298d2283a3f636ad5e1e212970fe8d9554ab450aa61d786536f50efb9d9e9396b6ac59638bd4204faadb5a99ec8a8c02e2c57a18f479123aaff3c9'
             '3cac229e13762e09032c60b10c01d1af8da15871ec7ef76606fc69780c5d5e0410bf65c6b94230787fd9bb18c9d92083b3f65da36db97bbc8edb7a027c45a5be'
             '714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e'
             'a4b3b03682801a98a1d8c1d14c084fd35efd384d92d497e230e3a28e0bd97b1fa48a93ccb2150f892f0b4154ca4ea2d66f5484a6a59b5c9b49963de42ecf1736'
