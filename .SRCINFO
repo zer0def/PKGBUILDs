@@ -1,7 +1,7 @@
 pkgbase = helm
 	pkgdesc = The Kubernetes Package Manager
 	pkgver = 3.15.4
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/helm/helm
 	arch = x86_64
 	license = Apache-2.0

@@ -7,7 +7,7 @@
 
 pkgname=helm
 pkgver=3.15.4
-pkgrel=1
+pkgrel=2
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
 url="https://github.com/helm/helm"
@@ -43,7 +43,7 @@ build() {
   local ld_flags=" \
     -compressdwarf=false \
     -linkmode=external \
-    -X helm.sh/helm/v3/internal/version.version=$pkgver \
+    -X helm.sh/helm/v3/internal/version.version=v$pkgver \
     -X helm.sh/helm/v3/internal/version.gitCommit=$(git rev-parse HEAD) \
   "
   go build -v -ldflags="$ld_flags" ./cmd/helm
@@ -52,7 +52,7 @@ build() {
 check() {
   cd $pkgname
   # Test that the exectuble reports the correct version.
-  test "$(./helm version --template '{{.Version}}')" = "$pkgver"
+  test "$(./helm version --template '{{.Version}}')" = "v$pkgver"
 
   local unit_tests=$(go list ./... | grep -v helm.sh/helm/v3/pkg/registry)
   # shellcheck disable=2086
