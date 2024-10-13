@@ -7,7 +7,7 @@
 
 pkgname=helm
 pkgver=3.16.2
-pkgrel=1
+pkgrel=2
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
 url="https://github.com/helm/helm"
@@ -40,11 +40,18 @@ build() {
   export CGO_CPPFLAGS="$CPPFLAGS"
   export GOFLAGS="-buildmode=pie -mod=vendor -modcacherw"
   export GOPATH="$srcdir"
+
+  local k8s_modules_ver=$(go list -f '{{.Version}}' -m k8s.io/client-go | sed 's/v//')
+  local k8s_modules_minor_ver=$(echo "$k8s_modules_ver" | cut -d. -f2)
   local ld_flags=" \
     -compressdwarf=false \
     -linkmode=external \
     -X helm.sh/helm/v3/internal/version.version=v$pkgver \
     -X helm.sh/helm/v3/internal/version.gitCommit=$(git rev-parse HEAD) \
+    -X helm.sh/helm/v3/pkg/lint/rules.k8sVersionMajor=1 \
+    -X helm.sh/helm/v3/pkg/lint/rules.k8sVersionMinor=$k8s_modules_minor_ver \
+    -X helm.sh/helm/v3/pkg/chartutil.k8sVersionMajor=1 \
+    -X helm.sh/helm/v3/pkg/chartutil.k8sVersionMinor=$k8s_modules_minor_ver \
   "
   go build -v -ldflags="$ld_flags" ./cmd/helm
 }
