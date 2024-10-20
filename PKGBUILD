@@ -14,7 +14,7 @@ pkgname=(
 )
 epoch=1
 pkgver=1.82.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(x86_64)
@@ -171,29 +171,58 @@ ar = "/usr/bin/gcc-ar"
 ranlib = "/usr/bin/gcc-ranlib"
 
 [target.x86_64-unknown-linux-musl]
+cc = "/usr/bin/musl-gcc"
+cxx = "/usr/bin/g++"
+ar = "/usr/bin/gcc-ar"
+ranlib = "/usr/bin/gcc-ranlib"
 sanitizers = false
 musl-root = "/usr/lib/musl"
 
 [target.wasm32-unknown-unknown]
+cc = "/usr/bin/clang"
+cxx = "/usr/bin/clang++"
+ar = "/usr/bin/llvm-ar"
+ranlib = "/usr/bin/llvm-ranlib"
+linker = "/usr/bin/wasm-ld"
 sanitizers = false
 profiler = false
 
 [target.wasm32-wasi]
+cc = "/usr/bin/clang"
+cxx = "/usr/bin/clang++"
+ar = "/usr/bin/llvm-ar"
+ranlib = "/usr/bin/llvm-ranlib"
+linker = "/usr/bin/wasm-ld"
 sanitizers = false
 profiler = false
 wasi-root = "/usr/share/wasi-sysroot"
 
 [target.wasm32-wasip1]
+cc = "/usr/bin/clang"
+cxx = "/usr/bin/clang++"
+ar = "/usr/bin/llvm-ar"
+ranlib = "/usr/bin/llvm-ranlib"
+linker = "/usr/bin/wasm-ld"
 sanitizers = false
 profiler = false
 wasi-root = "/usr/share/wasi-sysroot"
 
 [target.wasm32-wasip1-threads]
+cc = "/usr/bin/clang"
+cxx = "/usr/bin/clang++"
+ar = "/usr/bin/llvm-ar"
+ranlib = "/usr/bin/llvm-ranlib"
+linker = "/usr/bin/wasm-ld"
 sanitizers = false
 profiler = false
 wasi-root = "/usr/share/wasi-sysroot"
 
 [target.wasm32-wasip2]
+cc = "/usr/bin/clang"
+cxx = "/usr/bin/clang++"
+ar = "/usr/bin/llvm-ar"
+ranlib = "/usr/bin/llvm-ranlib"
+linker = "/usr/bin/wasm-ld"
 sanitizers = false
 profiler = false
 wasi-root = "/usr/share/wasi-sysroot"
