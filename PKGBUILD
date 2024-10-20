@@ -46,7 +46,10 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         nvidia-ml.pc
         nvjpeg.pc
         nvrtc.pc
-        nvToolsExt.pc)
+        nvToolsExt.pc
+        nsight-compute.desktop
+        nsight-systems.desktop
+        nvvp.desktop)
 sha512sums=('b43be2aadc3b261a9758d303d893c7a31bfb353dcfda1adbef1dcc4eb3e7a52dc2ebfb0f30e68c1a08fec68f843e49540ab838436447fb70f9d1b2f2d7246dd4'
             '3cac229e13762e09032c60b10c01d1af8da15871ec7ef76606fc69780c5d5e0410bf65c6b94230787fd9bb18c9d92083b3f65da36db97bbc8edb7a027c45a5be'
             '714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e'
@@ -77,7 +80,13 @@ sha512sums=('b43be2aadc3b261a9758d303d893c7a31bfb353dcfda1adbef1dcc4eb3e7a52dc2e
             'c2c0a15c1a1c4fe51c2be1eaf4ff790042b9d42b5959d02522ed7ad18b4c5880dd7d9cdfe88a6d1850b34ce7a22599fadc0e11ca94b595210c9150e44b5e8e66'
             'ede3cfcaaa655e73e47bd3475d94d33933c6e7c89c7dc7c98d9491e066ab4cf504e12ed4f1eab9edaeb358154bd86a43d359304675efa4fd4a67d01c97986f3b'
             '4405d88a132f3cf4e6c506962860503537a3c946fbd5f1c29c52bb6e6b45b13d14333bc772c62589337875200b23b0af17c9e5ce188d2f4018f488ea75501054'
-            '16003e7e6307d39a95fe246a7d079e9a3d827bd03fd5f03bdd2051a5033a1f93d9c8531073ef587808a9d0c75d20e3d79417a90b14102bc872d32c2c7a5ebdcb')
+            '16003e7e6307d39a95fe246a7d079e9a3d827bd03fd5f03bdd2051a5033a1f93d9c8531073ef587808a9d0c75d20e3d79417a90b14102bc872d32c2c7a5ebdcb'
+
+'78109166c44bd9d84399f97805b2d7b3dc2dffd5730f2f7c5dde1c07c4e90e3a5af14ff2b46f4b90b8b8390f72ca509526e38042ecfb57f50bb69ccb1f34db15'
+
+'1f3edd63bc8d252f2818204657da9bcf9c78ec009d4b4e2addbad83e619c1ebaad9c28c0e592974d29e1ce1c29588ff9100a0970febe789cdea7316d16884cce'
+
+'0fdd26868445946d5a3a64fd1a9a996dab6e85ee07b08e7c64a66a5db194653b98817bee876838c792cf57fcd4747173f1b1e77b083a9bbbb68932c0aa95185a')
 
 prepare() {
   sh cuda_${pkgver}_${_driverver}_linux.run --target "${srcdir}" --noexec
@@ -111,6 +120,10 @@ build() {
   # Install pkgconfig files
   mkdir -p "$_prepdir"/usr/lib/pkgconfig
   cp "${srcdir}"/*.pc "${_prepdir}"/usr/lib/pkgconfig
+
+  # Install desktop entries
+  mkdir -p "$_prepdir"/usr/share/applications
+  cp "${srcdir}"/*.desktop "${_prepdir}"/usr/share/applications
 
   mkdir -p "${_prepdir}/usr/share/licenses/${pkgname}"
   ln -s /opt/cuda/EULA.txt "${_prepdir}/usr/share/licenses/${pkgname}/EULA.txt"
@@ -150,6 +163,7 @@ package_cuda() {
   rm "${pkgdir}"/opt/cuda/lib64/lib64
 
   rm -r "${pkgdir}"/opt/cuda/{bin/nvvp,bin/computeprof,libnvvp,nsight*}
+  rm -r "${pkgdir}"/usr/share/applications
 }
 
 package_cuda-tools() {
@@ -164,6 +178,10 @@ package_cuda-tools() {
   mv "${_prepdir}"/opt/cuda/bin/nvvp "${pkgdir}/opt/cuda/bin/nvvp"
   mv "${_prepdir}"/opt/cuda/bin/computeprof "${pkgdir}/opt/cuda/bin/computeprof"
   mv "${_prepdir}"/opt/cuda/libnvvp "${pkgdir}/opt/cuda"
+
+  # desktop entries
+  mkdir -p "${pkgdir}/usr/share/applications"
+  mv "${_prepdir}"/usr/share/applications "${pkgdir}/usr/share"
 
   # licenses
   mkdir -p "${pkgdir}/usr/share/licenses"
