@@ -8,7 +8,7 @@ pkgver=12.6.2
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
 _driverver=560.35.03
-pkgrel=1
+pkgrel=2
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
@@ -113,22 +113,6 @@ build() {
   # Delete some unnecessary files
   rm -r "${_prepdir}"/opt/cuda/bin/cuda-uninstaller
 
-  # Install profile and ld.so.config files
-  install -Dm644 "${srcdir}/cuda.sh" "${_prepdir}/etc/profile.d/cuda.sh"
-  install -Dm644 "${srcdir}/cuda.conf" "${_prepdir}/etc/ld.so.conf.d/cuda.conf"
-
-  # Install pkgconfig files
-  mkdir -p "$_prepdir"/usr/lib/pkgconfig
-  cp "${srcdir}"/*.pc "${_prepdir}"/usr/lib/pkgconfig
-
-  # Install desktop entries
-  mkdir -p "$_prepdir"/usr/share/applications
-  cp "${srcdir}"/*.desktop "${_prepdir}"/usr/share/applications
-
-  mkdir -p "${_prepdir}/usr/share/licenses/${pkgname}"
-  ln -s /opt/cuda/EULA.txt "${_prepdir}/usr/share/licenses/${pkgname}/EULA.txt"
-  ln -s /opt/cuda/README "${_prepdir}/usr/share/licenses/${pkgname}/README"
-
   # Add a symlink lib->lib64 as some libraries might expect that (FS#76951)
   ln -s lib64 "${_prepdir}/opt/cuda/lib"
 
@@ -162,8 +146,19 @@ package_cuda() {
   rm "${pkgdir}"/opt/cuda/include/include
   rm "${pkgdir}"/opt/cuda/lib64/lib64
 
+  # Install pkgconfig files
+  install -Dt "${pkgdir}"/usr/lib/pkgconfig "${srcdir}"/*.pc
+
+  # Install profile and ld.so.config files
+  install -Dm644 "${srcdir}/cuda.sh" "${pkgdir}/etc/profile.d/cuda.sh"
+  install -Dm644 "${srcdir}/cuda.conf" "${pkgdir}/etc/ld.so.conf.d/cuda.conf"
+
   rm -r "${pkgdir}"/opt/cuda/{bin/nvvp,bin/computeprof,libnvvp,nsight*}
-  rm -r "${pkgdir}"/usr/share/applications
+
+  # Licenses
+  mkdir -p "${pkgdir}/usr/share/licenses/${pkgname}"
+  ln -s /opt/cuda/EULA.txt "${pkgdir}/usr/share/licenses/${pkgname}/EULA.txt"
+  ln -s /opt/cuda/README "${pkgdir}/usr/share/licenses/${pkgname}/README"
 }
 
 package_cuda-tools() {
@@ -179,11 +174,10 @@ package_cuda-tools() {
   mv "${_prepdir}"/opt/cuda/bin/computeprof "${pkgdir}/opt/cuda/bin/computeprof"
   mv "${_prepdir}"/opt/cuda/libnvvp "${pkgdir}/opt/cuda"
 
-  # desktop entries
-  mkdir -p "${pkgdir}/usr/share/applications"
-  mv "${_prepdir}"/usr/share/applications "${pkgdir}/usr/share"
+  # Install desktop entries
+  install -Dt "${pkgdir}"/usr/share/applications "${srcdir}"/*.desktop
 
-  # licenses
+  # Licenses
   mkdir -p "${pkgdir}/usr/share/licenses"
   ln -s /usr/share/licenses/cuda "${pkgdir}/usr/share/licenses/${pkgname}"
 }
