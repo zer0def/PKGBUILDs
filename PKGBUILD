@@ -6,8 +6,8 @@
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.16.2
-pkgrel=2
+pkgver=3.16.3
+pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
 url="https://github.com/helm/helm"
@@ -25,7 +25,7 @@ validpgpkeys=(
   '967F8AC5E2216F9F4FD270AD92AA783CBAAE8E3B' # Matthew Fisher <matt.fisher@microsoft.com>
   'F1261BDE929012C8FF2E501D6EA5D7598529A53E' # Martin Hickey <martin.hickey@ie.ibm.com>
 )
-sha256sums=('00537c7630e330f11647b1f30cfea64f9a7a9740095b41afa4bd885a67e1b085')
+sha256sums=('aa47b2b3c00898a067543ada9180887317f27bc6aaa779e0cd465cd1dd44b0b9')
 
 prepare() {
   cd $pkgname
