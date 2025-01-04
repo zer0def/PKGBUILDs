@@ -9,6 +9,8 @@ pkgname=(
   rust
   lib32-rust-libs
   rust-musl
+  rust-aarch64-gnu
+  rust-aarch64-musl
   rust-wasm
   rust-src
 )
@@ -35,6 +37,8 @@ depends=(
   zlib
 )
 makedepends=(
+  aarch64-linux-gnu-gcc
+  aarch64-linux-gnu-glibc
   clang
   cmake
   lib32-gcc-libs
@@ -43,6 +47,7 @@ makedepends=(
   lld
   llvm
   musl
+  musl-aarch64
   ninja
   perl
   python
@@ -60,13 +65,15 @@ source=(
   0002-bootstrap-Change-bash-completion-dir.patch
   0003-compiler-Change-LLVM-targets.patch
   0004-compiler-Use-wasm-ld-for-wasm-targets.patch
+  0005-compiler-Use-aarch64-linux-gnu-gcc-to-link-aarch64-t.patch
 )
 b2sums=('c4b4d5ce55e07c95016c10aece82b6bf35d037f84017ad87d86d7f5a4d965393f11da309daa32b877512f41a8a9c1ff4b462a523c807eb8f8919cb9485c0767c'
         'SKIP'
         '329cae9618a2c7bc9a0acb67471d80e46bd17b4033ecb25780e47d8a4005a889c67f75e675a7aab0c32f35984cd0101910d3cad31b786c40d0c7d10614f07f2f'
         '98faa0f85da268d7de3ec057512ee57fc415a976543b649199bc5a8fecab75ce14ce4a6efebf9d13dded1749384a2355e7674dbb2fba6e5bf3018ee20af98f69'
         '9629e3af2d792cc7558c969e5ced3a25268604c9ce8204903441df11e7468455564eb43d062f661d861df9280fd972253b0523e2a47fbe6c8ac57f072f832139'
-        'b50e77529edc7640e2e08a434aa48591b5b809b35e61db026010e28b6c4caf61a780131500a5b0f9339d2a98177de7adb13d7589a0b2f084304d059c4de112ee')
+        'b50e77529edc7640e2e08a434aa48591b5b809b35e61db026010e28b6c4caf61a780131500a5b0f9339d2a98177de7adb13d7589a0b2f084304d059c4de112ee'
+        '523dbdc4fdf8453577df0c0527da111eb7c7b1bff0ac932b1c4f9cd7952a50ff81c3880ced10a12f545e7aa3c6341769f9e1f50fe1dbe95f2a604d302004e391')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
@@ -87,6 +94,9 @@ prepare() {
   # Use our wasm-ld
   patch -Np1 -i ../0004-compiler-Use-wasm-ld-for-wasm-targets.patch
 
+  # Use our aarch64-linux-gnu-gcc
+  patch -Np1 -i ../0005-compiler-Use-aarch64-linux-gnu-gcc-to-link-aarch64-t.patch
+
   cat >config.toml <<END
 # see src/bootstrap/defaults/
 profile = "dist"
@@ -103,6 +113,8 @@ target = [
   "x86_64-unknown-linux-gnu",
   "i686-unknown-linux-gnu",
   "x86_64-unknown-linux-musl",
+  "aarch64-unknown-linux-gnu",
+  "aarch64-unknown-linux-musl",
   "wasm32-unknown-unknown",
   "wasm32-wasi",
   "wasm32-wasip1",
@@ -172,6 +184,24 @@ ar = "/usr/bin/gcc-ar"
 ranlib = "/usr/bin/gcc-ranlib"
 sanitizers = false
 musl-root = "/usr/lib/musl"
+
+[target.aarch64-unknown-linux-gnu]
+cc = "/usr/bin/aarch64-linux-gnu-gcc"
+cxx = "/usr/bin/aarch64-linux-gnu-g++"
+ar = "/usr/bin/aarch64-linux-gnu-gcc-ar"
+ranlib = "/usr/bin/aarch64-linux-gnu-gcc-ranlib"
+linker = "/usr/bin/aarch64-linux-gnu-gcc"
+default-linker = "aarch64-linux-gnu-gcc"
+
+[target.aarch64-unknown-linux-musl]
+cc = "/usr/aarch64-linux-musl/bin/musl-gcc"
+cxx = "/usr/bin/aarch64-linux-gnu-g++"
+ar = "/usr/bin/aarch64-linux-gnu-gcc-ar"
+ranlib = "/usr/bin/aarch64-linux-gnu-gcc-ranlib"
+linker = "/usr/bin/aarch64-linux-gnu-gcc"
+default-linker = "aarch64-linux-gnu-gcc"
+sanitizers = false
+musl-root = "/usr/aarch64-linux-musl/lib/musl"
 
 [target.wasm32-unknown-unknown]
 cc = "/usr/bin/clang"
@@ -273,6 +303,8 @@ build() {
 
   _pick dest-i686 usr/lib/rustlib/i686-unknown-linux-gnu usr/lib32
   _pick dest-musl usr/lib/rustlib/x86_64-unknown-linux-musl
+  _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
+  _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
   _pick dest-wasm usr/lib/rustlib/wasm32-*
   _pick dest-src  usr/lib/rustlib/src
 }
@@ -323,6 +355,33 @@ package_rust-musl() {
   depends=(rust)
 
   cp -a dest-musl/* "$pkgdir"
+
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
+    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+}
+
+package_rust-aarch64-gnu() {
+  pkgdesc="AArch64 GNU target for Rust"
+  depends=(
+    aarch64-linux-gnu-gcc
+    aarch64-linux-gnu-glibc
+    rust
+  )
+
+  cp -a dest-aarch64-gnu/* "$pkgdir"
+
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
+    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+}
+
+package_rust-aarch64-musl() {
+  pkgdesc="AArch64 Musl target for Rust"
+  depends=(
+    aarch64-linux-gnu-gcc
+    rust
+  )
+
+  cp -a dest-aarch64-musl/* "$pkgdir"
 
   install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
     rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}

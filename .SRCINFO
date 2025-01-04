@@ -8,6 +8,8 @@ pkgbase = rust
 	license = Apache-2.0 OR MIT
 	checkdepends = gdb
 	checkdepends = procps-ng
+	makedepends = aarch64-linux-gnu-gcc
+	makedepends = aarch64-linux-gnu-glibc
 	makedepends = clang
 	makedepends = cmake
 	makedepends = lib32-gcc-libs
@@ -16,6 +18,7 @@ pkgbase = rust
 	makedepends = lld
 	makedepends = llvm
 	makedepends = musl
+	makedepends = musl-aarch64
 	makedepends = ninja
 	makedepends = perl
 	makedepends = python
@@ -39,6 +42,7 @@ pkgbase = rust
 	source = 0002-bootstrap-Change-bash-completion-dir.patch
 	source = 0003-compiler-Change-LLVM-targets.patch
 	source = 0004-compiler-Use-wasm-ld-for-wasm-targets.patch
+	source = 0005-compiler-Use-aarch64-linux-gnu-gcc-to-link-aarch64-t.patch
 	validpgpkeys = 108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE
 	b2sums = c4b4d5ce55e07c95016c10aece82b6bf35d037f84017ad87d86d7f5a4d965393f11da309daa32b877512f41a8a9c1ff4b462a523c807eb8f8919cb9485c0767c
 	b2sums = SKIP
@@ -46,6 +50,7 @@ pkgbase = rust
 	b2sums = 98faa0f85da268d7de3ec057512ee57fc415a976543b649199bc5a8fecab75ce14ce4a6efebf9d13dded1749384a2355e7674dbb2fba6e5bf3018ee20af98f69
 	b2sums = 9629e3af2d792cc7558c969e5ced3a25268604c9ce8204903441df11e7468455564eb43d062f661d861df9280fd972253b0523e2a47fbe6c8ac57f072f832139
 	b2sums = b50e77529edc7640e2e08a434aa48591b5b809b35e61db026010e28b6c4caf61a780131500a5b0f9339d2a98177de7adb13d7589a0b2f084304d059c4de112ee
+	b2sums = 523dbdc4fdf8453577df0c0527da111eb7c7b1bff0ac932b1c4f9cd7952a50ff81c3880ced10a12f545e7aa3c6341769f9e1f50fe1dbe95f2a604d302004e391
 
 pkgname = rust
 	optdepends = gdb: rust-gdb script
@@ -71,6 +76,17 @@ pkgname = lib32-rust-libs
 
 pkgname = rust-musl
 	pkgdesc = Musl target for Rust
+	depends = rust
+
+pkgname = rust-aarch64-gnu
+	pkgdesc = AArch64 GNU target for Rust
+	depends = aarch64-linux-gnu-gcc
+	depends = aarch64-linux-gnu-glibc
+	depends = rust
+
+pkgname = rust-aarch64-musl
+	pkgdesc = AArch64 Musl target for Rust
+	depends = aarch64-linux-gnu-gcc
 	depends = rust
 
 pkgname = rust-wasm
