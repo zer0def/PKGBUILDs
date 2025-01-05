@@ -16,7 +16,7 @@ pkgname=(
 )
 epoch=1
 pkgver=1.83.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(x86_64)
@@ -77,6 +77,9 @@ b2sums=('c4b4d5ce55e07c95016c10aece82b6bf35d037f84017ad87d86d7f5a4d965393f11da30
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
+
+# Make sure the duplication in rust-wasm is found
+COMPRESSZST+=(--long)
 
 prepare() {
   cd rustc-$pkgver-src
