@@ -16,7 +16,7 @@ pkgname=(
 )
 epoch=1
 pkgver=1.83.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(x86_64)
