@@ -12,13 +12,13 @@ makedepends=('cmake' 'ninja' 'llvm' 'clang' 'lld')
 source=(https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/compiler-rt-${pkgver}.src.tar.xz{,.sig}
         https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/cmake-$pkgver.src.tar.xz{,.sig}
         WASI.cmake
-        wasi-toolchain.cmake)
+        wasi-sdk.cmake)
 b2sums=('014ab9c03650f4040050fc600167945003a0a73ae2a22c19fd9504aab00ee57df10eeb2b90514c14e294c0b5d43ce0b4b6d0c361cbfefcd6fb6adb67372cb953'
         'SKIP'
         'a1bc5fbf724a21d6eebfac4ed26544ef50069aa8e55398f66af9c9636799c790de7f069b4604f123cb20abda8fac3742844f9f3d966408e1dacdebf1a6cf5635'
         'SKIP'
         'c829d807c257921fddb8c4d3752ad2291a2beb116d414dd31e34b7f6b01599d8c4807db87ef9930456ed8c9f30e8648e77028fa0b903c3a5ea840514f6022cf4'
-        '74c63bb838bc2e6d7980370fb3d47f8fd2f1dd8b6dc82302c7cc0b80e0fb1e8e21c1c62d6de0b78e478fc22611a5867e52b1ef7a566796fe831fffd98b17c940')
+        '9f20eaa64069d20510a5ba6acdedfa4bbf723e1da13792bbbdfc57cc20d232962f5603a56c9723879624ab65e18f3770fda509dc76e3f099c3744acbfeabafc2')
 options=('staticlibs')
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A' # Tom Stellard <tstellar@redhat.com>
@@ -42,7 +42,7 @@ build() {
     -DCMAKE_C_COMPILER_WORKS=ON \
     -DCMAKE_CXX_COMPILER_WORKS=ON \
     -DCMAKE_MODULE_PATH="${srcdir}"/make \
-    -DCMAKE_TOOLCHAIN_FILE="${srcdir}"/wasi-toolchain.cmake \
+    -DCMAKE_TOOLCHAIN_FILE="${srcdir}"/wasi-sdk.cmake \
     -DCOMPILER_RT_BAREMETAL_BUILD=On \
     -DCOMPILER_RT_INCLUDE_TESTS=OFF \
     -DCOMPILER_RT_HAS_FPIC_FLAG=OFF \
