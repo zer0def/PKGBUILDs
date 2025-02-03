@@ -4,10 +4,10 @@
 
 pkgname=(cuda cuda-tools)
 pkgbase=cuda
-pkgver=12.6.3
+pkgver=12.8.0
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
-_driverver=560.35.05
+_driverver=570.86.10
 pkgrel=1
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
@@ -49,8 +49,10 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         nvToolsExt.pc
         nsight-compute.desktop
         nsight-systems.desktop
-        nvvp.desktop)
-sha512sums=('a93d9d812d3a3f5823622e2274d1d6dbe17a298b33463fdf9f6d211d38766eab76608f9d545e312b2be2b86b3c59fcd92c37c54b38b0e8206191563d00546d62'
+        nvvp.desktop
+        fix-glibc241.patch
+)
+sha512sums=('7939552d38c39b184946df455233eb9ffe91051656b3091b0414b2acc2939bc35dd92724b584e507976c3b4cd51f489abee2e2d0da27bfebaf8999c3f2c2bb2e'
             '3cac229e13762e09032c60b10c01d1af8da15871ec7ef76606fc69780c5d5e0410bf65c6b94230787fd9bb18c9d92083b3f65da36db97bbc8edb7a027c45a5be'
             '714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e'
             'a4b3b03682801a98a1d8c1d14c084fd35efd384d92d497e230e3a28e0bd97b1fa48a93ccb2150f892f0b4154ca4ea2d66f5484a6a59b5c9b49963de42ecf1736'
@@ -81,12 +83,10 @@ sha512sums=('a93d9d812d3a3f5823622e2274d1d6dbe17a298b33463fdf9f6d211d38766eab766
             'ede3cfcaaa655e73e47bd3475d94d33933c6e7c89c7dc7c98d9491e066ab4cf504e12ed4f1eab9edaeb358154bd86a43d359304675efa4fd4a67d01c97986f3b'
             '4405d88a132f3cf4e6c506962860503537a3c946fbd5f1c29c52bb6e6b45b13d14333bc772c62589337875200b23b0af17c9e5ce188d2f4018f488ea75501054'
             '16003e7e6307d39a95fe246a7d079e9a3d827bd03fd5f03bdd2051a5033a1f93d9c8531073ef587808a9d0c75d20e3d79417a90b14102bc872d32c2c7a5ebdcb'
-
-'78109166c44bd9d84399f97805b2d7b3dc2dffd5730f2f7c5dde1c07c4e90e3a5af14ff2b46f4b90b8b8390f72ca509526e38042ecfb57f50bb69ccb1f34db15'
-
-'1f3edd63bc8d252f2818204657da9bcf9c78ec009d4b4e2addbad83e619c1ebaad9c28c0e592974d29e1ce1c29588ff9100a0970febe789cdea7316d16884cce'
-
-'0fdd26868445946d5a3a64fd1a9a996dab6e85ee07b08e7c64a66a5db194653b98817bee876838c792cf57fcd4747173f1b1e77b083a9bbbb68932c0aa95185a')
+            '78109166c44bd9d84399f97805b2d7b3dc2dffd5730f2f7c5dde1c07c4e90e3a5af14ff2b46f4b90b8b8390f72ca509526e38042ecfb57f50bb69ccb1f34db15'
+            '1f3edd63bc8d252f2818204657da9bcf9c78ec009d4b4e2addbad83e619c1ebaad9c28c0e592974d29e1ce1c29588ff9100a0970febe789cdea7316d16884cce'
+            '0fdd26868445946d5a3a64fd1a9a996dab6e85ee07b08e7c64a66a5db194653b98817bee876838c792cf57fcd4747173f1b1e77b083a9bbbb68932c0aa95185a'
+            'a6107446d30b3e95b63064c56a86622cf186e140de2ed2de476035ad1d7caaf056af6c86149818edbd6b488942b24724d176cf8f976f272ab4023bbe2f972681')
 
 prepare() {
   sh cuda_${pkgver}_${_driverver}_linux.run --target "${srcdir}" --noexec
@@ -127,6 +127,9 @@ build() {
   for f in $(find "$_prepdir"/opt/cuda -name Makefile); do
     sed -i "s|/usr/local/cuda|/opt/cuda|g" "$f"
   done
+
+  # Patch for compatibility with glibc 2.41
+  patch -p1 -d "$_prepdir" -i "$srcdir"/fix-glibc241.patch
 }
 
 package_cuda() {
