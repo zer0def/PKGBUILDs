@@ -1,12 +1,10 @@
 # Maintainer: Morten Linderud <foxboron@archlinux.org>
-# Maintainer: Carl Smedstad <carsme@archlinux.org>
-# Contributor: Lukas Grossar <lukas.grossar@gmail.com>
-# Contributor: Ivan Shapovalov <intelfx@intelfx.name>
+# Maintainer: Carl Smedstad <carsme@archlinux.org> Contributor: Lukas Grossar <lukas.grossar@gmail.com> Contributor: Ivan Shapovalov <intelfx@intelfx.name>
 # Contributor: Wayne Cheng <waynethecheng@gmail.com>
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.17.0
+pkgver=3.17.1
 pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
@@ -25,8 +23,9 @@ validpgpkeys=(
   '967F8AC5E2216F9F4FD270AD92AA783CBAAE8E3B' # Matthew Fisher <matt.fisher@microsoft.com>
   'F1261BDE929012C8FF2E501D6EA5D7598529A53E' # Martin Hickey <martin.hickey@ie.ibm.com>
   '208DD36ED5BB3745A16743A4C7C6FBB5B91C1155' # Scott Rigby <scott@r6by.com>
+  '7FEC81FACC7FFB2A010ADD13C2D40F4D8196E874' # Robert Sirchia (I like turtles.) <rsirchia@outlook.com>
 )
-sha256sums=('fbff48e4abcae4c8912355ea85d27aad3d3d8b37549c67471323089c63493862')
+sha256sums=('535d887f4380e7c91b44cc009e3b05bb1f9abf800959700b8aec9a2eb894d88d')
 
 prepare() {
   cd $pkgname
