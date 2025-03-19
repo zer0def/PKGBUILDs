@@ -3,12 +3,12 @@
 
 pkgbase=iptables
 pkgname=(iptables iptables-nft)
-pkgver=1.8.10
-pkgrel=2
+pkgver=1.8.11
+pkgrel=1
 epoch=1
 pkgdesc='Linux kernel packet control tool'
 arch=(x86_64)
-license=(GPL2)
+license=(GPL-2.0-only)
 url='https://www.netfilter.org/projects/iptables/index.html'
 depends=(libnftnl libpcap libnfnetlink libnetfilter_conntrack bash)
 makedepends=(linux-api-headers)
@@ -18,7 +18,7 @@ source=(https://www.netfilter.org/projects/iptables/files/$pkgbase-$pkgver.tar.x
         empty.rules simple_firewall.rules empty-{filter,mangle,nat,raw,security}.rules
         {arp,eb,ip,ip6}tables.service iptables-{legacy,nft}-flush
         iptables-apply-default-path.patch)
-sha256sums=('5cc255c189356e317d070755ce9371eb63a1b783c34498fb8c30264f3cc59c9c'
+sha256sums=('d87303d55ef8c92bcad4dd3f978b26d272013642b029425775f5bad1009fe7b2'
             'SKIP'
             '630d774f089703c2c7370db6d7c188dae25d00c26feaa3d3de8eb52519033948'
             '9e83d7ae39d31881790f814930d44acbaeab1520adb2fb4fcb80f0bbfab174b9'
@@ -35,7 +35,8 @@ sha256sums=('5cc255c189356e317d070755ce9371eb63a1b783c34498fb8c30264f3cc59c9c'
             '6d3e7bdeebdaeaf83ed448f4d42a979c8c59fb5e919f6f860ed340c2c9afef1a'
             '770ceaedce26d05eb1b9d0c4c65f5b8e92facd1dc0652a29c859336d6bc347f6')
 validpgpkeys=('C09DB2063F1D7034BA6152ADAB4655A126D292E4'
-              '37D964ACC04981C75500FB9BD55D978A8A1420E4') # Netfilter Core Team
+              '37D964ACC04981C75500FB9BD55D978A8A1420E4'
+              '8C5F7146A1757A65E2422A94D70D1A666ACF2B21') # Netfilter Core Team
 
 prepare() {
   mkdir build
