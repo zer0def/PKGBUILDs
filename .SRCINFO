@@ -1,7 +1,7 @@
 pkgbase = iptables
 	pkgdesc = Linux kernel packet control tool
 	pkgver = 1.8.11
-	pkgrel = 1
+	pkgrel = 2
 	epoch = 1
 	url = https://www.netfilter.org/projects/iptables/index.html
 	arch = x86_64
@@ -35,6 +35,7 @@ pkgbase = iptables
 	source = iptables-legacy-flush
 	source = iptables-nft-flush
 	source = iptables-apply-default-path.patch
+	source = nft-fix-interface-comparisons-in-C-commands.patch
 	validpgpkeys = C09DB2063F1D7034BA6152ADAB4655A126D292E4
 	validpgpkeys = 37D964ACC04981C75500FB9BD55D978A8A1420E4
 	validpgpkeys = 8C5F7146A1757A65E2422A94D70D1A666ACF2B21
@@ -54,6 +55,7 @@ pkgbase = iptables
 	sha256sums = 40680b3c877926a2bac698ea58f52d1d4b3ab152ee68ccd7fa7ca51aeedc3b2d
 	sha256sums = 6d3e7bdeebdaeaf83ed448f4d42a979c8c59fb5e919f6f860ed340c2c9afef1a
 	sha256sums = 770ceaedce26d05eb1b9d0c4c65f5b8e92facd1dc0652a29c859336d6bc347f6
+	sha256sums = 78c1257db5741a849f984f7706e996e3679b87985434ccddcc944782f587fb05
 
 pkgname = iptables
 	pkgdesc = Linux kernel packet control tool (using legacy interface)
