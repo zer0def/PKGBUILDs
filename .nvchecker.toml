@@ -1,0 +1,4 @@
+[helmfile]
+source = "git"
+git = "https://github.com/helmfile/helmfile.git"
+prefix = "v"
