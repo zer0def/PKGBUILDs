@@ -1,0 +1,232 @@
+diff --git a/omx-il/Makefile b/omx-il/Makefile
+index 150c4d5..a12e029 100644
+--- a/omx-il/Makefile
++++ b/omx-il/Makefile
+@@ -21,11 +21,13 @@ AR  = $(CROSS_CC_PREFIX)ar
+ DEFINES = -DUSE_FEEDING_METHOD_BUFFER
+ INCLUDES = -I./include/khronos -I./core -I./component/video/wave5/common -I./component/video/wave4 -I./component/helper
+ $(warning "the value of LOCAL_PATH is$(STAGING_DIR)")
+-INCLUDES += -I$(STAGING_DIR)/usr/include/
+-INCLUDES += -I$(STAGING_DIR)/usr/include/wave420l/
+-INCLUDES += -I$(STAGING_DIR)/usr/include/wave420l/vpuapi/
+-INCLUDES += -I$(STAGING_DIR)/usr/include/wave420l/sample/helper/
+-#INCLUDES += -I$(STAGING_DIR)/usr/include/wave420l/sample/helper/misc/
++INCLUDES += -I..
++INCLUDES += -I../wave420l/
++INCLUDES += -I../wave420l/code/
++INCLUDES += -I../wave420l/vpuapi/
++INCLUDES += -I../wave420l/code/vpuapi/
++INCLUDES += -I../wave420l/sample/helper/
++INCLUDES += -I../wave420l/sample/helper/misc/
+ 
+ #mjpeg
+ INCLUDES += -I./component/image/common
+@@ -100,4 +102,4 @@ CREATE_DIR:
+ 	-mkdir -p $(OBJDIR)
+ 
+ obj/%.o: %.c $(MAKEFILE)
+-	$(CC) $(CFLAGS) -Wall -Werror -c $< -o $@ -MD -MF $(@:.o=.dep)
++	$(CC) $(CFLAGS) -Wall -Werror -Wno-sometimes-uninitialized -Wno-enum-conversion -c $< -o $@ -MD -MF $(@:.o=.dep)
+diff --git a/omx-il/component/video/wave4/SF_OMX_Wave420L_encoder.h b/omx-il/component/video/wave4/SF_OMX_Wave420L_encoder.h
+index c337342..0a5d985 100644
+--- a/omx-il/component/video/wave4/SF_OMX_Wave420L_encoder.h
++++ b/omx-il/component/video/wave4/SF_OMX_Wave420L_encoder.h
+@@ -20,8 +20,8 @@
+ #include "sf_queue.h"
+ #include "sf_thread.h"
+ #include "sf_semaphore.h"
+-#include "wave420l/sample/helper/main_helper.h"
+-#include "wave420l/vpuapi/vpuapi.h"
++#include "wave420l/code/sample/helper/main_helper.h"
++#include "wave420l/code/vpuapi/vpuapi.h"
+ 
+ 
+ #define INIT_SET_SIZE_VERSION(_struct_, _structType_) \
+diff --git a/omx-il/component/video/wave5/common/SF_OMX_video_common.h b/omx-il/component/video/wave5/common/SF_OMX_video_common.h
+index 875b94a..7faa6a3 100644
+--- a/omx-il/component/video/wave5/common/SF_OMX_video_common.h
++++ b/omx-il/component/video/wave5/common/SF_OMX_video_common.h
+@@ -14,9 +14,9 @@
+ #include "sf_queue.h"
+ #include "sf_thread.h"
+ #include "sf_semaphore.h"
+-#include "wave511/sample_v2/component/component.h"
+-#include "wave511/sample_v2/component_encoder/encoder_listener.h"
+-#include "wave511/sample_v2/component_decoder/decoder_listener.h"
++#include "wave511/code/sample_v2/component/component.h"
++#include "wave511/code/sample_v2/component_encoder/encoder_listener.h"
++#include "wave511/code/sample_v2/component_decoder/decoder_listener.h"
+ 
+ #define INIT_SET_SIZE_VERSION(_struct_, _structType_) \
+     do                                                \
+diff --git a/wave511/code/sample_v2/component/cnm_app.h b/wave511/code/sample_v2/component/cnm_app.h
+index 1ecd05a..01c9b64 100644
+--- a/wave511/code/sample_v2/component/cnm_app.h
++++ b/wave511/code/sample_v2/component/cnm_app.h
+@@ -29,8 +29,8 @@
+ 
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vpuapi/vputypes.h"
+-    #include "wave511/sample_v2/component/component.h"
++    #include "wave511/code/vpuapi/vputypes.h"
++    #include "wave511/code/sample_v2/component/component.h"
+ #else
+     #include "vputypes.h"
+     #include "component.h"
+diff --git a/wave511/code/sample_v2/component/component.h b/wave511/code/sample_v2/component/component.h
+index b6c3cce..2087a7e 100644
+--- a/wave511/code/sample_v2/component/component.h
++++ b/wave511/code/sample_v2/component/component.h
+@@ -28,9 +28,9 @@
+ #define _COMPONENT_H_
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/config.h"
+-    #include "wave511/vpuapi/vpuapifunc.h"
+-    #include "wave511/sample_v2/helper/main_helper.h"
++    #include "wave511/code/config.h"
++    #include "wave511/code/vpuapi/vpuapifunc.h"
++    #include "wave511/code/sample_v2/helper/main_helper.h"
+ #else
+     #include "config.h"
+     #include "vpuapifunc.h"
+diff --git a/wave511/code/sample_v2/component_decoder/decoder_listener.h b/wave511/code/sample_v2/component_decoder/decoder_listener.h
+index b695b76..d868121 100644
+--- a/wave511/code/sample_v2/component_decoder/decoder_listener.h
++++ b/wave511/code/sample_v2/component_decoder/decoder_listener.h
+@@ -25,8 +25,8 @@
+ */
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/sample_v2/component/cnm_app.h"
+-    #include "wave511/sample_v2/helper/misc/bw_monitor.h"
++    #include "wave511/code/sample_v2/component/cnm_app.h"
++    #include "wave511/code/sample_v2/helper/misc/bw_monitor.h"
+ #else
+     #include "cnm_app.h"
+     #include "misc/bw_monitor.h"
+diff --git a/wave511/code/sample_v2/component_encoder/encoder_listener.h b/wave511/code/sample_v2/component_encoder/encoder_listener.h
+index a571272..29e03cd 100644
+--- a/wave511/code/sample_v2/component_encoder/encoder_listener.h
++++ b/wave511/code/sample_v2/component_encoder/encoder_listener.h
+@@ -25,8 +25,8 @@
+ */
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/sample_v2/component/cnm_app.h"
+-    #include "wave511/sample_v2/helper/misc/bw_monitor.h"
++    #include "wave511/code/sample_v2/component/cnm_app.h"
++    #include "wave511/code/sample_v2/helper/misc/bw_monitor.h"
+ #else
+     #include "cnm_app.h"
+     #include "misc/bw_monitor.h"
+diff --git a/wave511/code/sample_v2/helper/main_helper.h b/wave511/code/sample_v2/helper/main_helper.h
+index bce75d0..633e1e5 100644
+--- a/wave511/code/sample_v2/helper/main_helper.h
++++ b/wave511/code/sample_v2/helper/main_helper.h
+@@ -29,10 +29,10 @@
+ 
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-   #include "wave511/config.h"
+-   #include "wave511/vpuapi/vpuapifunc.h"
+-   #include "wave511/vpuapi/vpuapi.h"
+-   #include "wave511/vpuapi/vputypes.h"
++   #include "wave511/code/config.h"
++   #include "wave511/code/vpuapi/vpuapifunc.h"
++   #include "wave511/code/vpuapi/vpuapi.h"
++   #include "wave511/code/vpuapi/vputypes.h"
+ #else
+     #include "config.h"
+     #include "vpuapifunc.h"
+diff --git a/wave511/code/vdi/mm.h b/wave511/code/vdi/mm.h
+index 98e1444..2242019 100644
+--- a/wave511/code/vdi/mm.h
++++ b/wave511/code/vdi/mm.h
+@@ -28,7 +28,7 @@
+ #define __CNM_VIDEO_MEMORY_ALLOCATOR_H_
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vpuapi/vputypes.h"
++    #include "wave511/code/vpuapi/vputypes.h"
+ #else
+     #include <vputypes.h>
+ #endif
+diff --git a/wave511/code/vdi/vdi.h b/wave511/code/vdi/vdi.h
+index 4585a3c..f27c2f6 100644
+--- a/wave511/code/vdi/vdi.h
++++ b/wave511/code/vdi/vdi.h
+@@ -28,9 +28,9 @@
+ #define _VDI_H_
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vdi/mm.h"
+-    #include "wave511/vpuapi/vpuconfig.h"
+-    #include "wave511/vpuapi/vputypes.h"
++    #include "wave511/code/vdi/mm.h"
++    #include "wave511/code/vpuapi/vpuconfig.h"
++    #include "wave511/code/vpuapi/vputypes.h"
+ #else
+     #include "mm.h"
+     #include "vpuconfig.h"
+diff --git a/wave511/code/vdi/vdi_osal.h b/wave511/code/vdi/vdi_osal.h
+index ee6f9c2..e360435 100644
+--- a/wave511/code/vdi/vdi_osal.h
++++ b/wave511/code/vdi/vdi_osal.h
+@@ -31,7 +31,7 @@
+ #include <stdlib.h>
+ #include <ctype.h>
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vpuapi/vputypes.h"
++    #include "wave511/code/vpuapi/vputypes.h"
+ #else
+     #include "vputypes.h"
+ #endif
+diff --git a/wave511/code/vpuapi/vpuapi.h b/wave511/code/vpuapi/vpuapi.h
+index 6e9975d..ef511d5 100644
+--- a/wave511/code/vpuapi/vpuapi.h
++++ b/wave511/code/vpuapi/vpuapi.h
+@@ -28,11 +28,11 @@
+ #define VPUAPI_H_INCLUDED
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vpuapi/vpuconfig.h"
+-    #include "wave511/vpuapi/vputypes.h"
+-    #include "wave511/vdi/vdi.h"
+-    #include "wave511/vdi/vdi_osal.h"
+-    #include "wave511/vpuapi/vpuerror.h"
++    #include "wave511/code/vpuapi/vpuconfig.h"
++    #include "wave511/code/vpuapi/vputypes.h"
++    #include "wave511/code/vdi/vdi.h"
++    #include "wave511/code/vdi/vdi_osal.h"
++    #include "wave511/code/vpuapi/vpuerror.h"
+ #else
+     #include "vpuconfig.h"
+     #include "vputypes.h"
+diff --git a/wave511/code/vpuapi/vpuapifunc.h b/wave511/code/vpuapi/vpuapifunc.h
+index 80eb347..7c3884c 100644
+--- a/wave511/code/vpuapi/vpuapifunc.h
++++ b/wave511/code/vpuapi/vpuapifunc.h
+@@ -28,7 +28,7 @@
+ #define VPUAPI_UTIL_H_INCLUDED
+ 
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vpuapi/vpuapi.h"
++    #include "wave511/code/vpuapi/vpuapi.h"
+ #else
+     #include "vpuapi.h"
+ #endif
+diff --git a/wave511/code/vpuapi/vputypes.h b/wave511/code/vpuapi/vputypes.h
+index 8956555..98f11e5 100644
+--- a/wave511/code/vpuapi/vputypes.h
++++ b/wave511/code/vpuapi/vputypes.h
+@@ -29,7 +29,7 @@
+ 
+ #include <stdint.h>
+ #ifdef USE_FEEDING_METHOD_BUFFER
+-    #include "wave511/vpuapi/vputypes.h"
++    #include "wave511/code/vpuapi/vputypes.h"
+ #else
+     #include "vputypes.h"
+ #endif

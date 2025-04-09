@@ -3,9 +3,9 @@ Type = Package
 Operation = Install
 Operation = Upgrade
 Operation = Remove
-Target = linux-cwt-6.6-starfive-vf2-soft_3rdpart
+Target = linux-cwt-6.12-starfive-vf2-soft_3rdpart
 
 [Action]
 Description = Updating linux initcpios...
 When = PostTransaction
-Exec = /bin/bash -c "/usr/bin/depmod -a 6.6.32-cwt-5.13.1-1"
+Exec = /bin/bash -c "/usr/bin/depmod -a 6.12.18-cwt-5.14.0-2"

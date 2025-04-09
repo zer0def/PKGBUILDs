@@ -1,12 +1,12 @@
 # Maintainer: Chaiwat Suttipongsakul <cwt@bashell.com>
 
-pkgbase=linux-cwt-6.6-starfive-vf2
-_variant=cwt #6.6-VF2-xxx-x
-pkgver=5.13.1
-epoch=23 #Based on cwt image version
-pkgrel=1
-_tag=JH7110_VF2_6.6_v${pkgver}
-_desc='Linux 6.6.x (-cwt) for StarFive RISC-V VisionFive 2 Board'
+pkgbase=linux-cwt-6.12-starfive-vf2
+_variant=cwt #6.12-VF2-xxx-x
+pkgver=5.14.0
+epoch=24 #Based on cwt image version
+pkgrel=2
+_tag=JH7110_VF2_6.12_v${pkgver}
+_desc='Linux 6.12.x (-cwt) for StarFive RISC-V VisionFive 2 Board'
 _srcname=linux-$_tag
 _3rdpart=soft_3rdpart-$_tag
 url="https://github.com/starfive-tech/linux/"
@@ -21,30 +21,32 @@ source=("https://github.com/starfive-tech/linux/archive/refs/tags/${_tag}.tar.gz
   'linux-04-fix_broken_gpu-drm-i2c-tda998x.patch'
   'linux-05-fix_img_gpu_secondary_notintermediate_conflict.patch'
   'linux-06-fix_drm_img_rogue_buffer_overflow.patch'
-  'linux-07-fix_starfive_v4l2_for_6.6_kernel.patch'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.20-21.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.21-22.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.22-23.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.23-24.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.24-25.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.25-26.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.26-27.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.27-28.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.28-29.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.29-30.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.30-31.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.31-32.xz'
+  'linux-07-fix_starfive_v4l2_for_6.12_kernel.patch'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.5-6.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.6-7.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.7-8.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.8-9.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.9-10.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.10-11.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.11-12.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.12-13.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.13-14.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.14-15.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.15-16.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.16-17.xz'
+  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.17-18.xz'
   'config'
   'linux.preset'
   '90-linux.hook'
   "${_3rdpart}.tar.gz::https://github.com/starfive-tech/soft_3rdpart/archive/refs/tags/${_tag}.tar.gz"
   'soft_3rdpart-00-correct_kernel_source_dir.patch'
   'soft_3rdpart-01-use_clang_for_llvm.patch'
+  'soft_3rdpart-02-fix_omx-il_build.patch'
   'soft_3rdpart-modules.conf'
   '91-soft_3rdpart.hook'
   '91-soft_3rdpart.rules')
 
-b2sums=('0cc01ff3aa6cc85f7a07dd05c85deb622ae92a3d4b18ef6cecd1461ba1f891283b92f31c62015988f935f6e0d80a306c8d9620cf426598c4c0a547a106dff393'
+b2sums=('bffcdaa8728d6e5aceeecffc67a870f4d06bc06bf1d673b31b5c889f9209f4be82cb49f7cd589893d73fc024c377faf610388155b23793ebc118cdf5623c4819'
         '4bca3f94d7010a4768aeb7699d3c7b82ac345d9aace4e2617daa217402f0538fa859441790b7e2ecb05190214b383a785888923f7a5dccf678217c094c0dd20b'
         'dad8854fff3dca7ab6b04ae64dd7270c251d28df73ed987a1672e83d58951736a0e44942556d795202ef20430374313d749e021ba17735beaf364a6af3a34927'
         '30ac8f7acc48c027db297b759b7bd2679de111733bd2396774cbce9d035c9486828f96d6a992cfe8b52686e297e46d08d4c0925eb6b19fe65d1c9a804a50f0ea'
@@ -52,26 +54,28 @@ b2sums=('0cc01ff3aa6cc85f7a07dd05c85deb622ae92a3d4b18ef6cecd1461ba1f891283b92f31
         '4d5bc3ef01fdbb61a88c8e64f5fa1ea5474caa76bd8740217a0055f8ef2067c9996ef262bc7d671651b533870b7be6860ebbf52fe0259fafb0296cdbe8dcdc85'
         '99d4f017a6d65e6d19830c25be94238812f2ceeaf9084a1b98c9f0b270d40889f518f5a158fb81e0cfc13364e10bd7febfe7ac429f87c8228b86858f031611e4'
         '409d74e0790de7f12a862f10bdf3a4ed87ea99fdc503ae1b5f70ad20aa0e56f2212f06429224572211cc36a782897fcc3d9f710a500f440ae4047d83321e83f1'
-        'fc44c4c90adbc336fe97080d093b0faa35b6e5c1ccf9cf04cd8b2057c31e3db73eab0d42022e3e66560694cb6732fc1dbd8215b41d61c4adbe10dbeea0c5c2da'
-        '3cbc89b148cb54745c906bb11bf449bd893d1f53ed80596da81dbea9797ed674438d938eccbbc15aae8aff39913f8f6e64af7182a7ce9e0b0ccb889d1e7c6a5b'
-        'a0b11bd009c6c4d866d4e9f0b67175c2a385a076c9882ffe02b2f89faa89492307813427871ff8a93b7cdeb805024ac343e4bb615b839338d81bb82d21f91c5a'
-        '31267b613409215abaa8bc37811187ee691456d3d9af95fbcf5f060963b1a9eebe9593d60fa2f43a0619d51788c4e696761e4bf5c510d11bf4bf732b7289188c'
-        '0935d526cac76bd7eab8a322ec43dfc3349a4431717b38c888f8b27f3b080ed9c090e56c344a6459042ec060e7efb65acb18eeeb5669212d7c18e89f5716aae8'
-        'ddc44f0981d9adce98336fc82fafe56b8365eda1c4c20c0843f45a40e31b7c4c3d66581ec55cac2e843431d6db7c88cb8ba9040eb3db7e076a9c4f86314f8e3e'
-        'af730cb3fa6d61438278d9d5d7599d1d0534d450578645997e95677b2dce911a4b8b070c581add777ab7ab542e4825b864d559cb57a57854ead1f82706a0f5d4'
-        '5d19f5901c0de7cf7300bfe30a48de286a25c838a79222c745b9f850cf504029fdbb8965b3923ce1b4b94c1df977f07968043598d2ebc7a407dff78d70a61479'
-        '3e32ca7232b322014f451f9e8275fa5ac06ce6eec46995574e0fd703193426c867b18091f0f39b2773e48ad615aa04770f951b440edbcfebd8aeb2866d9d24a2'
-        '0be947da23e7e8014f7dda558e1ede1a0e65c9ffaef36a9f0ac366093d014d663dfa618607b010863f07f303edd6cc7dea3f82968c3f28e636730c5a2f072b68'
-        '400ef582abbb966098c162b93471e0816b6c37522b61ef3373a19082872136dbc5d6ac50fee8aa22fc5f93d4c36c926973a6a97229fd61b9ad95c56086488a6c'
-        '36e86058ef94ff96d7572b343c9a17f00a703ccd843ea79be59bdffe8ba2952406447a32e449c4aa49b08ce82ec039e479546516a981d0763a6ad6f12140a378'
-        '62512117dc392ebc1bb6d88bb4bab2d287628dc1697d8b4b6aa2bd6256ca7de1931ba341af62fcf57700af58560e9e6818d79c383b1887e20c2177d5021ac6b6'
+        '2696398d441108697949e5cab79e19ec09ae642775be439b72105263a64b0817ff7115d2c38521775217558d39e64dbba51acba1ed347fa16170c9693f6d483d'
+        'ab72ea6ff3192d7b64daea92df18418664e9ade9d337f88b270ab2559223ac6087dff8c1f2a5083ec7598a3331596a18e93d812025c6929d45ca745926ac90e9'
+        'bafcf6d2da7aee5ad8acd59661ca47512b58bfefba8efa9f57a6d0ca3c3e2784b3d47b8f16d3d0bd0c0d6b7cd21a6bb698f97db83d16f12a458f0dd1f7e3a69b'
+        '1086e3dd55104329d622e304e09a1946fa6f222d857d343daf8fa0959726df763798ae4e91b68589b087c1e8cdc3ac7974a275ab77331c5d779a6c2b2af42129'
+        'b9ae520d3a51a348a11cdef09a3c9aaef1d0e267d8d850afa799e6896513a09f2923c3c6f662b85c75250015d6f4d1b71d1050636b3ca6991c1ba663a19d9169'
+        '610c9a04861681c2fcb60f64b1a9b8256d82a768cf4b8c12442fe821c89267d3106a9dc3cea6be1fa03a41af77ce67aeb745dbbe4c2418d724667f7331eb156c'
+        '2667de5fa23d27b186532327767b5b9079c2ed4c22a7cd75470c25f724efbb1cd771fa4103205f720ac1d7b5da4fc719c7fc3dfd4de75f4a6c9b69ad1b6c5854'
+        'd589a6a46e46411ffaca9d84b1c8a951b5f03397156eff94542830c8de90af08c8cf69a7623fcb9cf451192aadc236011f8e4127bfd6201ff1805f0f474637cb'
+        '1494545b48205ae14e9e9184d5f882e16d9b95990b5749f96b94520ae3fd8a1af9ea6500e822948965be6e2636514abcd96c97def05b938b8e8e65eef427ea0c'
+        'e0a0ed62590ef58817b16e9ba1edfcc5d32afae7c8a30da469d4f3a94b7d3f0f0b0c67cbd8e4f5269a5918a36e4539e1c6ed7a37c8dfcfa6bd66f948a1463477'
+        'b1740e2f41ef69cf4bf9d78470011a0c7f9ddcf8d1b9182188b6b362e0b6e439384686ebea3fa1cf6308d3d6632cdc1dbb356acda14cd64dc3475363a6a8d9b7'
+        'baab2544cabbfc6c675dc8bd0b26f6b00fb3ff4b1681e7944f899bdec8b7c7700b701928feff971dc8baeb859bde27e03af642716850475b9cc5e15e9345032c'
+        'b35447ad749d8acfdfeb100ad347e7278c358b33da527adc12137f47630ce503c2da0edd611d664b44da6e88c2d43ab721c2db97e22057e06a516aca30f0e358'
+        '8804ac8d625b6123e583653efd9c0f17637c712f32b6aef0cb21a0ac4f7ccd396d94166c6407cdf43a6aa7941065d567e0446bc95b1ba1513a46a40ffa6ed6ef'
         'baee58367325f4046ddca758cb6da82e4ca9d8e0923369125ca89539dc1103a5a00a1fa01dc9a12883c19cec827fae1071642cc0b8a00cf3b5c24f18638ad645'
-        '358f1e5d5aa4a919f7a0066e5763514f9ab7b49fd9896f0fb4f1a654e7bc19b0b48c5124e941663c082a6abf5f47aa6730df96834d56d387d30f47330c7eb72e'
-        '75bb99a7713808bb99e1f7420521dc5a3184799818c7a5ec8ecf498465d433da03ef4e44ee9378199c46700427d9802dc1a90266739ff1b5effb6bd436744509'
+        '01386d27e33d3fe7016a64e3868937b6540ab166aef1202c350923fd528b879ef67007ad8c0e1f32d4876c4f01770c8500cef9f64f919f9443a913878c690f04'
+        '85160a0d718af1f0ad38a076b465be7456bb42321c81e5e8199cbe0fad9e0341958c796e5252b2478f0c601ac9e9df056071918decce21dc6719c0474680e952'
         '444c5e378bb375fa5365ca7218ab0e60df65c73f3bef38a25fa4e1b69fecd62435987d7ad29dcf1b59b56b4db1c89da057a401e948bf696cc0a06e0892db0b88'
         '6aa6c65ef7e21d20965491fb95c94b16e7e67ffa072f401a70f1570ae5d80b3248523c6ef2ef1f9ba3db0c0371081bdb07b5ecea3429cf47a0f00f727b45bf7d'
+        'd5a5ca5ba29f46339504899e9471f3b8eeded8018b26b542802c1f0f612f01ba662f4fad7fa058d2bf7b8ef64b4f70a1a56e3293f644cb7c22d64bab3f04ade9'
         '8bc3c6adf182ff379e34cbb78b727e341e03d2718cf2d411751717dd346987f52e02a7a870fb92d21a176e3f752f06aafbe5e49571ab540951326ab1b25188f5'
-        '584297b7cbf34c24507248d598317144bb4ce14e4f9f8f1f92aab990a20470f5dd3da10279493522e9522b5bc25dfe6628de3e32aae597c327067f7b2b5a664e'
+        '63a7f6301063b57b1e9b6d568f60fa06f7c006a127e7248e149dffd705f67a290b5005dd8724a917cec7139b8064c633bd5beea60f5d33ba1db140075094c3c4'
         'd144a325cb08a4bc5527043f2d402ced6d63997b234d6cab83113944d1ae4d8ddc64ec545222bf7f859e9e37a925b8f3300a568daca7d91bef1f0bb5cfab03c7')
 
 prepare() {
@@ -83,7 +87,7 @@ prepare() {
     patch -Np1 <"../$src"
   done
 
-  for src in $(ls ../patch-*.xz); do
+  for src in $(ls --sort=version ../patch-*.xz); do
     echo "Applying patch $src..."
     xzcat "../$src" | patch -Np1
   done
@@ -94,12 +98,20 @@ prepare() {
   echo "-${pkgver}" >localversion.20-pkgver
   echo "-$pkgrel" >localversion.30-pkgrel
 
+  unset CFLAGS
+  CCACHE=$(which ccache 2>/dev/null)
+  if [ "$CCACHE" != "" ]; then
+    gcc="${CCACHE} ${CROSS_COMPILE:-}gcc"
+  else
+    gcc="${CROSS_COMPILE:-}gcc"
+  fi
+
   echo "Setting config..."
   cp ../config .config
-  make -j $(nproc) ARCH=riscv CC="${CROSS_COMPILE:-}gcc -mcpu=sifive-u74 -mtune=sifive-7-series" olddefconfig
+  make -j $(nproc) ARCH=riscv CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series" olddefconfig
   cp .config ../../config.new
 
-  make -j $(nproc) ARCH=riscv CC="${CROSS_COMPILE:-}gcc -mcpu=sifive-u74 -mtune=sifive-7-series" -s kernelrelease >version
+  make -j $(nproc) ARCH=riscv CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series" -s kernelrelease >version
   echo "Prepared $pkgbase version $(<version)"
 
   cd $srcdir/$_3rdpart
@@ -113,19 +125,30 @@ prepare() {
 
 build() {
   cd $_srcname
-  make -j $(nproc) ARCH=riscv CC="${CROSS_COMPILE:-}gcc -mcpu=sifive-u74 -mtune=sifive-7-series" all
+  unset CFLAGS
+  CCACHE=$(which ccache 2>/dev/null)
+  if [ "$CCACHE" != "" ]; then
+    gcc="${CCACHE} ${CROSS_COMPILE:-}gcc"
+  else
+    gcc="${CROSS_COMPILE:-}gcc"
+  fi
+  make -j $(nproc) ARCH=riscv CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series" all
 
   # JPU
   cd $srcdir/$_3rdpart/codaj12/jdi/linux/driver
-  make -j $(nproc) ARCH=riscv CC="${CROSS_COMPILE:-}gcc -mcpu=sifive-u74 -mtune=sifive-7-series" KERNELDIR=$srcdir/$_srcname
+  make -j $(nproc) ARCH=riscv CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series" KERNELDIR=$srcdir/$_srcname
 
   # VENC
   cd $srcdir/$_3rdpart/wave420l/code/vdi/linux/driver
-  make -j $(nproc) ARCH=riscv CC="${CROSS_COMPILE:-}gcc -mcpu=sifive-u74 -mtune=sifive-7-series" KERNELDIR=$srcdir/$_srcname
+  make -j $(nproc) ARCH=riscv CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series" KERNELDIR=$srcdir/$_srcname
 
   # VDEC
   cd $srcdir/$_3rdpart/wave511/code/vdi/linux/driver
-  make -j $(nproc) ARCH=riscv CC="${CROSS_COMPILE:-}gcc -mcpu=sifive-u74 -mtune=sifive-7-series" KERNELDIR=$srcdir/$_srcname
+  make -j $(nproc) ARCH=riscv CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series" KERNELDIR=$srcdir/$_srcname
+
+  # OMX-IL
+  cd $srcdir/$_3rdpart/omx-il
+  make -j $(nproc) CC="${gcc} -mcpu=sifive-u74 -mtune=sifive-7-series"
 }
 
 _package() {
@@ -161,6 +184,7 @@ _package() {
 _package-soft_3rdpart() {
   pkgdesc="The soft third part modules for the $_desc kernel"
   depends=('img-gpu-vf2=1.19.6345021')
+  optdepends=('libomxil-bellagio: to use hardware video and jpeg codec')
   license=('proprietary')
 
   echo "Installing Soft 3rd Part..."
@@ -200,6 +224,10 @@ _package-soft_3rdpart() {
   xz --lzma2=dict=2MiB -f $_mod_extra/vdec.ko
   install -Dm644 $srcdir/$_3rdpart/wave511/firmware/chagall.bin "${pkgdir}/usr/lib/firmware/chagall.bin"
 
+  # OMX-IL
+  cd $srcdir/$_3rdpart/omx-il
+  install -Dm755 libsf-omx-il.so "${pkgdir}/usr/lib/libsf-omx-il.so"
+
   # HiFi4
   cd $srcdir/$_3rdpart/HiFi4
   install -Dm644 sof-vf2.ri "${pkgdir}/usr/lib/firmware/sof/sof-vf2.ri"
@@ -207,6 +235,7 @@ _package-soft_3rdpart() {
   install -Dm644 sof-vf2-wm8960-mixer.tplg "${pkgdir}/usr/lib/firmware/sof/sof-vf2-wm8960-mixer.tplg"
   install -Dm644 sof-vf2-wm8960.tplg "${pkgdir}/usr/lib/firmware/sof/sof-vf2-wm8960.tplg"
 
+  # Other files
   install -Dm644 $srcdir/$_3rdpart/codaj12/LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   install -Dm644 $srcdir/soft_3rdpart-modules.conf "${pkgdir}/etc/modprobe.d/soft_3rdpart-modules.conf"
   install -Dm644 $srcdir/91-soft_3rdpart.hook "${pkgdir}/usr/share/libalpm/hooks/91-soft_3rdpart.hook"
