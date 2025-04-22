@@ -98,8 +98,10 @@ build() {
   cd "${srcdir}/builds"
 
   rm -r NVIDIA*.run bin
+  rm -r integration  # contains only unnecessary/non-functional scripts
+
   mkdir -p "${_prepdir}/opt/cuda/extras"
-  mv integration nsight_compute nsight_systems EULA.txt "${_prepdir}/opt/cuda"
+  mv nsight_compute nsight_systems EULA.txt "${_prepdir}/opt/cuda"
   mv cuda_demo_suite/extras/demo_suite "${_prepdir}/opt/cuda/extras/demo_suite"
   mv cuda_sanitizer_api/compute-sanitizer "${_prepdir}/opt/cuda/extras/compute-sanitizer"
   rmdir cuda_sanitizer_api
