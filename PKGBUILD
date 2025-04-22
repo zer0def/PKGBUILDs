@@ -103,7 +103,7 @@ build() {
   mkdir -p "${_prepdir}/opt/cuda/extras"
   mv nsight_compute nsight_systems EULA.txt "${_prepdir}/opt/cuda"
   mv cuda_demo_suite/extras/demo_suite "${_prepdir}/opt/cuda/extras/demo_suite"
-  mv cuda_sanitizer_api/compute-sanitizer "${_prepdir}/opt/cuda/extras/compute-sanitizer"
+  mv cuda_sanitizer_api/compute-sanitizer "${_prepdir}/opt/cuda/compute-sanitizer"
   rmdir cuda_sanitizer_api
   for lib in *; do
     if [[ "$lib" =~ .*"version.json".* ]]; then
@@ -111,6 +111,9 @@ build() {
     fi
     cp -r $lib/* "${_prepdir}/opt/cuda/"
   done
+
+  # Add symlink for compute-sanitizer binary to appear in PATH
+  ln -s ../compute-sanitizer/compute-sanitizer "${_prepdir}/opt/cuda/bin/compute-sanitizer"
 
   # Delete some unnecessary files
   rm -r "${_prepdir}"/opt/cuda/bin/cuda-uninstaller
@@ -158,7 +161,7 @@ package_cuda() {
   install -Dm644 "${srcdir}/cuda.sh" "${pkgdir}/etc/profile.d/cuda.sh"
   install -Dm644 "${srcdir}/cuda.conf" "${pkgdir}/etc/ld.so.conf.d/cuda.conf"
 
-  rm -r "${pkgdir}"/opt/cuda/{bin/nvvp,bin/computeprof,libnvvp,nsight*}
+  rm -r "${pkgdir}"/opt/cuda/{bin/nvvp,bin/computeprof,bin/compute-sanitizer,libnvvp,nsight*,compute-sanitizer}
 
   # Licenses
   mkdir -p "${pkgdir}/usr/share/licenses/${pkgname}"
@@ -167,7 +170,7 @@ package_cuda() {
 }
 
 package_cuda-tools() {
-  pkgdesc="NVIDIA's GPU programming toolkit (extra tools: nvvp, nsight)"
+  pkgdesc+=" (extra tools: nvvp, nsight, compute-sanitizer)"
   depends=('cuda' 'java-runtime=8' 'nss')
   optdepends=('perl: required by some NVVP plugins')
 
@@ -177,7 +180,9 @@ package_cuda-tools() {
   mv "${_prepdir}"/opt/cuda/nsight* "${pkgdir}/opt/cuda"
   mv "${_prepdir}"/opt/cuda/bin/nvvp "${pkgdir}/opt/cuda/bin/nvvp"
   mv "${_prepdir}"/opt/cuda/bin/computeprof "${pkgdir}/opt/cuda/bin/computeprof"
+  mv "${_prepdir}"/opt/cuda/bin/compute-sanitizer "${pkgdir}/opt/cuda/bin/compute-sanitizer"
   mv "${_prepdir}"/opt/cuda/libnvvp "${pkgdir}/opt/cuda"
+  mv "${_prepdir}"/opt/cuda/compute-sanitizer "${pkgdir}/opt/cuda"
 
   # Install desktop entries
   install -Dt "${pkgdir}"/usr/share/applications "${srcdir}"/*.desktop

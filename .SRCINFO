@@ -99,7 +99,7 @@ pkgname = cuda
 	replaces = cuda-static
 
 pkgname = cuda-tools
-	pkgdesc = NVIDIA's GPU programming toolkit (extra tools: nvvp, nsight)
+	pkgdesc = NVIDIA's GPU programming toolkit (extra tools: nvvp, nsight, compute-sanitizer)
 	depends = cuda
 	depends = java-runtime=8
 	depends = nss
