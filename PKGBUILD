@@ -93,33 +93,49 @@ prepare() {
 }
 
 build() {
-  local _prepdir="${srcdir}/prep"
+  local _prepdir="${srcdir}"/prep
+  local _prepdir_tools="${srcdir}"/prep_tools
 
-  cd "${srcdir}/builds"
-
-  rm -r NVIDIA*.run bin
-  rm -r integration  # contains only unnecessary/non-functional scripts
-
-  mkdir -p "${_prepdir}/opt/cuda/extras"
-  mv nsight_compute nsight_systems EULA.txt "${_prepdir}/opt/cuda"
-  mv cuda_demo_suite/extras/demo_suite "${_prepdir}/opt/cuda/extras/demo_suite"
-  mv cuda_sanitizer_api/compute-sanitizer "${_prepdir}/opt/cuda/compute-sanitizer"
-  rmdir cuda_sanitizer_api
-  for lib in *; do
-    if [[ "$lib" =~ .*"version.json".* ]]; then
-      continue
-    fi
-    cp -r $lib/* "${_prepdir}/opt/cuda/"
-  done
-
-  # Add symlink for compute-sanitizer binary to appear in PATH
-  ln -s ../compute-sanitizer/compute-sanitizer "${_prepdir}/opt/cuda/bin/compute-sanitizer"
+  cd "${srcdir}"/builds/
 
   # Delete some unnecessary files
-  rm -r "${_prepdir}"/opt/cuda/bin/cuda-uninstaller
+  find . -name cuda-uninstaller -delete
+  rm -r NVIDIA*.run bin
+  rm -r integration  # contains only unnecessary/non-functional scripts
+  rm version.json
+
+  # Move component directories for the cuda-tools package
+  mkdir -p "${_prepdir_tools}"/opt/cuda/
+  local tools_components=(
+    cuda_nsight/{bin,nsightee_plugins}
+    cuda_nvvp/{bin,libnvvp}
+    cuda_sanitizer_api/compute-sanitizer
+    nsight_compute
+    nsight_systems
+  )
+  for component in "${tools_components[@]}"; do
+    # workaround for mv not merging the destination directory
+    cp -alr "$component" "${_prepdir_tools}"/opt/cuda/
+    rm -r "$component"
+  done
+  # These directories should be now empty, remove them to ensure we did not miss anything above
+  rmdir cuda_nvvp cuda_nsight cuda_sanitizer_api
+
+  # Add symlink for compute-sanitizer binary to appear in PATH
+  ln -s ../compute-sanitizer/compute-sanitizer "${_prepdir_tools}"/opt/cuda/bin/compute-sanitizer
+
+  # Move remaining components for the cuda package
+  mkdir -p "${_prepdir}"/opt/cuda/
+  mv EULA.txt "${_prepdir}"/opt/cuda/
+  for lib in *; do
+    # workaround for mv not merging the destination directory
+    # (overwrite with --force since some files like EULA.txt or LICENSE come from multiple directories)
+    cp -alr --force "$lib"/* "${_prepdir}"/opt/cuda/
+    rm -r "$lib"
+  done
 
   # Add a symlink lib->lib64 as some libraries might expect that (FS#76951)
-  ln -s lib64 "${_prepdir}/opt/cuda/lib"
+  ln -s lib64 "${_prepdir}"/opt/cuda/lib
 
   # Allow newer compilers to work. This is not officially supported in the Arch package but
   # if users want to try, let them try.
@@ -146,9 +162,7 @@ package_cuda() {
               'rdma-core: for GPUDirect Storage (libcufile_rdma.so)')
 
   local _prepdir="${srcdir}/prep"
-
-  cd "${_prepdir}"
-  cp -al * "${pkgdir}"
+  mv "${_prepdir}"/* "${pkgdir}"
 
   # remove broken links
   rm "${pkgdir}"/opt/cuda/include/include
@@ -161,8 +175,6 @@ package_cuda() {
   install -Dm644 "${srcdir}/cuda.sh" "${pkgdir}/etc/profile.d/cuda.sh"
   install -Dm644 "${srcdir}/cuda.conf" "${pkgdir}/etc/ld.so.conf.d/cuda.conf"
 
-  rm -r "${pkgdir}"/opt/cuda/{bin/nvvp,bin/computeprof,bin/compute-sanitizer,libnvvp,nsight*,compute-sanitizer}
-
   # Licenses
   mkdir -p "${pkgdir}/usr/share/licenses/${pkgname}"
   ln -s /opt/cuda/EULA.txt "${pkgdir}/usr/share/licenses/${pkgname}/EULA.txt"
@@ -174,15 +186,8 @@ package_cuda-tools() {
   depends=('cuda' 'java-runtime=8' 'nss')
   optdepends=('perl: required by some NVVP plugins')
 
-  local _prepdir="${srcdir}/prep"
-
-  mkdir -p "${pkgdir}/opt/cuda/bin"
-  mv "${_prepdir}"/opt/cuda/nsight* "${pkgdir}/opt/cuda"
-  mv "${_prepdir}"/opt/cuda/bin/nvvp "${pkgdir}/opt/cuda/bin/nvvp"
-  mv "${_prepdir}"/opt/cuda/bin/computeprof "${pkgdir}/opt/cuda/bin/computeprof"
-  mv "${_prepdir}"/opt/cuda/bin/compute-sanitizer "${pkgdir}/opt/cuda/bin/compute-sanitizer"
-  mv "${_prepdir}"/opt/cuda/libnvvp "${pkgdir}/opt/cuda"
-  mv "${_prepdir}"/opt/cuda/compute-sanitizer "${pkgdir}/opt/cuda"
+  local _prepdir_tools="${srcdir}"/prep_tools
+  mv "${_prepdir_tools}"/* "${pkgdir}"
 
   # Install desktop entries
   install -Dt "${pkgdir}"/usr/share/applications "${srcdir}"/*.desktop
