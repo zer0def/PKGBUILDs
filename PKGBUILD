@@ -134,6 +134,10 @@ build() {
     rm -r "$lib"
   done
 
+  # Remove broken links
+  rm "${_prepdir}"/opt/cuda/include/include
+  rm "${_prepdir}"/opt/cuda/lib64/lib64
+
   # Add a symlink lib->lib64 as some libraries might expect that (FS#76951)
   ln -s lib64 "${_prepdir}"/opt/cuda/lib
 
@@ -164,21 +168,17 @@ package_cuda() {
   local _prepdir="${srcdir}/prep"
   mv "${_prepdir}"/* "${pkgdir}"
 
-  # remove broken links
-  rm "${pkgdir}"/opt/cuda/include/include
-  rm "${pkgdir}"/opt/cuda/lib64/lib64
-
   # Install pkgconfig files
-  install -Dt "${pkgdir}"/usr/lib/pkgconfig "${srcdir}"/*.pc
+  install -vDm 644 -t "${pkgdir}"/usr/lib/pkgconfig/ "${srcdir}"/*.pc
 
   # Install profile and ld.so.config files
-  install -Dm644 "${srcdir}/cuda.sh" "${pkgdir}/etc/profile.d/cuda.sh"
-  install -Dm644 "${srcdir}/cuda.conf" "${pkgdir}/etc/ld.so.conf.d/cuda.conf"
+  install -vDm 644 "${srcdir}"/cuda.sh -t "${pkgdir}"/etc/profile.d/
+  install -vDm 644 "${srcdir}"/cuda.conf -t "${pkgdir}"/etc/ld.so.conf.d/
 
   # Licenses
-  mkdir -p "${pkgdir}/usr/share/licenses/${pkgname}"
-  ln -s /opt/cuda/EULA.txt "${pkgdir}/usr/share/licenses/${pkgname}/EULA.txt"
-  ln -s /opt/cuda/README "${pkgdir}/usr/share/licenses/${pkgname}/README"
+  mkdir -p "${pkgdir}"/usr/share/licenses/${pkgname}/
+  ln -s /opt/cuda/EULA.txt "${pkgdir}"/usr/share/licenses/${pkgname}/EULA.txt
+  ln -s /opt/cuda/README "${pkgdir}"/usr/share/licenses/${pkgname}/README
 }
 
 package_cuda-tools() {
@@ -190,11 +190,11 @@ package_cuda-tools() {
   mv "${_prepdir_tools}"/* "${pkgdir}"
 
   # Install desktop entries
-  install -Dt "${pkgdir}"/usr/share/applications "${srcdir}"/*.desktop
+  install -vDm 644 -t "${pkgdir}"/usr/share/applications/ "${srcdir}"/*.desktop
 
   # Licenses
-  mkdir -p "${pkgdir}/usr/share/licenses"
-  ln -s /usr/share/licenses/cuda "${pkgdir}/usr/share/licenses/${pkgname}"
+  mkdir -p "${pkgdir}"/usr/share/licenses/
+  ln -s /usr/share/licenses/cuda "${pkgdir}"/usr/share/licenses/${pkgname}
 }
 
 # vim:set ts=2 sw=2 et:
