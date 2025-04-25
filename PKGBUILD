@@ -5,24 +5,44 @@
 # Contributor: riai <riai@bigfoot.com> Ben <ben@benmazer.net>
 
 pkgbase=pyqt4
-pkgname=('pyqt4-common' 'python-pyqt4' 'python2-pyqt4')
+pkgname=(
+  'pyqt4-common'
+  'python-pyqt4'
+  'python2-pyqt4'
+)
 pkgver=4.12.3
-pkgrel=6
+pkgrel=7
 arch=('x86_64')
 url='https://riverbankcomputing.com/software/pyqt/intro'
 license=('GPL')
-makedepends=('sip4' 'python-sip-pyqt4' 'python2-sip-pyqt4' 'python-dbus' 'phonon-qt4'
-             'mesa' 'python2-opengl' 'python2-dbus')
-source=("https://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-${pkgver}/PyQt4_gpl_x11-${pkgver}.tar.gz"
-        '0001-Fix-compilation-against-Python-3.11.patch')
-sha256sums=('a00f5abef240a7b5852b7924fa5fdf5174569525dc076cd368a566619e56d472'
-            'ae6f13d26d8f94f30eb48058300a5b3d7fa9e7060a9f808abad61f25ba35ebe9')
+makedepends=(
+  'sip4' 'phonon-qt4' 'mesa'
+  'python-sip-pyqt4' 'python-dbus'
+  'python2-sip-pyqt4' 'python2-dbus' 'python2-opengl'
+)
+source=(
+  "https://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-${pkgver}/PyQt4_gpl_x11-${pkgver}.tar.gz"
+  '0001-Fix-compilation-against-Python-3.11.patch'
+  '0002-Fix-compilation-against-Python-3.13.patch'
+)
+sha256sums=(
+  'a00f5abef240a7b5852b7924fa5fdf5174569525dc076cd368a566619e56d472'
+  'ae6f13d26d8f94f30eb48058300a5b3d7fa9e7060a9f808abad61f25ba35ebe9'
+  '7cc4323058a0f2d475dfa16b56882707186cb571c3de1d89040f7a81e42fecfc'
+)
 
 prepare() {
   sed -i -e "/'PyQt4\.sip', '-f', sip_flags/s/'-f', //" PyQt4_gpl_x11-${pkgver}/configure-ng.py
 
   cd PyQt4_gpl_x11-${pkgver}
-  patch --strip=1 --input=../0001-Fix-compilation-against-Python-3.11.patch
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    [[ $src = *.patch ]] || continue
+    msg2 "Applying patch $src..."
+    patch -Np1 -i "../$src"
+  done
 
   cd ..
   cp -a PyQt4_gpl_x11-${pkgver}{,-py2}

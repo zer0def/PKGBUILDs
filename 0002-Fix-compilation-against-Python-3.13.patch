@@ -1,0 +1,61 @@
+diff --git a/qpy/QtCore/qpycore_pyqtsignal.cpp b/qpy/QtCore/qpycore_pyqtsignal.cpp
+--- a/qpy/QtCore/qpycore_pyqtsignal.cpp	2025-04-25 17:45:13.313875991 +0200
++++ b/qpy/QtCore/qpycore_pyqtsignal.cpp	2025-04-25 17:46:22.604618384 +0200
+@@ -658,7 +658,7 @@ PyObject *qpycore_call_signal_overload(q
+     if (!func)
+         return 0;
+ 
+-    PyObject *result = PyCFunction_Call(func, args, kw);
++    PyObject *result = PyObject_Call(func, args, kw);
+ 
+     Py_DECREF(func);
+ 
+diff --git a/qpy/QtCore/qpycore_qtlib.cpp b/qpy/QtCore/qpycore_qtlib.cpp
+--- a/qpy/QtCore/qpycore_qtlib.cpp	2025-04-25 17:45:13.314191046 +0200
++++ b/qpy/QtCore/qpycore_qtlib.cpp	2025-04-25 17:45:40.204713167 +0200
+@@ -127,7 +127,7 @@ PyObject *qtlib_invoke_slot(const sipSlo
+ 
+     for (;;)
+     {
+-        PyObject *resobj = PyEval_CallObject(sfunc, sa);
++        PyObject *resobj = PyObject_CallObject(sfunc, sa);
+ 
+         if (resobj)
+         {
+diff --git a/qpy/QtCore/qpycore_qstring.cpp b/qpy/QtCore/qpycore_qstring.cpp
+--- a/qpy/QtCore/qpycore_qstring.cpp     2018-08-31 09:37:06.000000000 +0200
++++ b/qpy/QtCore/qpycore_qstring.cpp 2025-04-25 18:14:38.746056092 +0200
+@@ -246,6 +246,9 @@ const char *qpycore_encode(PyObject **s,
+     PyObject *obj = *s;
+     const char *es = 0;
+     SIP_SSIZE_T sz;
++#if PY_MAJOR_VERSION >= 3
++    Py_buffer view;
++#endif
+ 
+     if (PyUnicode_Check(obj))
+     {
+@@ -291,17 +294,22 @@ const char *qpycore_encode(PyObject **s,
+         es = PyBytes_AS_STRING(obj);
+         Py_INCREF(obj);
+     }
++    else if (PyObject_GetBuffer(obj, &view, PyBUF_SIMPLE) >= 0)
+ #else
+     else if (PyString_Check(obj))
+     {
+         es = PyString_AS_STRING(obj);
+         Py_INCREF(obj);
+     }
+-#endif
+     else if (PyObject_AsCharBuffer(obj, &es, &sz) >= 0)
++#endif
+     {
+         Py_INCREF(obj);
+     }
++#if PY_MAJOR_VERSION >= 3
++    es = (const char*)view.buf;
++    PyBuffer_Release(&view);
++#endif
+ 
+     if (es)
+     {
