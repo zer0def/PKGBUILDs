@@ -8,12 +8,12 @@ pkgver=12.8.1
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
 _driverver=570.124.06
-pkgrel=2
+pkgrel=3
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
 license=(LicenseRef-NVIDIA-CUDA)
-depends=('opencl-nvidia' 'python' 'gcc13')
+depends=('opencl-nvidia' 'python' 'gcc14')
 options=(!strip !debug staticlibs)
 install=cuda.install
 source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_installers/cuda_${pkgver}_${_driverver}_linux.run
@@ -53,7 +53,7 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         fix-glibc241.patch
 )
 sha512sums=('2ac14ba054bf01924e1953053850f679ebdbc2b9150715398365464eae9d686cde2b82abb8f385b74e4eafa8d68421a9ea216c7647c08956ccba8b2299b50a6e'
-            '3cac229e13762e09032c60b10c01d1af8da15871ec7ef76606fc69780c5d5e0410bf65c6b94230787fd9bb18c9d92083b3f65da36db97bbc8edb7a027c45a5be'
+            '0d16ae7c880ee6e73babac28a80cb439098ded2224f06b3f0a1cbd8ad35302505fd89230a2b7d5a1a7dbd2df170a7897884eb9d06d515b56500dfc32a8d81fad'
             '714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e'
             'a4b3b03682801a98a1d8c1d14c084fd35efd384d92d497e230e3a28e0bd97b1fa48a93ccb2150f892f0b4154ca4ea2d66f5484a6a59b5c9b49963de42ecf1736'
             'd69d3ec0e270648f55d8c3e420f89d056b120eca5b25e9e7fc1cca799d1a252909ee31ff399c137223eca57cdf82b856221a251b6ff1daf5d6f75c1a582b1e32'

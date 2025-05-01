@@ -8,4 +8,4 @@ export PATH
 # Set the default host compiler for nvcc. This will need to be switched back
 # and forth between the latest and previous GCC version, whatever nvcc
 # currently supports.
-export NVCC_CCBIN='/usr/bin/g++-13'
+export NVCC_CCBIN='/usr/bin/g++-14'
