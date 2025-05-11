@@ -11,13 +11,15 @@ makedepends=('git')
 depends=('glibc' 'libmnl')
 backup=("etc/${pkgname}.conf")
 source=("git://git.netfilter.org/ipset.git#tag=v${pkgver}"
-        "${pkgname}.service")
+        "${pkgname}.service"
+        "ipset-count.patch")
 sha256sums=('c550b2c4b88033b1329607dbd5a5775aad5ddb2e6d7feb37c81fe39544941980'
-            '5a0e326a80fd5ab2d9545faa1189b647cc866c9568ab6a9dd0833ba5863f39ce')
+            '5a0e326a80fd5ab2d9545faa1189b647cc866c9568ab6a9dd0833ba5863f39ce'
+            '318850b783a0fc9415a724ea3a865954067553ef7eafb447a4f2958794ecbaf6')
 
 prepare() {
   cd "${pkgname}"
-
+  patch -Np1 -i "${srcdir}/ipset-count.patch"
   ./autogen.sh
 }
 

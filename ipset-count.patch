@@ -1,0 +1,102 @@
+diff --git a/include/libipset/linux_ip_set.h b/include/libipset/linux_ip_set.h
+index 4e32a50..9b2f6fa 100644
+--- a/include/libipset/linux_ip_set.h
++++ b/include/libipset/linux_ip_set.h
+@@ -235,9 +235,9 @@ enum ipset_adt {
+  * and IPSET_INVALID_ID if you want to increase the max number of sets.
+  * Also, IPSET_ATTR_INDEX must be changed.
+  */
+-typedef __u16 ip_set_id_t;
++typedef __u64 ip_set_id_t;
+ 
+-#define IPSET_INVALID_ID		65535
++#define IPSET_INVALID_ID		18446744073709551615
+ 
+ enum ip_set_dim {
+ 	IPSET_DIM_ZERO = 0,
+diff --git a/kernel/include/linux/netfilter/ipset/ip_set.h b/kernel/include/linux/netfilter/ipset/ip_set.h
+index 7691b7a..8a522cc 100644
+--- a/kernel/include/linux/netfilter/ipset/ip_set.h
++++ b/kernel/include/linux/netfilter/ipset/ip_set.h
+@@ -389,6 +389,12 @@ ip_set_optattr_netorder(struct nlattr *tb[], int type)
+ }
+ 
+ /* Useful converters */
++static inline u64
++ip_set_get_h64(const struct nlattr *attr)
++{
++	return be64_to_cpu(nla_get_be64(attr));
++}
++
+ static inline u32
+ ip_set_get_h32(const struct nlattr *attr)
+ {
+diff --git a/kernel/include/uapi/linux/netfilter/ipset/ip_set.h b/kernel/include/uapi/linux/netfilter/ipset/ip_set.h
+index b81f1ae..ee24cc5 100644
+--- a/kernel/include/uapi/linux/netfilter/ipset/ip_set.h
++++ b/kernel/include/uapi/linux/netfilter/ipset/ip_set.h
+@@ -231,9 +231,9 @@ enum ipset_adt {
+  * and IPSET_INVALID_ID if you want to increase the max number of sets.
+  * Also, IPSET_ATTR_INDEX must be changed.
+  */
+-typedef __u16 ip_set_id_t;
++typedef __u64 ip_set_id_t;
+ 
+-#define IPSET_INVALID_ID		65535
++#define IPSET_INVALID_ID		18446744073709551615
+ 
+ enum ip_set_dim {
+ 	IPSET_DIM_ZERO = 0,
+diff --git a/kernel/net/netfilter/ipset/ip_set_core.c b/kernel/net/netfilter/ipset/ip_set_core.c
+index 37a78d5..e7c799b 100644
+--- a/kernel/net/netfilter/ipset/ip_set_core.c
++++ b/kernel/net/netfilter/ipset/ip_set_core.c
+@@ -1686,7 +1686,7 @@ dump_last:
+ 				       set->revision))
+ 				goto nla_put_failure;
+ 			if (cb->args[IPSET_CB_PROTO] > IPSET_PROTOCOL_MIN &&
+-			    nla_put_net16(skb, IPSET_ATTR_INDEX, htons(index)))
++			    nla_put_net64(skb, IPSET_ATTR_INDEX, htons(index), IPSET_ATTR_PAD))
+ 				goto nla_put_failure;
+ 			ret = set->variant->head(set, skb);
+ 			if (ret < 0)
+@@ -2156,7 +2156,7 @@ IPSET_CBFN(ip_set_byname, struct net *net, struct sock *ctnl,
+ 		goto nlmsg_failure;
+ 	if (nla_put_u8(skb2, IPSET_ATTR_PROTOCOL, protocol(attr)) ||
+ 	    nla_put_u8(skb2, IPSET_ATTR_FAMILY, set->family) ||
+-	    nla_put_net16(skb2, IPSET_ATTR_INDEX, htons(id)))
++	    nla_put_net64(skb2, IPSET_ATTR_INDEX, htons(id), IPSET_ATTR_PAD))
+ 		goto nla_put_failure;
+ 	nlmsg_end(skb2, nlh2);
+ 
+@@ -2171,7 +2171,7 @@ nlmsg_failure:
+ 
+ static const struct nla_policy ip_set_index_policy[IPSET_ATTR_CMD_MAX + 1] = {
+ 	[IPSET_ATTR_PROTOCOL]	= { .type = NLA_U8 },
+-	[IPSET_ATTR_INDEX]	= { .type = NLA_U16 },
++	[IPSET_ATTR_INDEX]	= { .type = NLA_U64 },
+ };
+ 
+ static int
+@@ -2191,7 +2191,7 @@ IPSET_CBFN(ip_set_byindex, struct net *net, struct sock *ctnl,
+ 		     !attr[IPSET_ATTR_INDEX]))
+ 		return -IPSET_ERR_PROTOCOL;
+ 
+-	id = ip_set_get_h16(attr[IPSET_ATTR_INDEX]);
++	id = ip_set_get_h64(attr[IPSET_ATTR_INDEX]);
+ 	if (id >= inst->ip_set_max)
+ 		return -ENOENT;
+ 	set = ip_set(inst, id);
+diff --git a/lib/session.c b/lib/session.c
+index f822288..90f7a61 100644
+--- a/lib/session.c
++++ b/lib/session.c
+@@ -380,7 +380,7 @@ static const struct ipset_attr_policy cmd_attrs[] = {
+ 		.opt = IPSET_OPT_LINENO,
+ 	},
+ 	[IPSET_ATTR_INDEX] = {
+-		.type = MNL_TYPE_U16,
++		.type = MNL_TYPE_U64,
+ 		.opt = IPSET_OPT_INDEX,
+ 	},
+ };
