@@ -18,7 +18,8 @@ source=(https://www.netfilter.org/projects/iptables/files/$pkgbase-$pkgver.tar.x
         empty.rules simple_firewall.rules empty-{filter,mangle,nat,raw,security}.rules
         {arp,eb,ip,ip6}tables.service iptables-{legacy,nft}-flush
         iptables-apply-default-path.patch
-        nft-fix-interface-comparisons-in-C-commands.patch)
+        nft-fix-interface-comparisons-in-C-commands.patch
+        ipset-count.patch)
 sha256sums=('d87303d55ef8c92bcad4dd3f978b26d272013642b029425775f5bad1009fe7b2'
             'SKIP'
             '630d774f089703c2c7370db6d7c188dae25d00c26feaa3d3de8eb52519033948'
@@ -35,7 +36,8 @@ sha256sums=('d87303d55ef8c92bcad4dd3f978b26d272013642b029425775f5bad1009fe7b2'
             '40680b3c877926a2bac698ea58f52d1d4b3ab152ee68ccd7fa7ca51aeedc3b2d'
             '6d3e7bdeebdaeaf83ed448f4d42a979c8c59fb5e919f6f860ed340c2c9afef1a'
             '770ceaedce26d05eb1b9d0c4c65f5b8e92facd1dc0652a29c859336d6bc347f6'
-            '78c1257db5741a849f984f7706e996e3679b87985434ccddcc944782f587fb05')
+            '78c1257db5741a849f984f7706e996e3679b87985434ccddcc944782f587fb05'
+            '1da3c24738c38690ae7a9a6947890205ba245db4d7fb44b66db1565c9b570640')
 validpgpkeys=('C09DB2063F1D7034BA6152ADAB4655A126D292E4'
               '37D964ACC04981C75500FB9BD55D978A8A1420E4'
               '8C5F7146A1757A65E2422A94D70D1A666ACF2B21') # Netfilter Core Team
@@ -50,8 +52,10 @@ prepare() {
   ln -rs libiptc/linux_list.h include/libiptc
 
   # use Arch path
-  patch -p0 -i ../iptables-apply-default-path.patch
-  patch -p1 -i ../nft-fix-interface-comparisons-in-C-commands.patch
+  patch -Np0 -i ../iptables-apply-default-path.patch
+  patch -Np1 -i ../nft-fix-interface-comparisons-in-C-commands.patch
+
+  patch -Np1 -i ../ipset-count.patch
 }
 
 build() {
