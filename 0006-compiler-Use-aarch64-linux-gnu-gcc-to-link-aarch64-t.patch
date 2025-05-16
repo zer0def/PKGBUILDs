@@ -11,7 +11,7 @@ cross-compiling.
  2 files changed, 2 insertions(+)
 
 diff --git a/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_gnu.rs b/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_gnu.rs
-index 18711cb399d7..dded1fc32352 100644
+index c6be2c20ea23..e6edc31bf8fe 100644
 --- a/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_gnu.rs
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_gnu.rs
 @@ -26,6 +26,7 @@ pub(crate) fn target() -> Target {
@@ -23,7 +23,7 @@ index 18711cb399d7..dded1fc32352 100644
          },
      }
 diff --git a/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs
-index 4fefdfa5c5e1..add72c5f8af6 100644
+index 58ba06e124c7..6434e1a68c31 100644
 --- a/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_unknown_linux_musl.rs
 @@ -11,6 +11,7 @@ pub(crate) fn target() -> Target {
