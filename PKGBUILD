@@ -4,7 +4,7 @@
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.17.4
+pkgver=3.18.0
 pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
@@ -25,10 +25,7 @@ validpgpkeys=(
   '208DD36ED5BB3745A16743A4C7C6FBB5B91C1155' # Scott Rigby <scott@r6by.com>
   '7FEC81FACC7FFB2A010ADD13C2D40F4D8196E874' # Robert Sirchia (I like turtles.) <rsirchia@outlook.com>
 )
-sha256sums=("1d453c53d381fc87bf689161b957ae10d9e67d40b3e1751006d48eac4e2e13f4")
-sha512sums=("f0800a08304ecf6e4cdaf193ed80259eb960e900f14231ca2528c62da45bbc99521b87386b3fd8685af73fb4887c8912851541c38f6b8a245eb5f4d53a8abca9")
-b2sums=("6b3b5b337f229bf7093a717cd85db0f12534ed07b7c11a8eecbd93c0097406f3d5f7214de4584f82b5b3b9ef5b33f025185cce95c9f76e702e9a35fd989988ab")
-b3sums=("ded7ec246113295b2f2f6e1c0d09de672f95df6c8f701c496b52a8d308a8573d")
+sha256sums=('bbd1c1a31026ea88ae4e79bce2ce340dcd1c9a8df37e1f23577ac402f8072ed6')
 
 prepare() {
   cd $pkgname
