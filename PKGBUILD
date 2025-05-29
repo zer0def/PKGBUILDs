@@ -4,7 +4,7 @@
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.18.0
+pkgver=3.18.1
 pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
@@ -25,7 +25,7 @@ validpgpkeys=(
   '208DD36ED5BB3745A16743A4C7C6FBB5B91C1155' # Scott Rigby <scott@r6by.com>
   '7FEC81FACC7FFB2A010ADD13C2D40F4D8196E874' # Robert Sirchia (I like turtles.) <rsirchia@outlook.com>
 )
-sha256sums=('bbd1c1a31026ea88ae4e79bce2ce340dcd1c9a8df37e1f23577ac402f8072ed6')
+sha256sums=('5184cf7982647af72c0984fa2c0801bc2a3747f8eae55b0295d9d6da77599d35')
 
 prepare() {
   cd $pkgname
