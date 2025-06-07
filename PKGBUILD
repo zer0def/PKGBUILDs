@@ -4,11 +4,11 @@
 
 pkgname=(cuda cuda-tools)
 pkgbase=cuda
-pkgver=12.8.1
+pkgver=12.9.1
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
-_driverver=570.124.06
-pkgrel=3
+_driverver=575.57.08
+pkgrel=1
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
@@ -52,7 +52,7 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         nvvp.desktop
         fix-glibc241.patch
 )
-sha512sums=('2ac14ba054bf01924e1953053850f679ebdbc2b9150715398365464eae9d686cde2b82abb8f385b74e4eafa8d68421a9ea216c7647c08956ccba8b2299b50a6e'
+sha512sums=('fc29c5fc1121fb6634f1fe396abe7f34d351686454516269e9143e678ea178f906a35b916b8bb2d96ecfcfc705dda7d0f4547f7e7f00d36e392d981a766b6a56'
             '0d16ae7c880ee6e73babac28a80cb439098ded2224f06b3f0a1cbd8ad35302505fd89230a2b7d5a1a7dbd2df170a7897884eb9d06d515b56500dfc32a8d81fad'
             '714d973bc79446f73bebe85306b3566fe25b554bcbcba2fcbe76709a3eca71fb5d183ab4da2d3b5e9326cb9cd8d13a93f6d4a005ea5a41f7ef8e6c6e81e06b5e'
             'a4b3b03682801a98a1d8c1d14c084fd35efd384d92d497e230e3a28e0bd97b1fa48a93ccb2150f892f0b4154ca4ea2d66f5484a6a59b5c9b49963de42ecf1736'
