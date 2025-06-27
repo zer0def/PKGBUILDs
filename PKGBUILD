@@ -5,8 +5,8 @@
 # Contributor: keystone <phillip.marvin@gmail.com>
 
 pkgname=libunwind
-pkgver=1.8.1
-pkgrel=3
+pkgver=1.8.2
+pkgrel=1
 pkgdesc="Determine and manipulate the call-chain of a program"
 url="https://www.nongnu.org/libunwind/"
 arch=(x86_64)
@@ -23,15 +23,18 @@ provides=(
 )
 source=(
   https://github.com/libunwind/libunwind/releases/download/v$pkgver/libunwind-$pkgver.tar.gz{,.asc}
+  https://github.com/libunwind/libunwind/commit/b67d508a.patch
 )
-b2sums=('936e70f2428d8f6ada3b4d58b3c9e3a9738eb2f7aee1ad5fb4e44dbb7400186d1bd1ead86a698e53d199d5944b102f8380d08b48104a138021286a79fb006ec3'
-        'SKIP')
+b2sums=('b198b186c616adf1302d153a12949ceab07608f8133e42454e6b10bdf9518a514ef15d5ba52ef75b11e5f73fa330205accd415cfc30e6fa3ddd9724cbb088737'
+        'SKIP'
+        '756ced55c34a33d55cc11f61c32230de820aede55d562aa94143c2f5adb7f408ed2f2d5c48642b035ec4d3ebc59175e6f4b889f712db2556b80a8002d91aa036')
 validpgpkeys=(
   F86EB09F72717426F20D36470A0FF845B7DB3427  # Stephen M. Webb <stephen.webb@bregmasoft.ca>
 )
 
 prepare() {
   cd libunwind-$pkgver
+  patch -p1 -i ../b67d508a.patch # Fix build with GCC 15
 }
 
 build() {
