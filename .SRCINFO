@@ -1,14 +1,14 @@
 pkgbase = helmfile
 	pkgdesc = Manage multiple helm charts with a single helmfile
-	pkgver = 0.139.4
+	pkgver = 0.139.5
 	pkgrel = 1
 	url = https://github.com/roboll/helmfile
 	arch = x86_64
 	license = MIT
 	makedepends = go
 	depends = glibc
-	source = helmfile-0.139.4.tar.gz::https://github.com/roboll/helmfile/archive/v0.139.4.tar.gz
-	sha512sums = bf31a5a6510df2f3f181cf904b871b40c32a8f8cdd801f00af4bdfa3bc9ab9d86149c3d58dc9994421b01ee75ff219d1a8518e7b3432cf1d070c346d50061117
-	b2sums = ecc38072eedab41728565a1031653eee6711616efa8b13adf9a0b0adf7c0f2c5d55e12496eef4a56e30b0d0adf9f7461a5af7459d74b070ca6376875a154509d
+	source = helmfile-0.139.5.tar.gz::https://github.com/roboll/helmfile/archive/v0.139.5.tar.gz
+	sha512sums = 1e39cc66b7b809acc2006f2b1e2895bbdff48228a47dcabfd63f5a1673aed99ca1872d71384b9f2e588df39404844595474ef3f410ee2f3305243f76a20b0ab5
+	b2sums = 0cdbb51c4998b77c7fa1bc465fbe002ab67e935d3b92c2dcaf256072d7d03f1660b20f072d0760212b747c8a78280c8677a96024ea2a0da729a10b0b28439faa
 
 pkgname = helmfile
