@@ -1,7 +1,7 @@
 # Maintainer: Christian Rebischke <chris.rebischke@archlinux.org>
 
 pkgname=helmfile
-pkgver=0.134.1
+pkgver=0.135.0
 pkgrel=1
 pkgdesc="Manage multiple helm charts with a single helmfile"
 arch=('x86_64')
@@ -10,9 +10,9 @@ license=('MIT')
 makedepends=('go')
 depends=('glibc')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/roboll/helmfile/archive/v${pkgver}.tar.gz")
-sha512sums=("fdc121c547560e3e0294171cf2b6ee8b17771721b46a5113c6124c2a2dea6614e25024e39b6d8ac16a3196efeb3c402be0ae4f3a2a0b77f929d318ab3fa5402c")
-b2sums=("fa6762c2f8e0ab7bba93259d446384c63a94c8289672fba91abed39fd326ea75057506bff44bb37d308ded629178bea5f7a3b26bd64ed6cc24fa436629db79d5")
-b3sums=("794af1437dd41a281c59817425dd79e4afce9f3f03121f5dd2d5c27dc53fe116")
+sha512sums=('2f0d65a9357e80c04c0332ee4ce7c8630fa006239fda8ad0946d6dee6aeacb857332871d2a0756180f481f58965db46805b7192d1017c61a80111485193505df')
+b2sums=('31f34e2a817b31e80257470c47d227ab6d3d8a213c8e0978f49f16c2cbcb01c0747a9bed0a669419c98b88433dab624e0301bde13b5f57b84fde8e0f894f568e')
+b3sums=('61d3feed6113e86568ced2c61ecdd717b7eb23cf0d7396f00a4b94494f70c41a')
 
 prepare() {
   export GOPATH="${srcdir}"
@@ -28,8 +28,7 @@ build() {
   export CGO_CFLAGS="${CFLAGS}"
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export CGO_LDFLAGS="${LDFLAGS}"
-  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
-  export GOLDFLAGS="-linkmode=external"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
   go build -v .
   chmod +x ./helmfile
 }
