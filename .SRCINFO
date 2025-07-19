@@ -1,6 +1,6 @@
 pkgbase = helmfile
 	pkgdesc = Manage multiple helm charts with a single helmfile
-	pkgver = 0.170.1
+	pkgver = 0.171.0
 	pkgrel = 1
 	url = https://github.com/helmfile/helmfile
 	arch = x86_64
@@ -8,8 +8,8 @@ pkgbase = helmfile
 	makedepends = go
 	depends = glibc
 	options = !lto
-	source = helmfile-0.170.1.tar.gz::https://github.com/helmfile/helmfile/archive/v0.170.1.tar.gz
-	sha512sums = 5ca330bebe6778f6dd13f42da02e022bcb9c3901436c92e82356ebd25505196f5ffdd5c64af556d427b3b440b5a773c7a359ee533d6d232f391c6fdc399b301e
-	b2sums = f1e937073d193c490f241822da299396e2bacb57ba59e70b02cd78533d21f194c682992318afe52e2b77aa9896970b37026d3aa2eafd2a8413c283cc521a54b7
+	source = helmfile-0.171.0.tar.gz::https://github.com/helmfile/helmfile/archive/v0.171.0.tar.gz
+	sha512sums = 01c2f44cd72f1f22ccf640636da3fcd02688d0cdd8c14225feac49b8c918ad043391ac1f4949be168841fca2888e9b2d923f0b142cce5483fbc91c16c86ea043
+	b2sums = 83bc628670586f4af687ec94c045e8cdb0f78ef80032c28a2ed60188b829999ee55e6d496c0eea825cda398454cd97eb77749cf68f235403389a0267e3eaac4c
 
 pkgname = helmfile
