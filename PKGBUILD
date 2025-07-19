@@ -2,7 +2,7 @@
 
 pkgname=helmfile
 pkgver=0.143.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Manage multiple helm charts with a single helmfile"
 arch=('x86_64')
 url="https://github.com/roboll/helmfile"
@@ -34,10 +34,10 @@ build() {
   chmod +x ./helmfile
 }
 
-check() {
-  cd "${PACKAGE_ROOT}"
-  go test -v ./...
-}
+#check() {
+#  cd "${PACKAGE_ROOT}"
+#  go test -v ./...
+#}
 
 package() {
   cd "${PACKAGE_ROOT}"

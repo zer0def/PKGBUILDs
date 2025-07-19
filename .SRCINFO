@@ -1,7 +1,7 @@
 pkgbase = helmfile
 	pkgdesc = Manage multiple helm charts with a single helmfile
 	pkgver = 0.143.0
-	pkgrel = 1
+	pkgrel = 3
 	url = https://github.com/roboll/helmfile
 	arch = x86_64
 	license = MIT
