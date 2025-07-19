@@ -1,25 +1,25 @@
 # Maintainer: Christian Rebischke <chris.rebischke@archlinux.org>
 
 pkgname=helmfile
-pkgver=0.144.0
+pkgver=0.145.0
 pkgrel=1
 pkgdesc="Manage multiple helm charts with a single helmfile"
 arch=('x86_64')
-url="https://github.com/roboll/helmfile"
+url="https://github.com/helmfile/helmfile"
 license=('MIT')
 makedepends=('go')
 depends=('glibc')
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/roboll/helmfile/archive/v${pkgver}.tar.gz")
-sha512sums=('677e714316f1b7a8c8895e5f1d300a433441cc007ee7c3793999ff924d6f9ee9c1ff33aff0876aa2fcaae6f93062108329aaf0a0e6ec7ccaa369bbd3ff8d18a1')
-b2sums=('9ed1f49a08b50ad7c2f822550b597ab1a535941c2aabae9b3160ec9d103db11dc0cffc630294804e19080d9f4010c1bddf6613cfeaa00531bd0ae6fac2aa61cf')
-b3sums=("e5587eae58c68ec1ea2b34bc36832b69563d2e1c52f1d52665acb65cf80e9c3a")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/helmfile/helmfile/archive/v${pkgver}.tar.gz")
+sha512sums=("725065aa5fc54f82904a138fdb1a8c93832855d32d174ddf0693899b908979f18633d01a417a37b6bf90c065e5a670d4d696a419b2bfb83a9701521ae2a9229f")
+b2sums=("997c6af50ccd9fd407d357909a364023cc2786de5efdd9451d7991b726d4743d8f2f456292d2fc13048cab5eefd5d02b709a86660be31935c6ae8bfbc8514d95")
+b3sums=("0ea5312b41f0c7c04aa1ad32ee900df0d063f5ee157c6cc4e9625f5662658085")
 options=('!lto')
 
 prepare() {
   export GOPATH="${srcdir}"
-  mkdir -p src/github.com/roboll "${GOPATH}/bin"
-  mv "${pkgname}-${pkgver}" "src/github.com/roboll/${pkgname}"
-  export PACKAGE_ROOT="${GOPATH}/src/github.com/roboll/${pkgname}"
+  mkdir -p src/github.com/helmfile "${GOPATH}/bin"
+  mv "${pkgname}-${pkgver}" "src/github.com/helmfile/${pkgname}"
+  export PACKAGE_ROOT="${GOPATH}/src/github.com/helmfile/${pkgname}"
 }
 
 build() {
@@ -30,7 +30,7 @@ build() {
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export CGO_LDFLAGS="${LDFLAGS}"
   export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
-  go build -v -ldflags "-linkmode=external -X github.com/roboll/helmfile/pkg/app/version.Version=${pkgver}" .
+  go build -v -ldflags "-linkmode=external -X github.com/helmfile/helmfile/pkg/app/version.Version=${pkgver}" .
   chmod +x ./helmfile
 }
 
