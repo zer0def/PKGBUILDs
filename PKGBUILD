@@ -1,7 +1,7 @@
 # Maintainer: Christian Rebischke <chris.rebischke@archlinux.org>
 
 pkgname=helmfile
-pkgver=0.132.1
+pkgver=0.132.2
 pkgrel=1
 pkgdesc="Manage multiple helm charts with a single helmfile"
 arch=('x86_64')
@@ -10,9 +10,9 @@ license=('MIT')
 makedepends=('go')
 depends=('glibc')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/roboll/helmfile/archive/v${pkgver}.tar.gz")
-sha512sums=("bdcf917e42c69d9dad9f03140355437048307c4448c3e9304df72abe8df1931a08844a7bf8613f7b76429fb0286319c12ead242bd628606762b1a5677ac4f591")
-b2sums=("7f8aa1072f6f835f4e25bddb71b54c806a901135bf215c2cf9d3320f5a77f04ff24228da0851305221e9b9122bfb1d23b1f4f8470e4d85f395185994fc84c2ca")
-b3sums=("a295af4a276c709c223b19442c7696cb23cb8bf16077b1dcd2fcc0bf5bf1758f")
+sha512sums=("7068ec8d82022e11af81bc5b861afb99209ed4fac89e8b0b78be60c3d5b66d0fcc00b4dbd4c0432da39b46bdde13e451644561311c1642f378a0e9e2bd54a7aa")
+b2sums=("b82d6be744e3a151c68602d1e962d09347791929261f69875c3b6dc01916d587fd74e8c28552b0ea37b1d64f39747e26c2a2ac6ae9bcac523d38a6d8a840d575")
+b3sums=("87593565a30a7be629236fdebe3a6955165ba6dca98feb8107d565ed982719d1")
 
 prepare() {
   export GOPATH="${srcdir}"
