@@ -5,7 +5,7 @@
 # Contributor: Matthias Lisin <ml@visu.li>
 
 pkgname=helm
-pkgver=3.14.4
+pkgver=3.15.0
 pkgrel=1
 pkgdesc="The Kubernetes Package Manager"
 arch=("x86_64")
@@ -21,10 +21,10 @@ validpgpkeys=(
   '967F8AC5E2216F9F4FD270AD92AA783CBAAE8E3B' # Matthew Fisher <matt.fisher@microsoft.com>
   'F1261BDE929012C8FF2E501D6EA5D7598529A53E' # Martin Hickey <martin.hickey@ie.ibm.com>
 )
-sha256sums=("aa5f85e902f08da39194d66ccc614c3cd57f8cc912b501881c64b63b06159047")
-sha512sums=("bde076ba9d2aeca1c3636558283d6fa417e44d1d6f87fb83a603ed4fd9cb238078aa7d323ad9ec4e806c6da7f322c38c708b87011ecbfb9aa0f768b461472c24")
-b2sums=("d7c67a1195b2d51a80cd0596d45e667deb24eb0f917e3362dd2d5cabd0042eec828e365ed3d8d45af31c38924fdaa867dc48d78741867d60521adf8507a12d2a")
-b3sums=("9e876d370caa3ee096cbb6cb4350136f31b2a9bef8e9e1311b67dd84729c5275")
+sha256sums=("24f27c365a2535dfcab56d0f644ea7afd257bce5c3bf06c0961d44fbedf48319")
+sha512sums=("b6aa5d8e3804b2806b51875810ff418ebd37ef64aa97aa1c3ef8b61d619d77348643a2349edce136747a4bc96c4f871265a82f3a32929a67b765cf8e05db6261")
+b2sums=("03ef3b09c4cdb865541dcd224ca9aa76605326b9ee931e1a1102659c6723fbc280caa584bb92f3ed1fbfa4f59aa4adab948b9ecd7903661a67b889042ba49463")
+b3sums=("432bf5004a57828586ecf2c2bd5c309876ee2a6954f93d15a8b0b58207fa95ee")
 
 prepare() {
   cd "${pkgname}"
