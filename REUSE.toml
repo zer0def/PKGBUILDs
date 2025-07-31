@@ -17,6 +17,9 @@ path = [
     "*.timer",
     "*.desktop",
     "*.hook",
+    "*.pc",
+    "cuda.sh",
+    "cuda.conf",
 ]
 SPDX-FileCopyrightText = "Arch Linux contributors"
 SPDX-License-Identifier = "0BSD"
@@ -26,4 +29,4 @@ path = [
     "fix-glibc241.patch",
 ]
 SPDX-FileCopyrightText = "cuda contributors"
-SPDX-License-Identifier = "TODO-Choose-a-license"
+SPDX-License-Identifier = "LicenseRef-NVIDIA-CUDA"
