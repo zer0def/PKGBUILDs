@@ -27,6 +27,7 @@ SPDX-License-Identifier = "0BSD"
 [[annotations]]
 path = [
     "fix-glibc241.patch",
+    "fix-glibc242.patch",
 ]
 SPDX-FileCopyrightText = "cuda contributors"
 SPDX-License-Identifier = "LicenseRef-NVIDIA-CUDA"

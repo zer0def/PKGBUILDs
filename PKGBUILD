@@ -8,7 +8,7 @@ pkgver=12.9.1
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
 _driverver=575.57.08
-pkgrel=1
+pkgrel=2
 pkgdesc="NVIDIA's GPU programming toolkit"
 arch=('x86_64')
 url="https://developer.nvidia.com/cuda-zone"
@@ -51,6 +51,7 @@ source=(https://developer.download.nvidia.com/compute/cuda/${pkgver}/local_insta
         nsight-systems.desktop
         nvvp.desktop
         fix-glibc241.patch
+        fix-glibc242.patch
 )
 sha512sums=('fc29c5fc1121fb6634f1fe396abe7f34d351686454516269e9143e678ea178f906a35b916b8bb2d96ecfcfc705dda7d0f4547f7e7f00d36e392d981a766b6a56'
             '0d16ae7c880ee6e73babac28a80cb439098ded2224f06b3f0a1cbd8ad35302505fd89230a2b7d5a1a7dbd2df170a7897884eb9d06d515b56500dfc32a8d81fad'
@@ -86,7 +87,8 @@ sha512sums=('fc29c5fc1121fb6634f1fe396abe7f34d351686454516269e9143e678ea178f906a
             '78109166c44bd9d84399f97805b2d7b3dc2dffd5730f2f7c5dde1c07c4e90e3a5af14ff2b46f4b90b8b8390f72ca509526e38042ecfb57f50bb69ccb1f34db15'
             '1f3edd63bc8d252f2818204657da9bcf9c78ec009d4b4e2addbad83e619c1ebaad9c28c0e592974d29e1ce1c29588ff9100a0970febe789cdea7316d16884cce'
             '0fdd26868445946d5a3a64fd1a9a996dab6e85ee07b08e7c64a66a5db194653b98817bee876838c792cf57fcd4747173f1b1e77b083a9bbbb68932c0aa95185a'
-            'a6107446d30b3e95b63064c56a86622cf186e140de2ed2de476035ad1d7caaf056af6c86149818edbd6b488942b24724d176cf8f976f272ab4023bbe2f972681')
+            'a6107446d30b3e95b63064c56a86622cf186e140de2ed2de476035ad1d7caaf056af6c86149818edbd6b488942b24724d176cf8f976f272ab4023bbe2f972681'
+            'c7c7dbb0e21cb2342ede4bf730fe1191d59879e03151707c5519f4cafb64f1f7fdc3211f9d451ca789ab362de67cd43c2d4e1e2a714c8537a601b36cb63cb5b2')
 
 prepare() {
   sh cuda_${pkgver}_${_driverver}_linux.run --target "${srcdir}" --noexec
@@ -155,6 +157,8 @@ build() {
 
   # Patch for compatibility with glibc 2.41
   patch -p1 -d "$_prepdir" -i "$srcdir"/fix-glibc241.patch
+  # Patch for compatibility with glibc 2.42
+  patch -p1 -d "$_prepdir" -i "$srcdir"/fix-glibc242.patch
 }
 
 package_cuda() {
