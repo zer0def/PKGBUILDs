@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Tom Stellard <tstellar@redhat.com>
-Date: Mon, 28 Apr 2025 13:45:11 -0700
+From: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>
+Date: Thu, 7 Aug 2025 21:41:30 +0200
 Subject: [PATCH] compiler-rt: Fix compilation with glibc 2.42
 
 This is a combination of 3 upstream LLVM commits:
@@ -14,33 +14,25 @@ This is a combination of 3 upstream LLVM commits:
 - c99b1bcd505064f2e086e6b1034ce0b0c91ea5b9 Remove reference to obsolete
   termio ioctls
 ---
- .../sanitizer_common_interceptors_ioctl.inc       | 12 ++++--------
+ .../sanitizer_common_interceptors_ioctl.inc       |  4 ++++
  .../lib/sanitizer_common/sanitizer_platform.h     | 15 +++++++++++++++
- .../sanitizer_platform_limits_posix.cpp           | 11 ++++-------
- .../sanitizer_platform_limits_posix.h             |  9 +++------
- 4 files changed, 26 insertions(+), 21 deletions(-)
+ .../sanitizer_platform_limits_posix.cpp           |  8 ++++----
+ .../sanitizer_platform_limits_posix.h             |  8 +++-----
+ 4 files changed, 26 insertions(+), 9 deletions(-)
 
 diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_ioctl.inc b/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_ioctl.inc
-index 49ec4097c900..178a777a46c9 100644
+index dda11daa77f4..178a777a46c9 100644
 --- a/src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_ioctl.inc
 +++ b/src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_common_interceptors_ioctl.inc
-@@ -338,20 +338,16 @@ static void ioctl_table_fill() {
+@@ -338,12 +338,16 @@ static void ioctl_table_fill() {
    _(SOUND_PCM_WRITE_CHANNELS, WRITE, sizeof(int));
    _(SOUND_PCM_WRITE_FILTER, WRITE, sizeof(int));
    _(TCFLSH, NONE, 0);
--#if SANITIZER_GLIBC
--  _(TCGETA, WRITE, struct_termio_sz);
--#endif
 +#    if SANITIZER_TERMIOS_IOCTL_CONSTANTS
    _(TCGETS, WRITE, struct_termios_sz);
 +#    endif
    _(TCSBRK, NONE, 0);
    _(TCSBRKP, NONE, 0);
--#if SANITIZER_GLIBC
--  _(TCSETA, READ, struct_termio_sz);
--  _(TCSETAF, READ, struct_termio_sz);
--  _(TCSETAW, READ, struct_termio_sz);
--#endif
 +#    if SANITIZER_TERMIOS_IOCTL_CONSTANTS
    _(TCSETS, READ, struct_termios_sz);
    _(TCSETSF, READ, struct_termios_sz);
@@ -74,20 +66,10 @@ index 57966403c92a..4f254e6d9d09 100644
 +
  #endif  // SANITIZER_PLATFORM_H
 diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.cpp b/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.cpp
-index ec5f2edab6a6..de2a824a58da 100644
+index b3e717591d6c..de2a824a58da 100644
 --- a/src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.cpp
 +++ b/src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.cpp
-@@ -485,9 +485,6 @@ unsigned struct_ElfW_Phdr_sz = sizeof(Elf_Phdr);
-   unsigned struct_input_id_sz = sizeof(struct input_id);
-   unsigned struct_mtpos_sz = sizeof(struct mtpos);
-   unsigned struct_rtentry_sz = sizeof(struct rtentry);
--#if SANITIZER_GLIBC || SANITIZER_ANDROID
--  unsigned struct_termio_sz = sizeof(struct termio);
--#endif
-   unsigned struct_vt_consize_sz = sizeof(struct vt_consize);
-   unsigned struct_vt_sizes_sz = sizeof(struct vt_sizes);
-   unsigned struct_vt_stat_sz = sizeof(struct vt_stat);
-@@ -767,16 +764,16 @@ unsigned struct_ElfW_Phdr_sz = sizeof(Elf_Phdr);
+@@ -764,16 +764,16 @@ unsigned struct_ElfW_Phdr_sz = sizeof(Elf_Phdr);
    unsigned IOCTL_SOUND_PCM_WRITE_FILTER = SOUND_PCM_WRITE_FILTER;
  #endif // SOUND_VERSION
    unsigned IOCTL_TCFLSH = TCFLSH;
@@ -109,18 +91,10 @@ index ec5f2edab6a6..de2a824a58da 100644
    unsigned IOCTL_TIOCGLCKTRMIOS = TIOCGLCKTRMIOS;
    unsigned IOCTL_TIOCGSOFTCAR = TIOCGSOFTCAR;
 diff --git a/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.h b/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.h
-index 1a7d9e64048e..b5fe8968eccc 100644
+index 005ff2762462..b5fe8968eccc 100644
 --- a/src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.h
 +++ b/src/llvm-project/compiler-rt/lib/sanitizer_common/sanitizer_platform_limits_posix.h
-@@ -1043,7 +1043,6 @@ extern unsigned struct_hd_geometry_sz;
- extern unsigned struct_input_absinfo_sz;
- extern unsigned struct_input_id_sz;
- extern unsigned struct_mtpos_sz;
--extern unsigned struct_termio_sz;
- extern unsigned struct_vt_consize_sz;
- extern unsigned struct_vt_sizes_sz;
- extern unsigned struct_vt_stat_sz;
-@@ -1290,16 +1289,14 @@ extern unsigned IOCTL_SNDCTL_COPR_SENDMSG;
+@@ -1289,16 +1289,14 @@ extern unsigned IOCTL_SNDCTL_COPR_SENDMSG;
  extern unsigned IOCTL_SNDCTL_COPR_WCODE;
  extern unsigned IOCTL_SNDCTL_COPR_WDATA;
  extern unsigned IOCTL_TCFLSH;

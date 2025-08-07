@@ -15,8 +15,8 @@ pkgname=(
   rust-src
 )
 epoch=1
-pkgver=1.88.0
-pkgrel=2
+pkgver=1.89.0
+pkgrel=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(x86_64)
@@ -83,16 +83,21 @@ source=(
 
   # Fix build with glibc 2.42
   0001-compiler-rt-Fix-compilation-with-glibc-2.42.patch
+
+  # Fix build with system rustc
+  # https://github.com/rust-lang/rust/issues/143735
+  0007-bootstrap-Workaround-for-system-stage0.patch
 )
-b2sums=('5c672e9cab0c6dd3229efdd63e2d81a728e488c72870db9be306f0fea9078005ca3af74fb1070b19f9610e83b166df5ef4e642340647964ce622edea38b35d61'
+b2sums=('5cc32e9e7f766ec3631f369c1b60d4a9bcb39c21ede5ef6364cccf32d0d4105cab3fd10dfdf5f38db304db0dc771ae783303ed94d6277013770b59ee569a48c1'
         'SKIP'
-        'e110a262a049033f3664fc340281dfe39df918bf371bf610e4ceb4d6f6b7398759db4e3989f429e306f369c06342f9fcf587e7456a835dd33bcf39fc354dd27d'
-        '85826aac6b5ee904cd456d9b2c07ce0fc7d0f49e53a2ef7e8ea94c088a158493e7f8fa409c310bcdd967aa23f96d1dd0876999833182fa987d7d37dba40d7cee'
-        'cd3ce8900c3135295f42171a94d72d83c73b78fb4ac899382326f91ac7a10fc2f71a3ead9a3e5576341d96aeae2ec08e0fcfea2b9a1a25d7e9d6f0e957e70acf'
+        '17e7f6e73936137507e387cd2761b0b98f9457391e4f534beb872effaa9f442e72351bb39d5e34963d9f18a31fd9f07139cfbde4df9c4c1d8cc6e5d3a7f2c8f7'
+        'fed39e683a0fa4b7730c629f2453bccb70d2b37329ee8853e0c8e8cbc07a227a6c15bdf81c7285a2a2debeffde24ef14abcfccee6383024ac6bff7405e725482'
+        '1f664dc8156ebe48ae49e7651312ca8879b40fb65471bd9e4180e84fc8b2f6e94b50b7ff7db598e8f298058fae7bcc591532fe087084330650c69df131d2bb85'
         '2317343e6b986d1ec1fb6d035fb6d8933245704b5be1b3e4a032ad14300d8a338087c52e53a6dff4ceda52232ce7f21dd8ad536c9d4da04faee6a9b79a9670b6'
-        'e9f6b2d58e2a845d8841c0eb2dbde1d903bb6bed1871d090cf8928fe4a2dd5ece0cf157f3f263cf980d1dba7fd9c47565340bc1e19ecd2f28ffb297fe70da30d'
-        '3bc8ded84f875d6bd7e85ab83dad4795a6d86eda345425f312919bb791191519962b80199cdb74a0b707e221c922df37748b688841c8310bea4f763dcda0b55e'
-        '4c6b83e6fd1541ec9fd221cfb65a14a3b2b6cce240b9a1badd779ca27f986ed24e759e314248a2c2058e288e0610fe629b8558a95ba6b8dc0e2dd44bc497bbc8')
+        '5db7f8a8320e6900c35c0f3db270f70e5ee00b466038914b474ad33a822f20c2e518934dffb2d4391ae8a5ef94b49ab21ef7f57ab86686a51499d9f5516faa94'
+        '8be938ad0016244e86707396ee147fdff7a7ee4d2a776607ff316a9264512faba99d03a7a6b5ba48744c3ae93b09a2eaede567554142a30570346e177131099f'
+        'b9fdc6e4849dd167568322a09c645e1dfbbb4ceb1d6057744fa170c22f29195f3a6a3e6e71807f24124d6c7af659f7a91611f9b1b1f3702ceaba34f1fd153aca'
+        'f7f43c42856be95b658963275f6ebd94a500f24f23c925e3d9e5fe917f6d509bfd75d2fca072c987e93cd7d5a3776800ba633406cd77fe387b39252b5b7dfbc2')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
@@ -118,7 +123,7 @@ prepare() {
 profile = "dist"
 
 # see src/bootstrap/src/utils/change_tracker.rs
-change-id = 140732
+change-id = 142379
 
 [llvm]
 download-ci-llvm = false
