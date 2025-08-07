@@ -16,7 +16,7 @@ pkgname=(
 )
 epoch=1
 pkgver=1.88.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(x86_64)
@@ -77,6 +77,12 @@ source=(
 
   # Use our aarch64-linux-gnu-gcc
   0005-compiler-Use-aarch64-linux-gnu-gcc-to-link-aarch64-t.patch
+
+  # Prefer "lib" over "lib64"
+  0006-compiler-Swap-primary-and-secondary-lib-dirs.patch
+
+  # Fix build with glibc 2.42
+  0001-compiler-rt-Fix-compilation-with-glibc-2.42.patch
 )
 b2sums=('5c672e9cab0c6dd3229efdd63e2d81a728e488c72870db9be306f0fea9078005ca3af74fb1070b19f9610e83b166df5ef4e642340647964ce622edea38b35d61'
         'SKIP'
@@ -84,7 +90,9 @@ b2sums=('5c672e9cab0c6dd3229efdd63e2d81a728e488c72870db9be306f0fea9078005ca3af74
         '85826aac6b5ee904cd456d9b2c07ce0fc7d0f49e53a2ef7e8ea94c088a158493e7f8fa409c310bcdd967aa23f96d1dd0876999833182fa987d7d37dba40d7cee'
         'cd3ce8900c3135295f42171a94d72d83c73b78fb4ac899382326f91ac7a10fc2f71a3ead9a3e5576341d96aeae2ec08e0fcfea2b9a1a25d7e9d6f0e957e70acf'
         '2317343e6b986d1ec1fb6d035fb6d8933245704b5be1b3e4a032ad14300d8a338087c52e53a6dff4ceda52232ce7f21dd8ad536c9d4da04faee6a9b79a9670b6'
-        'e9f6b2d58e2a845d8841c0eb2dbde1d903bb6bed1871d090cf8928fe4a2dd5ece0cf157f3f263cf980d1dba7fd9c47565340bc1e19ecd2f28ffb297fe70da30d')
+        'e9f6b2d58e2a845d8841c0eb2dbde1d903bb6bed1871d090cf8928fe4a2dd5ece0cf157f3f263cf980d1dba7fd9c47565340bc1e19ecd2f28ffb297fe70da30d'
+        '3bc8ded84f875d6bd7e85ab83dad4795a6d86eda345425f312919bb791191519962b80199cdb74a0b707e221c922df37748b688841c8310bea4f763dcda0b55e'
+        '4c6b83e6fd1541ec9fd221cfb65a14a3b2b6cce240b9a1badd779ca27f986ed24e759e314248a2c2058e288e0610fe629b8558a95ba6b8dc0e2dd44bc497bbc8')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
