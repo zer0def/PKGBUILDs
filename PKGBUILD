@@ -35,6 +35,7 @@ validpgpkeys=(
 prepare() {
   cd libunwind-$pkgver
   patch -p1 -i ../b67d508a.patch # Fix build with GCC 15
+  autoreconf -fvi
 }
 
 build() {
