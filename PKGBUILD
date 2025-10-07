@@ -2,9 +2,9 @@
 
 pkgbase=linux-cwt-6.12-starfive-vf2
 _variant=cwt #6.12-VF2-xxx-x
-pkgver=5.14.0
-epoch=24 #Based on cwt image version
-pkgrel=2
+pkgver=6.0.0
+epoch=25 #Based on cwt image version
+pkgrel=1
 _tag=JH7110_VF2_6.12_v${pkgver}
 _desc='Linux 6.12.x (-cwt) for StarFive RISC-V VisionFive 2 Board'
 _srcname=linux-$_tag
@@ -46,7 +46,7 @@ source=("https://github.com/starfive-tech/linux/archive/refs/tags/${_tag}.tar.gz
   '91-soft_3rdpart.hook'
   '91-soft_3rdpart.rules')
 
-b2sums=('bffcdaa8728d6e5aceeecffc67a870f4d06bc06bf1d673b31b5c889f9209f4be82cb49f7cd589893d73fc024c377faf610388155b23793ebc118cdf5623c4819'
+b2sums=('037e32e0de20eaffab5e53b3528e18925435574813f65be4567e583de2b3e06b9d1b114e5acf3789a7165d39b477b966228dba2af56f66532898dda99b2dbedc'
         '4bca3f94d7010a4768aeb7699d3c7b82ac345d9aace4e2617daa217402f0538fa859441790b7e2ecb05190214b383a785888923f7a5dccf678217c094c0dd20b'
         'dad8854fff3dca7ab6b04ae64dd7270c251d28df73ed987a1672e83d58951736a0e44942556d795202ef20430374313d749e021ba17735beaf364a6af3a34927'
         '30ac8f7acc48c027db297b759b7bd2679de111733bd2396774cbce9d035c9486828f96d6a992cfe8b52686e297e46d08d4c0925eb6b19fe65d1c9a804a50f0ea'
@@ -67,15 +67,15 @@ b2sums=('bffcdaa8728d6e5aceeecffc67a870f4d06bc06bf1d673b31b5c889f9209f4be82cb49f
         'b1740e2f41ef69cf4bf9d78470011a0c7f9ddcf8d1b9182188b6b362e0b6e439384686ebea3fa1cf6308d3d6632cdc1dbb356acda14cd64dc3475363a6a8d9b7'
         'baab2544cabbfc6c675dc8bd0b26f6b00fb3ff4b1681e7944f899bdec8b7c7700b701928feff971dc8baeb859bde27e03af642716850475b9cc5e15e9345032c'
         'b35447ad749d8acfdfeb100ad347e7278c358b33da527adc12137f47630ce503c2da0edd611d664b44da6e88c2d43ab721c2db97e22057e06a516aca30f0e358'
-        '8804ac8d625b6123e583653efd9c0f17637c712f32b6aef0cb21a0ac4f7ccd396d94166c6407cdf43a6aa7941065d567e0446bc95b1ba1513a46a40ffa6ed6ef'
+        '41751edaab56907af2c5a513037e7c664a0f3977693fabb8227fa4e9804deb85d4af5722de5f05d3c86cb2f2a597d469fb7edcb1f0c3022b1f872eb136345fbf'
         'baee58367325f4046ddca758cb6da82e4ca9d8e0923369125ca89539dc1103a5a00a1fa01dc9a12883c19cec827fae1071642cc0b8a00cf3b5c24f18638ad645'
-        '01386d27e33d3fe7016a64e3868937b6540ab166aef1202c350923fd528b879ef67007ad8c0e1f32d4876c4f01770c8500cef9f64f919f9443a913878c690f04'
-        '85160a0d718af1f0ad38a076b465be7456bb42321c81e5e8199cbe0fad9e0341958c796e5252b2478f0c601ac9e9df056071918decce21dc6719c0474680e952'
+        'b7f7009090cf8a6cd5e1eb4d841544c10f15bcca44e5c11cd083d618fd5853e427b23ebafea06a839395014624892bf81272feddb53d1baae9f0296e779b7d9e'
+        'ae5c0780657201759f27115f3f215f43b0520d1cb30c44805610694cdc947645f782568e9fa02ff1c09afe35606e9e63dc11bdb404c509cc4b5f7645b09142c1'
         '444c5e378bb375fa5365ca7218ab0e60df65c73f3bef38a25fa4e1b69fecd62435987d7ad29dcf1b59b56b4db1c89da057a401e948bf696cc0a06e0892db0b88'
         '6aa6c65ef7e21d20965491fb95c94b16e7e67ffa072f401a70f1570ae5d80b3248523c6ef2ef1f9ba3db0c0371081bdb07b5ecea3429cf47a0f00f727b45bf7d'
         'd5a5ca5ba29f46339504899e9471f3b8eeded8018b26b542802c1f0f612f01ba662f4fad7fa058d2bf7b8ef64b4f70a1a56e3293f644cb7c22d64bab3f04ade9'
         '8bc3c6adf182ff379e34cbb78b727e341e03d2718cf2d411751717dd346987f52e02a7a870fb92d21a176e3f752f06aafbe5e49571ab540951326ab1b25188f5'
-        '63a7f6301063b57b1e9b6d568f60fa06f7c006a127e7248e149dffd705f67a290b5005dd8724a917cec7139b8064c633bd5beea60f5d33ba1db140075094c3c4'
+        'b0d5645379d4fc46d32ac22cabc054f63d0d8b1bc340d4c6e99e0b41f1a8dbbadd83ce3749cffb6fcf12d622e0ae17cfae4261d7b262a8f962ebe7994127f842'
         'd144a325cb08a4bc5527043f2d402ced6d63997b234d6cab83113944d1ae4d8ddc64ec545222bf7f859e9e37a925b8f3300a568daca7d91bef1f0bb5cfab03c7')
 
 prepare() {
@@ -99,8 +99,8 @@ prepare() {
   echo "-$pkgrel" >localversion.30-pkgrel
 
   unset CFLAGS
-  CCACHE=$(which ccache 2>/dev/null)
-  if [ "$CCACHE" != "" ]; then
+  if command -v ccache 2>&1 >/dev/null; then
+    CCACHE=$(which ccache 2>/dev/null)
     gcc="${CCACHE} ${CROSS_COMPILE:-}gcc"
   else
     gcc="${CROSS_COMPILE:-}gcc"
@@ -126,8 +126,8 @@ prepare() {
 build() {
   cd $_srcname
   unset CFLAGS
-  CCACHE=$(which ccache 2>/dev/null)
-  if [ "$CCACHE" != "" ]; then
+  if command -v ccache 2>&1 >/dev/null; then
+    CCACHE=$(which ccache 2>/dev/null)
     gcc="${CCACHE} ${CROSS_COMPILE:-}gcc"
   else
     gcc="${CROSS_COMPILE:-}gcc"
