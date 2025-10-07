@@ -1,8 +1,8 @@
 #!/bin/bash
 
-IMG=cwt24
-SDK=5.14.0
-REL=2
+IMG=cwt25
+SDK=6.0.0
+REL=1
 
 mkdir ${IMG}-${SDK}-${REL}
 cd ${IMG}-${SDK}-${REL}
