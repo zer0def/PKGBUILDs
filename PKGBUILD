@@ -1,20 +1,21 @@
-# Maintainer: Chaiwat Suttipongsakul <cwt@bashell.com>
+# Contributor: Chaiwat Suttipongsakul <cwt@bashell.com>
 
-pkgbase=linux-cwt-6.12-starfive-vf2
-_variant=cwt #6.12-VF2-xxx-x
-pkgver=6.0.0
-epoch=25 #Based on cwt image version
+_major=6.12 _vf2_minor=5 _upstream_minor=55 _variant="0def" #6.12-VF2-xxx-x
+pkgbase="linux-${_major}-starfive-vf2-0def"
+pkgver="${_major}.${_upstream_minor}"
 pkgrel=1
-_tag=JH7110_VF2_6.12_v${pkgver}
-_desc='Linux 6.12.x (-cwt) for StarFive RISC-V VisionFive 2 Board'
-_srcname=linux-$_tag
-_3rdpart=soft_3rdpart-$_tag
+_tag="JH7110_VF2_${_major}_v6.0.0"
+_desc="Linux ${_major}.x (-${_variant}) for StarFive RISC-V VisionFive 2 Board"
+_srcname=linux-vf2  #-$_tag
+_3rdpart="soft_3rdpart-${_tag}"
 url="https://github.com/starfive-tech/linux/"
 arch=(riscv64)
 license=('GPL2')
 makedepends=(bc libelf pahole cpio perl tar xz gcc)
 options=('!strip')
-source=("https://github.com/starfive-tech/linux/archive/refs/tags/${_tag}.tar.gz"
+source=("https://github.com/zer0def/linux/archive/refs/heads/vf2.tar.gz"  # 'git+https://github.com/zer0def/linux#branch=vf2'
+  #"linux-starfive::git+https://github.com/starfive-tech/linux#tag=${_tag}"  # 6.12.5
+  #"linux-upstream::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git?signed#tag=v${_major}.${_upstream_minor}"
   'linux-01-riscv-zba_zbb.patch'
   'linux-02-eswin_6600u-llvm.patch'
   'linux-03-eswin_6600u-cast_null_as_unsigned_int.patch'
@@ -22,19 +23,8 @@ source=("https://github.com/starfive-tech/linux/archive/refs/tags/${_tag}.tar.gz
   'linux-05-fix_img_gpu_secondary_notintermediate_conflict.patch'
   'linux-06-fix_drm_img_rogue_buffer_overflow.patch'
   'linux-07-fix_starfive_v4l2_for_6.12_kernel.patch'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.5-6.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.6-7.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.7-8.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.8-9.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.9-10.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.10-11.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.11-12.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.12-13.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.13-14.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.14-15.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.15-16.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.16-17.xz'
-  'https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.12.17-18.xz'
+  #'linux-08-restore_emmc_voltage_switch.patch'
+
   'config'
   'linux.preset'
   '90-linux.hook'
@@ -46,7 +36,27 @@ source=("https://github.com/starfive-tech/linux/archive/refs/tags/${_tag}.tar.gz
   '91-soft_3rdpart.hook'
   '91-soft_3rdpart.rules')
 
-b2sums=('037e32e0de20eaffab5e53b3528e18925435574813f65be4567e583de2b3e06b9d1b114e5acf3789a7165d39b477b966228dba2af56f66532898dda99b2dbedc'
+sha512sums=('2871b394c01abe12152322a48034c1200fc89d89379657b6feca024d44440b76758033edb235939e947eb511a38ee0eae9d976ae064e992fd8624ba865303319'  # '803701c967f975a57a378693314738b5d725dddc6c51dee82c732af5c977dc7100ee655158d9b568c2e18481813ac7a893d83a3d166789b16189c2390e57d1c9'
+            '63482cbac72197c6c89315f9830d2cb88a3ad68b3414174cb9fbb39cd90ea05dc28ba7a140b015da1df7b5b6bc361dbc15a4fe4ef33573379bf3865515944143'
+            '39708babd85c0ef1068c4748661ed2edd7cd3740ca653f9449776b357a76a60fc54ea637e72419421d966533cdda01af794777210175e2326f2d1f92cbccca07'
+            '4e0cedab9bc174b0681b6eb0cc2e9c20095b281dd6548090d947b5738ef58764d23b05f0bd951124798f12c1fa8a96d7137a24d7d3147629f62adf48a7239f05'
+            '5a2c3c55848a70fd82bc34a79caed88ba3b7ada63aa037d664e55e90c774fa932fb3f9bc35deedd4f6866db47c1da168834d8d2349b42474ec7504ed4422d6f6'
+            '306f1198a7e52f17ad6c0ca24c367247a1e3d6506be351e371e8fa37eee26f4ff9e048ea0069887c7f4c312896cdd452347f259cab56564f02569f8c1f983e2a'
+            '4fd8d39f8d927d25231cd46f42cbbe1bd9fbf4e8a1024e87f4a1f67c67a64b5837551c16cfa99493de92694a00bd4077233883e1417931dbdac574413918491d'
+            'aed3a8cdc3a2d0541ea89658a10ae715e072baabbd9fb63da63aa11762fa46b295c0ad07cda465f721e984e0a1a54c92e062218ee2cd089128d6459a7a132e11'
+            #'2bee193229398a1b7570978a27d06bd0d194e4fe18a98e6a7bade1375fe5e0593bb39463fa5f2ebfdda5264687063bd0e9ca77a77f72bf8ce26efa598fe4a463'
+
+            '1d6b89b3029fcebe8ece467b29750880897abd2002df2d776b3b3fb124b9984f46ad854284bdc1e1ad991e1b129f15172222b5d4372b2f44a7380f3ea7b23e79'
+            'f2e86c4a8476e9b9c8d981ec25e848fb61709d0e1bd1b9ed8b6cb558fcc7afd695e213a7f9957b24e3cf5de19371d446ddb54f6113c9a6c79c7fada3675aac9c'
+            '62a3be680aaee1c0fe63b5fc709b206c444fb776bd1a729b3e8331b3562bfe97a38cf1d557205ad7cc815a6591041af5b0b70adc0f082609c337580782e3afb0'
+            'a344392a16ba0cae28d50798ebfbdb001e9927d143b3245a62ef31cfef1a53bfb9a1d362386221232bfa3174651ae3823cc5420f8b09429d6d23e9ce040aa87e'
+            '85696fa1a5c2b8e27050e6980f858bbdc910e88346385777bf017ed1fa72c78f7e3567c109049f3fa4cfba4a9c936359ec9a8f864fb486159155e7caf6202693'
+            'd062cd23cbbe370b4fc8dc87ba3a0c72887053ab9d37a80ac805cbda7af8639cb4ce73112f486186dcbb64ea87f6f07b1f7fdd9f1564157e1a452cfd385d2a13'
+            '3b7097f2640f0c23ea68bfebda5c78b9305ca6ba35e8fb2420dfca1d7777065d0910d11040182831bdc021f4e7bd450b2946d86ff2ec371622a4db73c0fe5e38'
+            'c919e48f65c7ec2f865be270a16fe3a386336277822d50a6f1559e26a979da63ca79575eca0822ba42c954ffe218f161b71feffe5232b33b2171d06f824a1125'
+            'bbbc6413df6efc3f1e9e305acdcaf4de52acf5caee1317731fc530a109102109f57d5985a534bce57d1790c9a8b8fc9fd40ad8aedb7339c19603064b1f9b67b1'
+            'bf9b48e4b2ea792906f2a601b247beb6d6cf64abc369b3fb89d4dbf7af7873b4890f5e5b47c0019433da84467f6c7495dcc36ec772fd02038d9f04e332b54f66')
+b2sums=('d5ed107209504e51364247ff87cba68d0a7690ba5eac2d690e42f51448ae60bf6ec3d54a5e3b31de5e7868c79d799a25a23420ac638c4ad7f1c8df6fe3afb287'  # 'dac998e9e3c05c9e9c3b177b5bad73faedff26008bc7fe9be15f082a3be9e0ec5bdf8908bde2d98a3cd3f590ca316a15d5b412be8a5c9fea6a070767978957ed'
         '4bca3f94d7010a4768aeb7699d3c7b82ac345d9aace4e2617daa217402f0538fa859441790b7e2ecb05190214b383a785888923f7a5dccf678217c094c0dd20b'
         'dad8854fff3dca7ab6b04ae64dd7270c251d28df73ed987a1672e83d58951736a0e44942556d795202ef20430374313d749e021ba17735beaf364a6af3a34927'
         '30ac8f7acc48c027db297b759b7bd2679de111733bd2396774cbce9d035c9486828f96d6a992cfe8b52686e297e46d08d4c0925eb6b19fe65d1c9a804a50f0ea'
@@ -54,19 +64,8 @@ b2sums=('037e32e0de20eaffab5e53b3528e18925435574813f65be4567e583de2b3e06b9d1b114
         '4d5bc3ef01fdbb61a88c8e64f5fa1ea5474caa76bd8740217a0055f8ef2067c9996ef262bc7d671651b533870b7be6860ebbf52fe0259fafb0296cdbe8dcdc85'
         '99d4f017a6d65e6d19830c25be94238812f2ceeaf9084a1b98c9f0b270d40889f518f5a158fb81e0cfc13364e10bd7febfe7ac429f87c8228b86858f031611e4'
         '409d74e0790de7f12a862f10bdf3a4ed87ea99fdc503ae1b5f70ad20aa0e56f2212f06429224572211cc36a782897fcc3d9f710a500f440ae4047d83321e83f1'
-        '2696398d441108697949e5cab79e19ec09ae642775be439b72105263a64b0817ff7115d2c38521775217558d39e64dbba51acba1ed347fa16170c9693f6d483d'
-        'ab72ea6ff3192d7b64daea92df18418664e9ade9d337f88b270ab2559223ac6087dff8c1f2a5083ec7598a3331596a18e93d812025c6929d45ca745926ac90e9'
-        'bafcf6d2da7aee5ad8acd59661ca47512b58bfefba8efa9f57a6d0ca3c3e2784b3d47b8f16d3d0bd0c0d6b7cd21a6bb698f97db83d16f12a458f0dd1f7e3a69b'
-        '1086e3dd55104329d622e304e09a1946fa6f222d857d343daf8fa0959726df763798ae4e91b68589b087c1e8cdc3ac7974a275ab77331c5d779a6c2b2af42129'
-        'b9ae520d3a51a348a11cdef09a3c9aaef1d0e267d8d850afa799e6896513a09f2923c3c6f662b85c75250015d6f4d1b71d1050636b3ca6991c1ba663a19d9169'
-        '610c9a04861681c2fcb60f64b1a9b8256d82a768cf4b8c12442fe821c89267d3106a9dc3cea6be1fa03a41af77ce67aeb745dbbe4c2418d724667f7331eb156c'
-        '2667de5fa23d27b186532327767b5b9079c2ed4c22a7cd75470c25f724efbb1cd771fa4103205f720ac1d7b5da4fc719c7fc3dfd4de75f4a6c9b69ad1b6c5854'
-        'd589a6a46e46411ffaca9d84b1c8a951b5f03397156eff94542830c8de90af08c8cf69a7623fcb9cf451192aadc236011f8e4127bfd6201ff1805f0f474637cb'
-        '1494545b48205ae14e9e9184d5f882e16d9b95990b5749f96b94520ae3fd8a1af9ea6500e822948965be6e2636514abcd96c97def05b938b8e8e65eef427ea0c'
-        'e0a0ed62590ef58817b16e9ba1edfcc5d32afae7c8a30da469d4f3a94b7d3f0f0b0c67cbd8e4f5269a5918a36e4539e1c6ed7a37c8dfcfa6bd66f948a1463477'
-        'b1740e2f41ef69cf4bf9d78470011a0c7f9ddcf8d1b9182188b6b362e0b6e439384686ebea3fa1cf6308d3d6632cdc1dbb356acda14cd64dc3475363a6a8d9b7'
-        'baab2544cabbfc6c675dc8bd0b26f6b00fb3ff4b1681e7944f899bdec8b7c7700b701928feff971dc8baeb859bde27e03af642716850475b9cc5e15e9345032c'
-        'b35447ad749d8acfdfeb100ad347e7278c358b33da527adc12137f47630ce503c2da0edd611d664b44da6e88c2d43ab721c2db97e22057e06a516aca30f0e358'
+        #'e847ff43ef059dc1320b2b1957783a0a67ba2e0d13b13c177bf4b195e6ddbb1b11e6f8fb6809783e4f6279b8b45ef5c81eab6430fc62dd878fc6b57eaa5772dd'
+
         '41751edaab56907af2c5a513037e7c664a0f3977693fabb8227fa4e9804deb85d4af5722de5f05d3c86cb2f2a597d469fb7edcb1f0c3022b1f872eb136345fbf'
         'baee58367325f4046ddca758cb6da82e4ca9d8e0923369125ca89539dc1103a5a00a1fa01dc9a12883c19cec827fae1071642cc0b8a00cf3b5c24f18638ad645'
         'b7f7009090cf8a6cd5e1eb4d841544c10f15bcca44e5c11cd083d618fd5853e427b23ebafea06a839395014624892bf81272feddb53d1baae9f0296e779b7d9e'
@@ -77,9 +76,43 @@ b2sums=('037e32e0de20eaffab5e53b3528e18925435574813f65be4567e583de2b3e06b9d1b114
         '8bc3c6adf182ff379e34cbb78b727e341e03d2718cf2d411751717dd346987f52e02a7a870fb92d21a176e3f752f06aafbe5e49571ab540951326ab1b25188f5'
         'b0d5645379d4fc46d32ac22cabc054f63d0d8b1bc340d4c6e99e0b41f1a8dbbadd83ce3749cffb6fcf12d622e0ae17cfae4261d7b262a8f962ebe7994127f842'
         'd144a325cb08a4bc5527043f2d402ced6d63997b234d6cab83113944d1ae4d8ddc64ec545222bf7f859e9e37a925b8f3300a568daca7d91bef1f0bb5cfab03c7')
+b3sums=('7ebe050d2f24b939f8f0dd70532ab82aacbd02aecd5fa1e18e05bbcc751f80f0'  # '82d1367f2e0c3a110754f0513c856e5e7d98a1ba9adac1f378d49c72caf31de3'
+        'cf4fab7c10f440699a4db2c162e24d1c5f6805126b85f47fc3c4763052ec0f0b'
+        'd80f4e5a1f3f98d6ff0e966923a8cbf52864bf016afabae1c068ef42d06a29a7'
+        '14720522dec9c23872a431cc9ca96592ba6327511f970e6ca1cb5c5f51008b40'
+        '01340cab6aebc9d5389194844821cd1a6bf42819de39fbf77f0cb66f6dcd9f4d'
+        '890ba1cf6f61eee6f0d5d6950ac6f777ad06d99dccf4156cf452fa79d5378dd2'
+        'ec7aa202e65ff00164a8d9200bc32541da289f3ac98246916dcecc8e0b0a12e0'
+        '60745f16635c9b2619c4ab59bff65b06b5349a9b7aacfa70cf560df9e506c611'
+        #'0c22e50b0fe637dc8219133bd3749fe740a0b06a5c06918732fd78dd5ce9cfa9'
+
+        '797fda2212035bdeff41748ebb783cf40647a1ea942d914358cfe43b386e5914'
+        '34783807b21e48feec3a9536fe7f71bffeafc979b079c6b8f7bdfd259082503d'
+        'd4a2b0cce86e2b4b22f1561a81dc33c09970ce49c0837fb330022f5858dc4ecf'
+        '77d3d6400a9421b363d765a6aef86ad0947ab5c9dc70343abc9ae2e7c8e8732e'
+        '741e666124c4cb81733a72f4b5f54fd0023cbbb82a0e3792c6d86bb39e0becaa'
+        '119a95f2f95c98275c73b3257f34a60576f189ef2885ffd293f509c94b5aa508'
+        'c8ac1436437444bac8d9e28f3cb84bea3e978e77021de64776618a57f635b351'
+        '3d6ab5917d319ee4af88e548da79b7b824c10e1b55b6e0bcbda05247455b9822'
+        '766c4e7d3f56391f05554d089edfccad2ac710ec72a0f9f825377f66736b074e'
+        '5718302d9406d09b2db0dcd8fe2d390e8dd1291ff89748a9a2228a3e7adb4903')
+
+validpgpkeys=(
+    'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
+    '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
+)
+
+#for i in $(seq $((${_vf2_minor}+1)) ${_upstream_minor}); do
+#  source+=("https://cdn.kernel.org/pub/linux/kernel/v6.x/incr/patch-${_major}.$((${i}-1))-${i}.xz") b2sums+=('SKIP')
+#done
 
 prepare() {
-  cd $_srcname
+  #cd "${srcdir}/linux"  #-starfive
+  #git remote add upstream https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+  #git fetch upstream
+  #git -c commit.gpgsign=false rebase "v${_major}.${_upstream_minor}"
+
+  cd "${_srcname}"
 
   local src
   for src in $(ls ../linux-*.patch); do
@@ -87,11 +120,13 @@ prepare() {
     patch -Np1 <"../$src"
   done
 
-  for src in $(ls --sort=version ../patch-*.xz); do
-    echo "Applying patch $src..."
-    xzcat "../$src" | patch -Np1
-  done
+  #for src in $(ls --sort=version ../patch-*.xz); do
+  #  echo "Applying patch $src..."
+  #  xzcat "../$src" | patch -Np1
+  #done
 
+  # generate cumulative patch
+  #git -C "${srcdir}/linux-upstream" diff "v${_major}.${_vf2_minor}..v${_major}.${_upstream_minor}" | patch -Np1
 
   echo "Setting version..."
   echo "-${_variant}" >localversion.10-variant

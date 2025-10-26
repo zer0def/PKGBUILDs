@@ -1,0 +1,12 @@
+diff --git a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
+index b3a6a6f1d..e9ec6a86c 100644
+--- a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
++++ b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
+@@ -270,6 +270,7 @@ &i2stx1 {
+ };
+ 
+ &mmc0 {
++	board-is-evb;
+ 	non-removable;
+ };
+ 
