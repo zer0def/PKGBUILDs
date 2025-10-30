@@ -1,0 +1,17 @@
+post_install () {
+  /boot/reflash/kerninst
+  echo "
+  you may repeat this operations by runing /boot/reflash/kerninst
+  "
+}
+post_upgrade() {
+  /boot/reflash/kerninst
+  echo "
+  you may repeat this operations by runing /boot/reflash/kerninst
+  "
+}
+
+post_remove() {
+  rm -f boot/initramfs-linux.img
+  rm -f boot/backup_kernel_image
+}

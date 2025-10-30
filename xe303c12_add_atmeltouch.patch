@@ -1,0 +1,44 @@
+diff -Naur a/arch/arm/boot/dts/samsung/exynos5250-snow-common.dtsi b/arch/arm/boot/dts/samsung/exynos5250-snow-common.dtsi
+--- a/arch/arm/boot/dts/samsung/exynos5250-snow-common.dtsi	2023-05-11 14:00:40.000000000 +0000
++++ b/arch/arm/boot/dts/samsung/exynos5250-snow-common.dtsi	2023-05-16 23:30:03.286646457 +0000
+@@ -446,6 +446,40 @@
+ 		interrupt-parent = <&gpx1>;
+ 		wakeup-source;
+ 	};
++
++	trackpad@4b {
++		reg = <0x4b>;
++		compatible = "atmel,maxtouch";
++		//interrupts = <2 IRQ_TYPE_NONE>;
++		interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
++		interrupt-parent = <&gpx1>;
++		//pinctrl-names = "default";
++		//pinctrl-0 = <&trackpad_irq>;
++		linux,gpio-keymap = <KEY_RESERVED
++				     KEY_RESERVED
++				     KEY_RESERVED
++				     KEY_RESERVED
++				     KEY_RESERVED
++				     BTN_LEFT>;
++		wakeup-source;
++	};
++
++	trackpad@25 {
++		reg = <0x25>;
++		compatible = "atmel,maxtouch";
++		//interrupts = <2 IRQ_TYPE_NONE>;
++		interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
++		interrupt-parent = <&gpx1>;
++		//pinctrl-names = "default";
++		//pinctrl-0 = <&trackpad_irq>;
++		linux,gpio-keymap = <KEY_RESERVED
++				     KEY_RESERVED
++				     KEY_RESERVED
++				     KEY_RESERVED
++				     KEY_RESERVED
++				     BTN_LEFT>;
++		wakeup-source;
++	};
+ };
+
+ /*
