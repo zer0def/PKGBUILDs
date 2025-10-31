@@ -14,8 +14,8 @@ pkgname=(
   rust-wasm
   rust-src
 )
-pkgver=1.90.0
-pkgrel=4
+pkgver=1.91.0
+pkgrel=1
 epoch=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
@@ -27,6 +27,7 @@ options=(
 )
 depends=(
   bash
+  compiler-rt
   curl
   gcc
   gcc-libs
@@ -69,36 +70,27 @@ source=(
   # Put bash completions where they belong
   0002-bootstrap-Change-bash-completion-dir.patch
 
-  # Use our *-pc-linux-gnu targets, making LTO with clang simpler
-  0003-compiler-Change-LLVM-targets.patch
+  # Fix build with system rustc
+  # https://github.com/rust-lang/rust/issues/143735
+  0003-bootstrap-Workaround-for-system-stage0.patch
 
-  # Use our ld.lld
-  0004-compiler-Use-ld.lld-by-default.patch
+  # Use our *-pc-linux-gnu targets, making LTO with clang simpler
+  0004-compiler-Change-LLVM-targets.patch
 
   # Use our aarch64-linux-gnu-gcc
   0005-compiler-Use-aarch64-linux-gnu-gcc-to-link-aarch64-t.patch
 
   # Prefer "lib" over "lib64"
   0006-compiler-Swap-primary-and-secondary-lib-dirs.patch
-
-  # Fix build with system rustc
-  # https://github.com/rust-lang/rust/issues/143735
-  0007-bootstrap-Workaround-for-system-stage0.patch
-
-  # Fix build with system rustc 1.90.0
-  # https://github.com/rust-lang/rust/issues/143765
-  0008-bootstrap-Workaround-for-1.90.0-stage0.patch
 )
-b2sums=('7bb22f814f1ccf08bd8c57a0c81d94b5a5850b8e20c563f1da7b1a37bb390b5ed82ff448dfc7738e1990653c798f6edaacc410483b95007691e717d55a6b10de'
+b2sums=('abd675fda0e147735f8f665059826d2e5e2fd334d3b60c10197838553a91bb04c9df1f84062232d4fe71400443cd9ca6e233faf7bd18abd19776d63d6aa388a9'
         'SKIP'
-        '0d1dc9024d53f669ceeb5fb61879527663c99ef3d7bd9bcb1e24dc8de15605dfc4820be23e7114c810f91eeb9d0d9e2107d507584af78a3ef2ea48e28f9d16b9'
-        '81d39b0ceadfccdfea647eafbfd13beefabcf95bf476e2bfbd3cfcc16a5c4f33fef9cb946da2324f03fc2c44636101fb2b3010cb3527185f64041bc99c665f06'
-        '248747c078b930f700a0685638663d1337b289e6a46d7feca8f017dfb316c22574656bf84888f7ae7e2aab68f59190eca61bf17a780753823ffc4fbc91ff785d'
-        '645f42c6c831c5000b1b174b9d1693e99d12e55f166d5a3d6f8843801e7f10c3079be035bfb5b04f7d51400157a5cbb63874b6728148f2cb7e75f7868a77b818'
+        'fc5748f501608bf7a9c9bea991fb6760adc79b055da6807f4d302c8c0539f4bb34acaa13be93af280becd854f5d3cd16b76ef493fb8fbbd357816fda9406545f'
+        'd535647849368c0c82856b69dcdc6eb972fb4377396ec7fea41849b3fe4c2b1ac6f4583065b2ce4fabc5b097bc3392f0a1c3784bcd997f71a6d552f0b83c4856'
+        '4d0391136d247ac85475a2ef413cf5257764815190b63301ad534221ae32626f9a85370ef1da80db61497f9952d8cb10465c3aa207511318d7b06955dd9d9803'
+        'b12acac2f88b171257f5a047fae88cec60c78666f60721f2304eaa7e807d079a3e5ca45e52986759c0b272659bc99f5fd438f2878cedfa40273f796ac030a867'
         '40e14ccc8b5dfff5d87f43a8763d1d2a49435c7a76633a920648a43dd25df0ab056107722ccdc574d9d603322699c6f3990878e19ab25d5e0117689d8f6b99b8'
-        '8be938ad0016244e86707396ee147fdff7a7ee4d2a776607ff316a9264512faba99d03a7a6b5ba48744c3ae93b09a2eaede567554142a30570346e177131099f'
-        '04a5a67ee8d2a41d81d663b0d81e63495ea4c3455d8dce97c94f2722749be0c2342c715da44f22b1c8fcd04890d980cb865f0e6980f2b8dae886848b4e870e27'
-        '440465da4823dc58e67e2f608872dfeb52727673d8435280bbe79f4a32213c7dacf8761da1eef1f65eec3778a9f07f01d67a2134838ff68c73dfe639a7d5e7da')
+        '3db6d42bb77db44fc220084314b015280507d4afe81990baefdb6c9303d7b9e102497042c67969105b7d1d6206e947f29ec44788299ee8b7e39562be610091aa')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
@@ -119,12 +111,15 @@ prepare() {
     patch -Np1 < "../$src"
   done
 
+  local clangdir
+  clangdir="$(clang -print-resource-dir)"
+
   cat >bootstrap.toml <<END
 # see src/bootstrap/defaults/
 profile = "dist"
 
 # see src/bootstrap/src/utils/change_tracker.rs
-change-id = 144675
+change-id = 146435
 
 [llvm]
 download-ci-llvm = false
@@ -181,7 +176,6 @@ llvm-bitcode-linker = false
 deny-warnings = false
 backtrace-on-ice = true
 remap-debuginfo = false
-jemalloc = true
 lto = "fat"
 
 [dist]
@@ -194,12 +188,14 @@ cxx = "/usr/bin/g++"
 ar = "/usr/bin/gcc-ar"
 ranlib = "/usr/bin/gcc-ranlib"
 llvm-config = "/usr/bin/llvm-config"
+optimized-compiler-builtins = "$clangdir/lib/linux/libclang_rt.builtins-x86_64.a"
 
 [target.i686-unknown-linux-gnu]
 cc = "/usr/bin/gcc"
 cxx = "/usr/bin/g++"
 ar = "/usr/bin/gcc-ar"
 ranlib = "/usr/bin/gcc-ranlib"
+optimized-compiler-builtins = "$clangdir/lib/linux/libclang_rt.builtins-i386.a"
 
 [target.x86_64-unknown-linux-musl]
 cc = "/usr/bin/musl-gcc"
@@ -303,6 +299,7 @@ build() {
   cd ../dest-rust
 
   # delete unnecessary files, e.g. files only used for the uninstall script
+  rm -v etc/target-spec-json-schema.json
   rm -v usr/lib/rustlib/{components,install.log,rust-installer-version,uninstall.sh}
   rm -v usr/lib/rustlib/manifest-*
 
