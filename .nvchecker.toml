@@ -1,0 +1,5 @@
+[libucontext]
+source = "git"
+git = "https://github.com/kaniini/libucontext.git"
+prefix = "libucontext-"
+ignored = "v1.2"
