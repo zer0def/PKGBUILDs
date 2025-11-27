@@ -1,0 +1,48 @@
+diff --git a/src/uvesafb.c b/src/uvesafb.c
+index da5b1d3..8defdb3 100644
+--- a/src/uvesafb.c
++++ b/src/uvesafb.c
+@@ -37,7 +37,6 @@
+ #endif
+ #include "edid.h"
+ 
+-#ifdef CONFIG_FB_VMODES
+ const struct fb_videomode fb_vesa_modes[] = {
+         /* 0 640x350-85 VESA */
+         { NULL, 85, 640, 350, 31746,  96, 32, 60, 32, 64, 3,
+@@ -189,7 +188,6 @@ const struct fb_videomode fb_vesa_modes[] = {
+           FB_SYNC_HOR_HIGH_ACT, FB_VMODE_NONINTERLACED, FB_MODE_IS_VESA },
+ };
+ EXPORT_SYMBOL(fb_vesa_modes);
+-#endif /* CONFIG_FB_VMODES */
+ 
+ static struct cb_id uvesafb_cn_id = {
+ 	.idx = CN_IDX_V86D,
+@@ -1666,8 +1664,7 @@ static void uvesafb_init_info(struct fb_info *info, struct vbe_mode_ib *mode)
+ 		par->ypan = 0;
+ 	}
+ 
+-	info->flags = FBINFO_FLAG_DEFAULT |
+-			(par->ypan ? FBINFO_HWACCEL_YPAN : 0);
++	info->flags = (par->ypan ? FBINFO_HWACCEL_YPAN : 0);
+ 
+ 	/* if (!par->ypan)
+ 		info->fbops->fb_pan_display = NULL; */
+@@ -1931,7 +1928,7 @@ out:
+ 	return err;
+ }
+ 
+-static int uvesafb_remove(struct platform_device *dev)
++static void uvesafb_remove(struct platform_device *dev)
+ {
+ 	struct fb_info *info = platform_get_drvdata(dev);
+ 
+@@ -1953,7 +1950,7 @@ static int uvesafb_remove(struct platform_device *dev)
+ 
+ 		framebuffer_release(info);
+ 	}
+-	return 0;
++	return;
+ }
+ 
+ static struct platform_driver uvesafb_driver = {

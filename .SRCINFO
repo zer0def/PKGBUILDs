@@ -10,20 +10,24 @@ pkgbase = uvesafb-dkms
 	depends = glibc
 	depends = dkms>=2.2.0.3+git151023-5
 	provides = v86d
+	provides = UVESAFB-MODULE
 	replaces = v86d
 	options = !makeflags
-	source = git://github.com/jghodd/uvesafb-dkms.git#tag=uvesafb-dkms-1.0.4
-	source = git://github.com/mjanusz/v86d.git#tag=v86d-0.1.10
+	source = git+https://github.com/jghodd/uvesafb-dkms.git#tag=uvesafb-dkms-1.0.4
+	source = git+https://github.com/mjanusz/v86d.git#tag=v86d-0.1.10
 	source = v86d_install
 	source = v86d_hook
 	source = dkms.conf
 	source = modprobe.uvesafb
+	source = linux-6.1-bringup.patch::https://github.com/akay/uvesafb-dkms/commit/153898622732faf2c66e6a9eef776de203e87cc2.patch
+	source = uhh-bringup.patch
 	md5sums = SKIP
 	md5sums = SKIP
 	md5sums = 66ab32602ab29cc5635eaac7f3e42283
 	md5sums = 5f75b8bc4a7ddf595014591e5db263cb
 	md5sums = 39fa4b6d261d4fb44d21f45dc8a5390c
 	md5sums = 2d7cc8dc6a41916a13869212d0191147
+	md5sums = SKIP
+	md5sums = SKIP
 
 pkgname = uvesafb-dkms
-

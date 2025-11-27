@@ -13,25 +13,45 @@ license=('GPL2')
 depends=('glibc' 'dkms>=2.2.0.3+git151023-5')
 makedepends=('git')
 options=('!makeflags')
-provides=("v86d")
+provides=("v86d" "UVESAFB-MODULE")
 replaces=("v86d")
 #conflicts=("v86d")
 
-source=("git://github.com/jghodd/uvesafb-dkms.git#tag=$pkgname-$pkgver"
-        "git://github.com/mjanusz/v86d.git#tag=$_v86d-$_v86dver"
-        v86d_install
-        v86d_hook
-        'dkms.conf'
-        modprobe.uvesafb)
+source=(
+  "git+https://github.com/jghodd/uvesafb-dkms.git#tag=$pkgname-$pkgver"
+  "git+https://github.com/mjanusz/v86d.git#tag=$_v86d-$_v86dver"
+  v86d_install
+  v86d_hook
+  'dkms.conf'
+  modprobe.uvesafb
+  'linux-6.1-bringup.patch::https://github.com/akay/uvesafb-dkms/commit/153898622732faf2c66e6a9eef776de203e87cc2.patch'
+  'uhh-bringup.patch'
+)
 
-md5sums=(SKIP
-         SKIP
-         '66ab32602ab29cc5635eaac7f3e42283'
-         '5f75b8bc4a7ddf595014591e5db263cb'
-         '39fa4b6d261d4fb44d21f45dc8a5390c'
-         '2d7cc8dc6a41916a13869212d0191147')
+md5sums=(
+  SKIP
+  SKIP
+  '66ab32602ab29cc5635eaac7f3e42283'
+  '5f75b8bc4a7ddf595014591e5db263cb'
+  '39fa4b6d261d4fb44d21f45dc8a5390c'
+  '2d7cc8dc6a41916a13869212d0191147'
+  SKIP
+  SKIP
+)
+#sha512sums=()
+#b2sums=()
+#b3sums=()
+
+prepare(){
+  cd "${srcdir}/${_pkgbase}-dkms"
+  patch -Np1 <"${srcdir}/linux-6.1-bringup.patch"
+  patch -Np1 <"${srcdir}/uhh-bringup.patch"
+}
 
 build() {
+  export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration" \
+     CXXFLAGS="${CXXFLAGS} -Wno-error=implicit-function-declaration"
+     CPPFLAGS="${CPPFLAGS} -Wno-error=implicit-function-declaration"
   cd "$_v86d"
   ./configure --with-x86emu
   # we only need /usr/include/video/uvesafb.h
