@@ -1,7 +1,7 @@
 # Maintainer: Jelle van der Waa <jelle@archlinux.org>
 
 pkgname=libucontext
-pkgver=1.3.3
+pkgver=1.5
 pkgrel=1
 pkgdesc="ucontext implementation featuring glibc-compatible ABI"
 arch=(x86_64)
@@ -10,10 +10,10 @@ license=("ISC")
 depends=(glibc)
 makedepends=(scdoc meson git)
 source=("git+https://github.com/kaniini/libucontext#tag=${pkgname}-${pkgver}")
-sha256sums=('9ee8e6e51ae0695b36d9a11ee69bf7e2fd7508c01c2f9e871391b6aa647ec698')
+sha256sums=('e7702535979f6da207f267436bcbe3b4a802bbd641913441adcc1fb6efae58ea')
 
 build() {
-  arch-meson -Ddocs=true ${pkgname} build
+  arch-meson -Ddocs=true -Dfreestanding=true ${pkgname} build
   meson compile -C build
 }
 
