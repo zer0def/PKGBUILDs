@@ -5,7 +5,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
 _pkgbase=llvm
-pkgver=17.0.6
+pkgver=18.1.8
 pkgname=(
   "${_pkgbase}${pkgver%%.*}"
   "${_pkgbase}${pkgver%%.*}-libs"
@@ -30,12 +30,13 @@ makedepends=(
   'python-installer'
   'python-setuptools'
   'python-wheel'
+  'curl'
 )
 checkdepends=('python-psutil')
 options=('staticlibs' '!lto')  # echo "${CARCH}" | grep -qvE '^arm|86$' || options+=('!lto')  # tools/llvm-shlib/typeids.test fails with LTO
 source=("git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed")
-sha256sums=('5cba4bf5388b65e4883908519ec087b5cca23ef3c747fa01e382802c1c62b1da')
-b2sums=('1c138b23672a3c689319e0096806c2832db037e67d7758743660dabf3dc56dc6a91ba845155e07fb2bfa5c5cef3e50dee8aba10c327e73d6a791eeaf4c64d43d')
+sha256sums=('55b61a110a0f970b799b0bdb3502f12151f9e0449f23bfd5cc7a5ea9d8f54abf')
+b2sums=('6e56421b0a9993a33da2b5ed46452ae4cf636a1246fe74ba9060319fbceb6bdd9eb9be2f6a9216479e28d0faf02ecf0a793017466edd912287d4c677e0b05880')
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
   'D574BD5D1D0E98895E3BF90044F2485E45D59042'  # Tobias Hieta <tobias@hieta.se>
@@ -86,6 +87,12 @@ prepare() {
   sed -i '19i #include <cstdint>' lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
   sed -i '18i #include <cstdint>' lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
 
+  # https://github.com/llvm/llvm-project/issues/82431
+  sed '/^diff.*inline-asm-memop.ll/,$d' ../$pkgname-SelectionDAG.patch | patch -Np2
+
+  # Remove CMake find module for zstd; breaks if out of sync with upstream zstd
+  rm cmake/modules/Findzstd.cmake
+
   # package lit per llvm major
   grep -nrE '(import|from)(\s*)lit(\.|\s|$)' utils/lit | awk -F: '{print $1}' | sort -u | xargs -r -- sed -i \
     -e "s/\(from\s*\)lit\./\1lit${pkgver%%.*}./g" \
@@ -126,6 +133,7 @@ build() {
     -DLLVM_INSTALL_UTILS=ON
     -DLLVM_LINK_LLVM_DYLIB=ON
     -DLLVM_USE_PERF=ON
+    -DLLVM_ENABLE_CURL=ON
 
     # these are optional, especially when you want to avoid involving python
     -DLLVM_ENABLE_SPHINX=OFF
@@ -154,11 +162,12 @@ check() {
   :||LD_LIBRARY_PATH="${PWD}/lib" ninja -v check
 }
 
-package_llvm17() {
+package_llvm18() {
   pkgdesc="Compiler infrastructure (LLVM ${pkgver%%.*})"
   depends=(
     "${_pkgbase}${pkgver%%.*}-libs"
     'perl'
+    'curl'
   )
 
   cd "${srcdir}/llvm-project/llvm/build"
@@ -172,7 +181,7 @@ package_llvm17() {
 
   # The runtime libraries go into llvm${pkgver%%.*}-libs
   local _llvm_lib
-  for _llvm_lib in "libLLVM-${pkgver%%.*}.so" "libLLVM-${pkgver}.so" LLVMgold.so; do  # "libLLVM.so.${pkgver%.*}"
+  for _llvm_lib in "libLLVM-${pkgver%%.*}.so" "libLLVM.so.${pkgver%.*}" LLVMgold.so; do
     mv -f "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/${_llvm_lib}" "${srcdir}/"
   done
   rm -f "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/libLLVM"*.a
@@ -191,7 +200,7 @@ package_llvm17() {
   install -Dm644 ../LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm17-libs() {
+package_llvm18-libs() {
   pkgdesc="LLVM ${pkgver%%.*} libraries"
   depends=(
     'gcc-libs'
@@ -200,11 +209,12 @@ package_llvm17-libs() {
     'libedit'
     'ncurses'
     'libxml2'
+    'zstd'
   )
 
   install -Dm0644 -t "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib" "${srcdir}/llvm-project/llvm/build/lib/libLLVM"*.a
   local _llvm_lib
-  for _llvm_lib in "libLLVM-${pkgver%%.*}.so" "libLLVM-${pkgver}.so"; do  # "libLLVM.so.${pkgver%.*}"
+  for _llvm_lib in "libLLVM-${pkgver%%.*}.so" "libLLVM.so.${pkgver%.*}"; do
     cp -P "${srcdir}/${_llvm_lib}" "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/"
     ln -sf "llvm${pkgver%%.*}/lib/${_llvm_lib}" "${pkgdir}/usr/lib"
   done
@@ -214,7 +224,7 @@ package_llvm17-libs() {
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm17-default() {
+package_llvm18-default() {
   pkgdesc="LLVM ${pkgver%%.*} default symlinks"
   depends=("${_pkgbase}${pkgver%%.*}" "${_pkgbase}${pkgver%%.*}-libs")
   provides=('llvm' 'llvm-libs' 'llvm-default' 'libLLVM.so' 'libLTO.so' 'libRemarks.so' 'libLLVMCore.a')
