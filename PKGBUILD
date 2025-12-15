@@ -5,7 +5,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
 _pkgbase=llvm
-pkgver=18.1.8
+pkgver=19.1.7
 pkgname=(
   "${_pkgbase}${pkgver%%.*}"
   "${_pkgbase}${pkgver%%.*}-libs"
@@ -25,18 +25,26 @@ makedepends=(
   'libedit'
   'libxml2'
   'python'
-  'ncurses'
   'python-build'
   'python-installer'
   'python-setuptools'
   'python-wheel'
   'curl'
+  'python-psutil'
 )
-checkdepends=('python-psutil')
 options=('staticlibs' '!lto')  # echo "${CARCH}" | grep -qvE '^arm|86$' || options+=('!lto')  # tools/llvm-shlib/typeids.test fails with LTO
-source=("git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed")
-sha256sums=('55b61a110a0f970b799b0bdb3502f12151f9e0449f23bfd5cc7a5ea9d8f54abf')
-b2sums=('6e56421b0a9993a33da2b5ed46452ae4cf636a1246fe74ba9060319fbceb6bdd9eb9be2f6a9216479e28d0faf02ecf0a793017466edd912287d4c677e0b05880')
+source=(
+  "git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed"
+  "0001-sdag-freeze-condition-in-select-of-load-fold.patch"  # https://github.com/llvm/llvm-project/issues/208611 # https://github.com/llvm/llvm-project/pull/208683
+)
+sha256sums=(
+  'f6c754bd1b8d7da76f357a539ff8175f214b7dc1b52391a0fe75cfb9a57f28dd'
+  '6a78b53d36ada125d7febeb51c9b2a95253e882916d663cdbfe9f55398478fea'
+)
+b2sums=(
+  '660ac9cec8c0ea609364ddbd3d7598933951564d4a21c99aaf3734ee1065f36701ed9173e22b4db9107499faa21a686f1786f86829a905900a15b0e43fc3e648'
+  'f0d46692e92b63cacffcf74842514b1f4e40fed401b4ab2f2c66dbfe8be34054728f4c514bdd4e8e4cbde833482bc3d17e5b3ddbeaab36b2bda28f82fb076531'
+)
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
   'D574BD5D1D0E98895E3BF90044F2485E45D59042'  # Tobias Hieta <tobias@hieta.se>
@@ -81,14 +89,7 @@ _get_distribution_components() {
 prepare() {
   cd "${srcdir}/llvm-project/llvm"
 
-  # https://aur.archlinux.org/packages/llvm17#comment-1039830
-  # https://gcc.gnu.org/gcc-15/porting_to.html#header-dep-changes
-  sed -i '29i #include <cstdint>' include/llvm/ADT/SmallVector.h
-  sed -i '19i #include <cstdint>' lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
-  sed -i '18i #include <cstdint>' lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
-
-  # https://github.com/llvm/llvm-project/issues/82431
-  sed '/^diff.*inline-asm-memop.ll/,$d' ../$pkgname-SelectionDAG.patch | patch -Np2
+  #patch -Np1 -i "${srcdir}/0001-sdag-freeze-condition-in-select-of-load-fold.patch" -d "${srcdir}/llvm-project"
 
   # Remove CMake find module for zstd; breaks if out of sync with upstream zstd
   rm cmake/modules/Findzstd.cmake
@@ -162,7 +163,7 @@ check() {
   :||LD_LIBRARY_PATH="${PWD}/lib" ninja -v check
 }
 
-package_llvm18() {
+package_llvm19() {
   pkgdesc="Compiler infrastructure (LLVM ${pkgver%%.*})"
   depends=(
     "${_pkgbase}${pkgver%%.*}-libs"
@@ -200,14 +201,13 @@ package_llvm18() {
   install -Dm644 ../LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm18-libs() {
+package_llvm19-libs() {
   pkgdesc="LLVM ${pkgver%%.*} libraries"
   depends=(
     'gcc-libs'
     'zlib'
     'libffi'
     'libedit'
-    'ncurses'
     'libxml2'
     'zstd'
   )
@@ -224,7 +224,7 @@ package_llvm18-libs() {
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm18-default() {
+package_llvm19-default() {
   pkgdesc="LLVM ${pkgver%%.*} default symlinks"
   depends=("${_pkgbase}${pkgver%%.*}" "${_pkgbase}${pkgver%%.*}-libs")
   provides=('llvm' 'llvm-libs' 'llvm-default' 'libLLVM.so' 'libLTO.so' 'libRemarks.so' 'libLLVMCore.a')
