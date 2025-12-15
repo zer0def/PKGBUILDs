@@ -5,7 +5,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
 _pkgbase=llvm
-pkgver=20.1.8
+pkgver=21.1.8
 pkgname=(
   "${_pkgbase}${pkgver%%.*}"
   "${_pkgbase}${pkgver%%.*}-libs"
@@ -38,12 +38,12 @@ source=(
   "0001-sdag-freeze-condition-in-select-of-load-fold.patch"  # https://github.com/llvm/llvm-project/issues/208611 # https://github.com/llvm/llvm-project/pull/208683
 )
 sha256sums=(
-  'a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d'
-  '975d3c0549d751bddd0ac040a50d783d336af663c26ed0dad5e613c8c9883839'
+  'b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff'
+  'cd3e1b224353edd2136cbdf85f78587a40e563422cb5f6dfcea04d601c6f2a24'
 )
 b2sums=(
-  'b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b'
-  '19dec20142385a17ed4464f297ca486addaba4530e8eaf0ad8a84592e7bcb6eaf94eadb2409f3fc0baa9b752b7194917db0bd77ee1f1ae216c404c1774fbd550'
+  '3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4'
+  '99e02130ed7d6eb6481079c3e03a38e2166a0b7a3b8abffcef59ad7425a75b32793397e3657166a073de16c002d07568c3c016ea37609830f9ce1aeada3d31a7'
 )
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
@@ -163,7 +163,7 @@ check() {
   :||LD_LIBRARY_PATH="${PWD}/lib" ninja -v check
 }
 
-package_llvm20() {
+package_llvm21() {
   pkgdesc="Compiler infrastructure (LLVM ${pkgver%%.*})"
   depends=(
     "${_pkgbase}${pkgver%%.*}-libs"
@@ -201,7 +201,7 @@ package_llvm20() {
   install -Dm644 ../LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm20-libs() {
+package_llvm21-libs() {
   pkgdesc="LLVM ${pkgver%%.*} libraries"
   depends=(
     'gcc-libs'
@@ -224,7 +224,7 @@ package_llvm20-libs() {
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm20-default() {
+package_llvm21-default() {
   pkgdesc="LLVM ${pkgver%%.*} default symlinks"
   depends=("${_pkgbase}${pkgver%%.*}" "${_pkgbase}${pkgver%%.*}-libs")
   provides=('llvm' 'llvm-libs' 'llvm-default' 'libLLVM.so' 'libLTO.so' 'libRemarks.so' 'libLLVMCore.a')
