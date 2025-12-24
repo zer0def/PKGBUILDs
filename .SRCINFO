@@ -1,29 +1,29 @@
-pkgbase = wasi-compiler-rt21
+pkgbase = wasi-compiler-rt20
 	pkgdesc = WASI LLVM compiler runtime
-	pkgver = 21.1.8
+	pkgver = 20.1.8
 	pkgrel = 3
 	url = https://compiler-rt.llvm.org/
 	arch = any
 	license = Apache-2.0 WITH LLVM-exception
 	makedepends = cmake
 	makedepends = ninja
-	makedepends = llvm21
-	makedepends = clang21
+	makedepends = llvm20
+	makedepends = clang20
 	makedepends = lld
 	depends = wasi-libc
 	options = staticlibs
-	source = git+https://github.com/llvm/llvm-project#tag=llvmorg-21.1.8?signed
+	source = git+https://github.com/llvm/llvm-project#tag=llvmorg-20.1.8?signed
 	source = WASI.cmake
 	source = wasi-sdk.cmake
 	validpgpkeys = 474E22316ABF4785A88C6E8EA2C794A986419D8A
 	validpgpkeys = D574BD5D1D0E98895E3BF90044F2485E45D59042
 	validpgpkeys = FFB3368980F3E6BB5737145A316C56D064CACBA5
 	validpgpkeys = 71046D1E9C6656BDD61171873E83BABF4A4F9E85
-	sha512sums = 2f06dce8a3aa81ef13b23800e00ac66eb37b9cdf23769449c40db504cf17b3e7c07128a97f0fb0535f592d5b83211d003df0a3dd4b6ec4df143aa2441e48cd7d
+	sha512sums = 5069d831da4c628946e97e4e867875196a948d7a9c0bcc36aa088f27aa2e7c907d5d709e4091aa5b3a14627dbfd70e67e287e6cd1fb10e926cdd28b43d44aef3
 	sha512sums = e14b58b7b8c1b8487ea1da5667c6392fb393ff45e2df40e6d5dee193ddc1b624ea4b6ae4cc7847cd9e2b01adf3e8128dc524dd000eb233dd64976e666a1daea2
 	sha512sums = c42ad43dcf91dcaa0207d383a0d0f81b12bda5b02484f06f809f419b96d7258792038f11c9700642f94dff5552682be926b8960d5c6590fdd275f6c962fe82db
-	b2sums = 3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4
+	b2sums = b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b
 	b2sums = c829d807c257921fddb8c4d3752ad2291a2beb116d414dd31e34b7f6b01599d8c4807db87ef9930456ed8c9f30e8648e77028fa0b903c3a5ea840514f6022cf4
 	b2sums = 9f20eaa64069d20510a5ba6acdedfa4bbf723e1da13792bbbdfc57cc20d232962f5603a56c9723879624ab65e18f3770fda509dc76e3f099c3744acbfeabafc2
 
-pkgname = wasi-compiler-rt21
+pkgname = wasi-compiler-rt20
