@@ -3,7 +3,7 @@
 # Contributor: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
-pkgver=17.0.6
+pkgver=18.1.8
 pkgname="compiler-rt${pkgver%%.*}"
 pkgrel=3
 pkgdesc="Compiler runtime libraries for clang ${pkgver%%.*}"
@@ -22,14 +22,17 @@ options=('staticlibs' '!lto')  # echo "${CARCH}" | grep -qvE '^arm|86$' || optio
 source=(
   "git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed"
   "https://github.com/llvm/llvm-project/commit/59978b21ad9c65276ee8e14f26759691b8a65763.patch"
+  "avoid-libunwind-for-i386-check.patch"
 )
 sha256sums=(
-  '5cba4bf5388b65e4883908519ec087b5cca23ef3c747fa01e382802c1c62b1da'
+  '55b61a110a0f970b799b0bdb3502f12151f9e0449f23bfd5cc7a5ea9d8f54abf'
   'ccb40c999aecdf32875b8800e5a87db2e899aede2eeec13228fcb6a76db83274'
+  '62b760d93e0b30b74b7209cb35f3d7a3459c55ad03b84c7af57120d8da146045'
 )
 b2sums=(
-  '1c138b23672a3c689319e0096806c2832db037e67d7758743660dabf3dc56dc6a91ba845155e07fb2bfa5c5cef3e50dee8aba10c327e73d6a791eeaf4c64d43d'
+  '6e56421b0a9993a33da2b5ed46452ae4cf636a1246fe74ba9060319fbceb6bdd9eb9be2f6a9216479e28d0faf02ecf0a793017466edd912287d4c677e0b05880'
   '62c9f4169c6826e74a7566b4caeec2bc77d1ee54842a01c27568b9ae7f02e306d5b61c9f7351b17c27dcfd887bf96142be69ecf70e31146dbed9d0005b981e3d'
+  '4792ec3b8faf63c32f641772b6ae034b464b67f8c8c4c1a7609634ecedf4fe482b9dc36c0becf11aaed66e2cdd1e2402d89e7dd928b33cc32a3ac408d03b928c'
 )
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
@@ -44,8 +47,8 @@ prepare() {
   patch -Nsp2 -d "${srcdir}/llvm-project/compiler-rt" \
     -i "${srcdir}/59978b21ad9c65276ee8e14f26759691b8a65763.patch"
 
-  # https://gcc.gnu.org/gcc-15/porting_to.html#header-dep-changes
-  sed -i '18i #include <cstdint>' "${srcdir}/llvm-project/compiler-rt/lib/orc/error.h"
+  patch -Np1 -d "${srcdir}/llvm-project/compiler-rt" \
+    -i "${srcdir}/avoid-libunwind-for-i386-check.patch"
 
   rm -rf "${srcdir}/llvm-project/libcxx" "${srcdir}/llvm-project/libcxxabi"
 }
