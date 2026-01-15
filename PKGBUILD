@@ -3,7 +3,7 @@
 # Contributor: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
-pkgver=19.1.7
+pkgver=20.1.8
 pkgname="compiler-rt${pkgver%%.*}"
 pkgrel=3
 pkgdesc="Compiler runtime libraries for clang ${pkgver%%.*}"
@@ -25,12 +25,12 @@ source=(
   "avoid-libunwind-for-i386-check.patch"
 )
 sha256sums=(
-  'f6c754bd1b8d7da76f357a539ff8175f214b7dc1b52391a0fe75cfb9a57f28dd'
+  'a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d'
   'ccb40c999aecdf32875b8800e5a87db2e899aede2eeec13228fcb6a76db83274'
   '62b760d93e0b30b74b7209cb35f3d7a3459c55ad03b84c7af57120d8da146045'
 )
 b2sums=(
-  '660ac9cec8c0ea609364ddbd3d7598933951564d4a21c99aaf3734ee1065f36701ed9173e22b4db9107499faa21a686f1786f86829a905900a15b0e43fc3e648'
+  'b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b'
   '62c9f4169c6826e74a7566b4caeec2bc77d1ee54842a01c27568b9ae7f02e306d5b61c9f7351b17c27dcfd887bf96142be69ecf70e31146dbed9d0005b981e3d'
   '4792ec3b8faf63c32f641772b6ae034b464b67f8c8c4c1a7609634ecedf4fe482b9dc36c0becf11aaed66e2cdd1e2402d89e7dd928b33cc32a3ac408d03b928c'
 )
@@ -43,9 +43,6 @@ validpgpkeys=(
 
 prepare() {
   mkdir -p "${srcdir}/llvm-project/compiler-rt/build"
-
-  patch -Nsp2 -d "${srcdir}/llvm-project/compiler-rt" \
-    -i "${srcdir}/59978b21ad9c65276ee8e14f26759691b8a65763.patch"
 
   patch -Np1 -d "${srcdir}/llvm-project/compiler-rt" \
     -i "${srcdir}/avoid-libunwind-for-i386-check.patch"
