@@ -1,12 +1,12 @@
-pkgbase = compiler-rt20
-	pkgdesc = Compiler runtime libraries for clang 20
-	pkgver = 20.1.8
+pkgbase = compiler-rt21
+	pkgdesc = Compiler runtime libraries for clang 21
+	pkgver = 21.1.8
 	pkgrel = 3
 	url = https://compiler-rt.llvm.org/
 	arch = x86_64
 	license = custom:Apache 2.0 with LLVM Exception
-	makedepends = llvm20
-	makedepends = llvm20-libs
+	makedepends = llvm21
+	makedepends = llvm21-libs
 	makedepends = cmake
 	makedepends = ninja
 	makedepends = python
@@ -16,19 +16,19 @@ pkgbase = compiler-rt20
 	provides = compiler-rt
 	options = staticlibs
 	options = !lto
-	source = git+https://github.com/llvm/llvm-project#tag=llvmorg-20.1.8?signed
+	source = git+https://github.com/llvm/llvm-project#tag=llvmorg-21.1.8?signed
 	source = https://github.com/llvm/llvm-project/commit/59978b21ad9c65276ee8e14f26759691b8a65763.patch
 	source = avoid-libunwind-for-i386-check.patch
 	validpgpkeys = 474E22316ABF4785A88C6E8EA2C794A986419D8A
 	validpgpkeys = D574BD5D1D0E98895E3BF90044F2485E45D59042
 	validpgpkeys = FFB3368980F3E6BB5737145A316C56D064CACBA5
 	validpgpkeys = 71046D1E9C6656BDD61171873E83BABF4A4F9E85
-	sha256sums = a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d
+	sha256sums = b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff
 	sha256sums = ccb40c999aecdf32875b8800e5a87db2e899aede2eeec13228fcb6a76db83274
 	sha256sums = 62b760d93e0b30b74b7209cb35f3d7a3459c55ad03b84c7af57120d8da146045
-	b2sums = b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b
+	b2sums = 3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4
 	b2sums = 62c9f4169c6826e74a7566b4caeec2bc77d1ee54842a01c27568b9ae7f02e306d5b61c9f7351b17c27dcfd887bf96142be69ecf70e31146dbed9d0005b981e3d
 	b2sums = 4792ec3b8faf63c32f641772b6ae034b464b67f8c8c4c1a7609634ecedf4fe482b9dc36c0becf11aaed66e2cdd1e2402d89e7dd928b33cc32a3ac408d03b928c
 	makedepends_x86_64 = lib32-gcc-libs
 
-pkgname = compiler-rt20
+pkgname = compiler-rt21

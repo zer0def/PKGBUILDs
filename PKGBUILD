@@ -3,7 +3,7 @@
 # Contributor: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
-pkgver=20.1.8
+pkgver=21.1.8
 pkgname="compiler-rt${pkgver%%.*}"
 pkgrel=3
 pkgdesc="Compiler runtime libraries for clang ${pkgver%%.*}"
@@ -25,12 +25,12 @@ source=(
   "avoid-libunwind-for-i386-check.patch"
 )
 sha256sums=(
-  'a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d'
+  'b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff'
   'ccb40c999aecdf32875b8800e5a87db2e899aede2eeec13228fcb6a76db83274'
   '62b760d93e0b30b74b7209cb35f3d7a3459c55ad03b84c7af57120d8da146045'
 )
 b2sums=(
-  'b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b'
+  '3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4'
   '62c9f4169c6826e74a7566b4caeec2bc77d1ee54842a01c27568b9ae7f02e306d5b61c9f7351b17c27dcfd887bf96142be69ecf70e31146dbed9d0005b981e3d'
   '4792ec3b8faf63c32f641772b6ae034b464b67f8c8c4c1a7609634ecedf4fe482b9dc36c0becf11aaed66e2cdd1e2402d89e7dd928b33cc32a3ac408d03b928c'
 )
