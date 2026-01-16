@@ -4,7 +4,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 # Contributor: An Nguyen <an-1258@outlook.com>
 
-pkgver=17.0.6
+pkgver=18.1.8
 pkgbase="clang${pkgver%%.*}"
 pkgname=(
   "clang${pkgver%%.*}"
@@ -26,7 +26,6 @@ makedepends=(
   'cmake'
   'ninja'
   'python'
-  'python-recommonmark'
   'python-fissix'
 )
 optdepends=('openmp: OpenMP support in clang with -fopenmp'
@@ -36,18 +35,21 @@ options=('!lto')  # echo "${CARCH}" | grep -qvE '^arm|86$' || options+=('!lto')
 _source_base="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}"
 source=(
   "git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed"
-  clangd-handle-missing-ending-brace.patch
+  #clang-disable-float128-diagnostics-for-device-compilation.patch
+  #support-__GCC_-CON-DE-STRUCTIVE_SIZE.patch
   enable-fstack-protector-strong-by-default.patch
 )
 sha256sums=(
-  '5cba4bf5388b65e4883908519ec087b5cca23ef3c747fa01e382802c1c62b1da'
-  'c102e8a6a2adb0e8729865ffb8799b22bb8a9bdf0f421991880fa4393378370a'
-  '45da5783f4e89e4507a351ed0ffbbe6ec240e21ff7070797a89c5ccf434ac612'
+  '55b61a110a0f970b799b0bdb3502f12151f9e0449f23bfd5cc7a5ea9d8f54abf'
+  #'94a3d4df2443f9dc9e256e6c0c661ff4a4ca4f34a5ca351f065511b9694faf2a'
+  #'8832b4ee02fe8a0e57fca608288242f80e348ee9b60be3eb0069c8b91a42fbf4'
+  'ef319e65f927718e1d3b1a23c480d686b1d292e2a0bf27229540964f9734117a'
 )
 b2sums=(
-  '1c138b23672a3c689319e0096806c2832db037e67d7758743660dabf3dc56dc6a91ba845155e07fb2bfa5c5cef3e50dee8aba10c327e73d6a791eeaf4c64d43d'
-  'd3ffa7e43daa5c3f1d3a6b962a8b4317595a087129a2283e67bf53dead52c05d1f22b5abd4948533a66e8aa449a722a2260a1b142e86b53c6695892713103e68'
-  '3a3cffdd7c706014eb930d0d85a4a2db83dfd245a05f743da337255bed7b150a1308d17229d223f1b9f5944369e4be4236ee3816925faae63b0a41534bf0c01d'
+  '6e56421b0a9993a33da2b5ed46452ae4cf636a1246fe74ba9060319fbceb6bdd9eb9be2f6a9216479e28d0faf02ecf0a793017466edd912287d4c677e0b05880'
+  #'e6742b4dab1246d3580ee6a91acb45a6224653c6d9c17c3c24fd698cf95dfab06ca73afafcd9e2f2272d0e31ae0de59244a57d4888c5079eadf63e2aa5aef16f'
+  #'67e12d004f8f13b9fe944d146b0cbdff70a36748dc686a296605f0d3f3869b7d0ad0c23f4b7492c930753130b8ac2fc2fe2ba871fa3ffc0d2aef71fff1ffa787'
+  '5e3e949867d6e3e1b78e2b24a75192058020b095b402de452e2611ff9a7b9bccbf370d841d987b331cad06fe4cc23ea0ad31b21c5e84f0a3f5055d3761621463'
 )
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
@@ -82,9 +84,8 @@ prepare() {
 
   patch -Np2 -d "${srcdir}/llvm-project/clang" -i "${srcdir}/enable-fstack-protector-strong-by-default.patch"
 
-  # https://github.com/clangd/clangd/issues/1559
-  sed 's|clang-tools-extra|clang/tools/extra|' "${srcdir}/clangd-handle-missing-ending-brace.patch" \
-    | patch -Np2 -d "${srcdir}/llvm-project/clang"
+  #patch -Np2 -d "${srcdir}/llvm-project/clang" -i "${srcdir}/clang-disable-float128-diagnostics-for-device-compilation.patch"
+  #patch -Np2 -d "${srcdir}/llvm-project/clang" -i "${srcdir}/support-__GCC_-CON-DE-STRUCTIVE_SIZE.patch"
 
   # Attempt to convert script to Python 3
   python -m fissix -wn --no-diffs \
@@ -148,15 +149,15 @@ _python_optimize() {
   python -OO -m compileall "$@"
 }
 
-package_clang17() {
+package_clang18() {
   cd "${srcdir}/llvm-project/clang/build"
 
   DESTDIR="${pkgdir}" ninja install-distribution
   install -Dm644 ../LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
-  mv "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/libclang-cpp.so.${pkgver%%.*}" "${pkgdir}/usr/lib/"
-  ln -s "../../libclang-cpp.so.${pkgver%%.*}" "${pkgdir}/${_prefix}/lib/libclang-cpp.so.${pkgver%%.*}"
-  ln -s "llvm${pkgver%%.*}/lib/libclang.so.${pkgver%%.*}" "${pkgdir}/usr/lib/libclang.so.${pkgver%%.*}"
+  mv "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/libclang-cpp.so.${pkgver%.*}" "${pkgdir}/usr/lib/"
+  ln -s "../../libclang-cpp.so.${pkgver%.*}" "${pkgdir}/${_prefix}/lib/libclang-cpp.so.${pkgver%.*}"
+  ln -s "llvm${pkgver%%.*}/lib/libclang.so.${pkgver%.*}" "${pkgdir}/usr/lib/libclang.so.${pkgver%.*}"
 
   sed -i "s#lib/cmake/clang\"#lib/cmake/clang${_llvmver}\"#" "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/cmake/clang/ClangConfig.cmake"
   mkdir -p "${pkgdir}/usr/lib/cmake/"
@@ -172,7 +173,7 @@ package_clang17() {
   rm -f "${pkgdir}/usr/bin/clang-${pkgver%%.*}-${pkgver%%.*}"
 }
 
-package_clang17-default() {
+package_clang18-default() {
   provides=('clang')
 
   mkdir -p "${pkgdir}/usr/"{bin,include,lib/{clang/${pkgver%%.*}/include,cmake},share/{clang{,-doc},doc/clang{,-tools},man/man1,scan-{build,view}}}
@@ -188,7 +189,7 @@ package_clang17-default() {
     done
   done
 
-  ln -s "libclang-cpp.so.${pkgver%%.*}" "${pkgdir}/usr/lib/libclang-cpp.so"
+  ln -s "libclang-cpp.so.${pkgver%.*}" "${pkgdir}/usr/lib/libclang-cpp.so"
   for i in "${pkgver}" ''; do ln -sf "llvm${pkgver%%.*}/lib/libclang.so${i:+.${i}}" "${pkgdir}/usr/lib/libclang.so${i:+.${i}}"; done
   rm -f "${pkgdir}/usr/bin/clang-${pkgver%%.*}"
 
