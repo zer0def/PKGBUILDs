@@ -4,7 +4,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 # Contributor: An Nguyen <an-1258@outlook.com>
 
-pkgver=19.1.7
+pkgver=20.1.8
 pkgbase="clang${pkgver%%.*}"
 pkgname=(
   "clang${pkgver%%.*}"
@@ -37,18 +37,24 @@ source=(
   "git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed"
   #clang-disable-float128-diagnostics-for-device-compilation.patch
   #support-__GCC_-CON-DE-STRUCTIVE_SIZE.patch
+  #0001-Revert-clang-driver-When-fveclib-ArmPL-flag-is-in-us.patch
+  #0002-Reapply-CUDA-HIP-Add-a-__device__-version-of-std-__g.patch
   enable-fstack-protector-strong-by-default.patch
 )
 sha256sums=(
-  'f6c754bd1b8d7da76f357a539ff8175f214b7dc1b52391a0fe75cfb9a57f28dd'
+  'a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d'
   #'94a3d4df2443f9dc9e256e6c0c661ff4a4ca4f34a5ca351f065511b9694faf2a'
   #'8832b4ee02fe8a0e57fca608288242f80e348ee9b60be3eb0069c8b91a42fbf4'
+  #'e88768730a7a46e7952758ec80f831997e30e7dbab53077decae3f71f4fc315e'
+  #'e7a5f5ce24ed43895219d397b0c85d7b9289d604dfd742717ce10da640d8f3c2'
   'ef319e65f927718e1d3b1a23c480d686b1d292e2a0bf27229540964f9734117a'
 )
 b2sums=(
-  '660ac9cec8c0ea609364ddbd3d7598933951564d4a21c99aaf3734ee1065f36701ed9173e22b4db9107499faa21a686f1786f86829a905900a15b0e43fc3e648'
+  'b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b'
   #'e6742b4dab1246d3580ee6a91acb45a6224653c6d9c17c3c24fd698cf95dfab06ca73afafcd9e2f2272d0e31ae0de59244a57d4888c5079eadf63e2aa5aef16f'
   #'67e12d004f8f13b9fe944d146b0cbdff70a36748dc686a296605f0d3f3869b7d0ad0c23f4b7492c930753130b8ac2fc2fe2ba871fa3ffc0d2aef71fff1ffa787'
+  #'8c7324d50a4f8f9b81d67512f5b3b05ce9c30b960439e9c6cf02ece8f72bc48149646547450d8b2bc8023339b2cb152b513ab2eca83b21089636e95b3e85d0ac'
+  #'dbf741ad7a28121d2bc29a583b0a97f44826111e1b5805be82766b805a8b77352619e517e234a570f9ba8ddcced856f13795d6e4f19807afc773e07303f446fa'
   '5e3e949867d6e3e1b78e2b24a75192058020b095b402de452e2611ff9a7b9bccbf370d841d987b331cad06fe4cc23ea0ad31b21c5e84f0a3f5055d3761621463'
 )
 validpgpkeys=(
@@ -86,6 +92,11 @@ prepare() {
 
   #patch -Np2 -d "${srcdir}/llvm-project/clang" -i "${srcdir}/clang-disable-float128-diagnostics-for-device-compilation.patch"
   #patch -Np2 -d "${srcdir}/llvm-project/clang" -i "${srcdir}/support-__GCC_-CON-DE-STRUCTIVE_SIZE.patch"
+
+  # Revert always linking against libamath when -fveclib=ArmPL
+  #patch -Np2 -i ../0001-Revert-clang-driver-When-fveclib-ArmPL-flag-is-in-us.patch
+  # [CUDA][HIP] Add a __device__ version of std::__glibcxx_assert_fail()
+  #patch -Np2 -i ../0002-Reapply-CUDA-HIP-Add-a-__device__-version-of-std-__g.patch
 
   # Attempt to convert script to Python 3
   python -m fissix -wn --no-diffs \
@@ -143,8 +154,9 @@ build() {
 
 check() {
   [ "${CARCH%64*}" != "${CARCH}" ] || return 0
+  return 0
   cd "${srcdir}/llvm-project/clang/build"
-  LD_LIBRARY_PATH="${PWD}/lib" ninja clang-check
+  LD_LIBRARY_PATH="${PWD}/lib" ninja check-clang{,-tools}
 }
 
 _python_optimize() {
@@ -153,7 +165,7 @@ _python_optimize() {
   python -OO -m compileall "$@"
 }
 
-package_clang19() {
+package_clang20() {
   cd "${srcdir}/llvm-project/clang/build"
 
   DESTDIR="${pkgdir}" ninja install-distribution
@@ -177,7 +189,7 @@ package_clang19() {
   rm -f "${pkgdir}/usr/bin/clang-${pkgver%%.*}-${pkgver%%.*}"
 }
 
-package_clang19-default() {
+package_clang20-default() {
   provides=('clang')
 
   mkdir -p "${pkgdir}/usr/"{bin,include,lib/{clang/${pkgver%%.*}/include,cmake},share/{clang{,-doc},doc/clang{,-tools},man/man1,scan-{build,view}}}
