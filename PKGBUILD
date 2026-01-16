@@ -4,7 +4,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 # Contributor: An Nguyen <an-1258@outlook.com>
 
-pkgver=18.1.8
+pkgver=19.1.7
 pkgbase="clang${pkgver%%.*}"
 pkgname=(
   "clang${pkgver%%.*}"
@@ -40,13 +40,13 @@ source=(
   enable-fstack-protector-strong-by-default.patch
 )
 sha256sums=(
-  '55b61a110a0f970b799b0bdb3502f12151f9e0449f23bfd5cc7a5ea9d8f54abf'
+  'f6c754bd1b8d7da76f357a539ff8175f214b7dc1b52391a0fe75cfb9a57f28dd'
   #'94a3d4df2443f9dc9e256e6c0c661ff4a4ca4f34a5ca351f065511b9694faf2a'
   #'8832b4ee02fe8a0e57fca608288242f80e348ee9b60be3eb0069c8b91a42fbf4'
   'ef319e65f927718e1d3b1a23c480d686b1d292e2a0bf27229540964f9734117a'
 )
 b2sums=(
-  '6e56421b0a9993a33da2b5ed46452ae4cf636a1246fe74ba9060319fbceb6bdd9eb9be2f6a9216479e28d0faf02ecf0a793017466edd912287d4c677e0b05880'
+  '660ac9cec8c0ea609364ddbd3d7598933951564d4a21c99aaf3734ee1065f36701ed9173e22b4db9107499faa21a686f1786f86829a905900a15b0e43fc3e648'
   #'e6742b4dab1246d3580ee6a91acb45a6224653c6d9c17c3c24fd698cf95dfab06ca73afafcd9e2f2272d0e31ae0de59244a57d4888c5079eadf63e2aa5aef16f'
   #'67e12d004f8f13b9fe944d146b0cbdff70a36748dc686a296605f0d3f3869b7d0ad0c23f4b7492c930753130b8ac2fc2fe2ba871fa3ffc0d2aef71fff1ffa787'
   '5e3e949867d6e3e1b78e2b24a75192058020b095b402de452e2611ff9a7b9bccbf370d841d987b331cad06fe4cc23ea0ad31b21c5e84f0a3f5055d3761621463'
@@ -90,6 +90,10 @@ prepare() {
   # Attempt to convert script to Python 3
   python -m fissix -wn --no-diffs \
     "${srcdir}/llvm-project/clang/tools/extra/clang-include-fixer/find-all-symbols/tool/run-find-all-symbols.py"
+
+  # Fix hardcoded test path
+  #sed -i 's/clang-tools-extra/tools\/extra/g' tools/extra/test/clang-doc/enum.cpp
+  #sed -i 's/clang-tools-extra/tools\/extra/g' tools/extra/test/clang-doc/namespace.cpp
 }
 
 build() {
@@ -149,7 +153,7 @@ _python_optimize() {
   python -OO -m compileall "$@"
 }
 
-package_clang18() {
+package_clang19() {
   cd "${srcdir}/llvm-project/clang/build"
 
   DESTDIR="${pkgdir}" ninja install-distribution
@@ -173,7 +177,7 @@ package_clang18() {
   rm -f "${pkgdir}/usr/bin/clang-${pkgver%%.*}-${pkgver%%.*}"
 }
 
-package_clang18-default() {
+package_clang19-default() {
   provides=('clang')
 
   mkdir -p "${pkgdir}/usr/"{bin,include,lib/{clang/${pkgver%%.*}/include,cmake},share/{clang{,-doc},doc/clang{,-tools},man/man1,scan-{build,view}}}
