@@ -4,20 +4,16 @@ pkgbase = rust
 	pkgrel = 1
 	epoch = 1
 	url = https://www.rust-lang.org/
+	arch = aarch64
 	arch = x86_64
 	license = Apache-2.0 OR MIT
 	checkdepends = gdb
 	checkdepends = procps-ng
-	makedepends = aarch64-linux-gnu-gcc
-	makedepends = aarch64-linux-gnu-glibc
 	makedepends = clang
 	makedepends = cmake
-	makedepends = lib32-gcc-libs
-	makedepends = lib32-glibc
 	makedepends = libffi
 	makedepends = llvm
 	makedepends = musl
-	makedepends = musl-aarch64
 	makedepends = ninja
 	makedepends = perl
 	makedepends = python
@@ -56,6 +52,15 @@ pkgbase = rust
 	b2sums = f122bd84206ef82b72a6a9af6210a661fe8a6705b353f6bafefe409aebaa3a9bb90b6533867ac44748faf502b5363f59b1e835cb5143f9a546bbc5af5f97c558
 	b2sums = 40e14ccc8b5dfff5d87f43a8763d1d2a49435c7a76633a920648a43dd25df0ab056107722ccdc574d9d603322699c6f3990878e19ab25d5e0117689d8f6b99b8
 	b2sums = d80b9cfc4cbba2ad6800606bdf14183de990db33954b9ec63d393493ab77c82714a2069e20495a55c13c778d8ea052ccfbaa7d5b79716c494281c6b34e990137
+	source_aarch64 = bootstrap.aarch64.toml
+	b2sums_aarch64 = f5b57f6b87ee8ba10df21f77e1ad28d15a5a3178fd28d281fb8926e2a625c512baefcbc31af562784d23c60cd81fd2cf4e435be6107efe57851b4c183c1ca445
+	source_x86_64 = bootstrap.x86_64.toml
+	makedepends_x86_64 = aarch64-linux-gnu-gcc
+	makedepends_x86_64 = aarch64-linux-gnu-glibc
+	makedepends_x86_64 = lib32-gcc-libs
+	makedepends_x86_64 = lib32-glibc
+	makedepends_x86_64 = musl-aarch64
+	b2sums_x86_64 = 8c3795e993beb7c6e586e78e4ae82114bf85b349438c2b94e0ad8f809cc50a2bbe987ee8dff37aebb54dc39d9707d4ad54592004bcb1a66a3fff9163df89a3fa
 
 pkgname = rust
 	optdepends = gdb: rust-gdb script
@@ -70,28 +75,8 @@ pkgname = rust
 	replaces = rust-docs<1:1.56.1-3
 	replaces = rustfmt
 
-pkgname = lib32-rust-libs
-	pkgdesc = 32-bit target and libraries for Rust
-	depends = lib32-gcc-libs
-	depends = lib32-glibc
-	depends = rust
-	provides = lib32-rust
-	conflicts = lib32-rust
-	replaces = lib32-rust
-
 pkgname = rust-musl
 	pkgdesc = Musl target for Rust
-	depends = rust
-
-pkgname = rust-aarch64-gnu
-	pkgdesc = AArch64 GNU target for Rust
-	depends = aarch64-linux-gnu-gcc
-	depends = aarch64-linux-gnu-glibc
-	depends = rust
-
-pkgname = rust-aarch64-musl
-	pkgdesc = AArch64 Musl target for Rust
-	depends = aarch64-linux-gnu-gcc
 	depends = rust
 
 pkgname = rust-wasm

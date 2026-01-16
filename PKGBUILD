@@ -7,24 +7,25 @@
 pkgbase=rust
 pkgname=(
   rust
-  lib32-rust-libs
   rust-musl
-  rust-aarch64-gnu
-  rust-aarch64-musl
   rust-wasm
   rust-src
+)
+pkgname_x86_64=(
+  lib32-rust-libs
+  rust-aarch64-gnu
+  rust-aarch64-musl
 )
 pkgver=1.92.0
 pkgrel=1
 epoch=1
 pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
-arch=(x86_64)
-license=("Apache-2.0 OR MIT")
-options=(
-  !emptydirs
-  !lto
+arch=(
+  aarch64
+  x86_64
 )
+license=("Apache-2.0 OR MIT")
 depends=(
   bash
   compiler-rt
@@ -39,16 +40,11 @@ depends=(
   zlib
 )
 makedepends=(
-  aarch64-linux-gnu-gcc
-  aarch64-linux-gnu-glibc
   clang
   cmake
-  lib32-gcc-libs
-  lib32-glibc
   libffi
   llvm
   musl
-  musl-aarch64
   ninja
   perl
   python
@@ -56,9 +52,20 @@ makedepends=(
   wasi-libc
   wasm-component-ld
 )
+makedepends_x86_64=(
+  aarch64-linux-gnu-gcc
+  aarch64-linux-gnu-glibc
+  lib32-gcc-libs
+  lib32-glibc
+  musl-aarch64
+)
 checkdepends=(
   gdb
   procps-ng
+)
+options=(
+  !emptydirs
+  !lto
 )
 source=(
   "https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.gz"{,.asc}
@@ -86,6 +93,8 @@ source=(
   # Prefer "lib" over "lib64"
   0007-compiler-Swap-primary-and-secondary-lib-dirs.patch
 )
+source_aarch64=(bootstrap.aarch64.toml)
+source_x86_64=(bootstrap.x86_64.toml)
 b2sums=('9d8ad06c26a3996d2771c7011703f56858287b6450ee6bfc26378dd2c25994f6084fe52b1dc3e6867c4919887a2f5c7197e090269209ec225c594479b118fa93'
         'SKIP'
         '5f42356ef9dc8071df9284d5adcce2cba37072684431c1dad8bbbe4b1b3d31f3bdd18b48252fc44e9d0aa39e33342936be3821106509d99183d88e0f53b4645f'
@@ -95,6 +104,8 @@ b2sums=('9d8ad06c26a3996d2771c7011703f56858287b6450ee6bfc26378dd2c25994f6084fe52
         'f122bd84206ef82b72a6a9af6210a661fe8a6705b353f6bafefe409aebaa3a9bb90b6533867ac44748faf502b5363f59b1e835cb5143f9a546bbc5af5f97c558'
         '40e14ccc8b5dfff5d87f43a8763d1d2a49435c7a76633a920648a43dd25df0ab056107722ccdc574d9d603322699c6f3990878e19ab25d5e0117689d8f6b99b8'
         'd80b9cfc4cbba2ad6800606bdf14183de990db33954b9ec63d393493ab77c82714a2069e20495a55c13c778d8ea052ccfbaa7d5b79716c494281c6b34e990137')
+b2sums_aarch64=('f5b57f6b87ee8ba10df21f77e1ad28d15a5a3178fd28d281fb8926e2a625c512baefcbc31af562784d23c60cd81fd2cf4e435be6107efe57851b4c183c1ca445')
+b2sums_x86_64=('8c3795e993beb7c6e586e78e4ae82114bf85b349438c2b94e0ad8f809cc50a2bbe987ee8dff37aebb54dc39d9707d4ad54592004bcb1a66a3fff9163df89a3fa')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
@@ -117,170 +128,9 @@ prepare() {
 
   local clangdir
   clangdir="$(clang -print-resource-dir)"
-
-  cat >bootstrap.toml <<END
-# see src/bootstrap/defaults/
-profile = "dist"
-
-# see src/bootstrap/src/utils/change_tracker.rs
-change-id = 147888
-
-[llvm]
-download-ci-llvm = false
-link-shared = true
-
-[build]
-description = "Arch Linux $pkgbase $epoch:$pkgver-$pkgrel"
-target = [
-  "x86_64-unknown-linux-gnu",
-  "i686-unknown-linux-gnu",
-  "x86_64-unknown-linux-musl",
-  "aarch64-unknown-linux-gnu",
-  "aarch64-unknown-linux-musl",
-  "wasm32-unknown-unknown",
-  "wasm32v1-none",
-  "wasm32-wasip1",
-  "wasm32-wasip1-threads",
-  "wasm32-wasip2",
-]
-cargo = "/usr/bin/cargo"
-rustc = "/usr/bin/rustc"
-rustfmt = "/usr/bin/rustfmt"
-locked-deps = true
-vendor = true
-tools = [
-  "cargo",
-  "clippy",
-  "rustdoc",
-  "rustfmt",
-  "rust-analyzer-proc-macro-srv",
-  "analysis",
-  "src",
-]
-sanitizers = true
-profiler = true
-
-# Generating docs fails with the wasm32-* targets
-docs = false
-
-[install]
-prefix = "/usr"
-
-[rust]
-codegen-units = 1
-codegen-units-std = 1
-debuginfo-level = 2
-debuginfo-level-std = 2
-channel = "stable"
-rpath = false
-frame-pointers = true
-lld = false
-bootstrap-override-lld = "external"
-llvm-bitcode-linker = false
-deny-warnings = false
-backtrace-on-ice = true
-remap-debuginfo = false
-lto = "fat"
-parallel-frontend-threads = 0
-
-[dist]
-compression-formats = ["gz"]
-compression-profile = "fast"
-
-[target.x86_64-unknown-linux-gnu]
-cc = "/usr/bin/gcc"
-cxx = "/usr/bin/g++"
-ar = "/usr/bin/gcc-ar"
-ranlib = "/usr/bin/gcc-ranlib"
-llvm-config = "/usr/bin/llvm-config"
-optimized-compiler-builtins = "$clangdir/lib/linux/libclang_rt.builtins-x86_64.a"
-
-[target.i686-unknown-linux-gnu]
-cc = "/usr/bin/gcc"
-cxx = "/usr/bin/g++"
-ar = "/usr/bin/gcc-ar"
-ranlib = "/usr/bin/gcc-ranlib"
-optimized-compiler-builtins = "$clangdir/lib/linux/libclang_rt.builtins-i386.a"
-
-[target.x86_64-unknown-linux-musl]
-cc = "/usr/bin/musl-gcc"
-cxx = "/usr/bin/g++"
-ar = "/usr/bin/gcc-ar"
-ranlib = "/usr/bin/gcc-ranlib"
-sanitizers = false
-musl-root = "/usr/lib/musl"
-
-[target.aarch64-unknown-linux-gnu]
-cc = "/usr/bin/aarch64-linux-gnu-gcc"
-cxx = "/usr/bin/aarch64-linux-gnu-g++"
-ar = "/usr/bin/aarch64-linux-gnu-gcc-ar"
-ranlib = "/usr/bin/aarch64-linux-gnu-gcc-ranlib"
-linker = "/usr/bin/aarch64-linux-gnu-gcc"
-default-linker = "aarch64-linux-gnu-gcc"
-
-[target.aarch64-unknown-linux-musl]
-cc = "/usr/aarch64-linux-musl/bin/musl-gcc"
-cxx = "/usr/bin/aarch64-linux-gnu-g++"
-ar = "/usr/bin/aarch64-linux-gnu-gcc-ar"
-ranlib = "/usr/bin/aarch64-linux-gnu-gcc-ranlib"
-linker = "/usr/bin/aarch64-linux-gnu-gcc"
-default-linker = "aarch64-linux-gnu-gcc"
-sanitizers = false
-musl-root = "/usr/aarch64-linux-musl/lib/musl"
-
-[target.wasm32-unknown-unknown]
-cc = "/usr/bin/clang"
-cxx = "/usr/bin/clang++"
-ar = "/usr/bin/llvm-ar"
-ranlib = "/usr/bin/llvm-ranlib"
-linker = "/usr/bin/wasm-ld"
-default-linker = "wasm-ld"
-sanitizers = false
-profiler = false
-
-[target.wasm32v1-none]
-cc = "/usr/bin/clang"
-cxx = "/usr/bin/clang++"
-ar = "/usr/bin/llvm-ar"
-ranlib = "/usr/bin/llvm-ranlib"
-linker = "/usr/bin/wasm-ld"
-default-linker = "wasm-ld"
-sanitizers = false
-profiler = false
-
-[target.wasm32-wasip1]
-cc = "/usr/bin/clang"
-cxx = "/usr/bin/clang++"
-ar = "/usr/bin/llvm-ar"
-ranlib = "/usr/bin/llvm-ranlib"
-linker = "/usr/bin/wasm-ld"
-default-linker = "wasm-ld"
-sanitizers = false
-profiler = false
-wasi-root = "/usr/share/wasi-sysroot"
-
-[target.wasm32-wasip1-threads]
-cc = "/usr/bin/clang"
-cxx = "/usr/bin/clang++"
-ar = "/usr/bin/llvm-ar"
-ranlib = "/usr/bin/llvm-ranlib"
-linker = "/usr/bin/wasm-ld"
-default-linker = "wasm-ld"
-sanitizers = false
-profiler = false
-wasi-root = "/usr/share/wasi-sysroot"
-
-[target.wasm32-wasip2]
-cc = "/usr/bin/clang"
-cxx = "/usr/bin/clang++"
-ar = "/usr/bin/llvm-ar"
-ranlib = "/usr/bin/llvm-ranlib"
-linker = "/usr/bin/wasm-ld"
-default-linker = "wasm-ld"
-sanitizers = false
-profiler = false
-wasi-root = "/usr/share/wasi-sysroot"
-END
+  sed -e "s|%description%|Arch Linux $pkgbase $epoch:$pkgver-$pkgrel|g" \
+      -e "s|%clangdir%|$clangdir|g" \
+      "$srcdir/bootstrap.${CARCH}.toml" > bootstrap.toml
 }
 
 _pick() {
@@ -322,22 +172,28 @@ build() {
 
   # rustbuild always installs copies of the shared libraries to /usr/lib,
   # overwrite them with symlinks to the per-architecture versions
-  mkdir -pv usr/lib32
-  ln -srvft usr/lib   usr/lib/rustlib/x86_64-unknown-linux-gnu/lib/*.so
-  ln -srvft usr/lib32 usr/lib/rustlib/i686-unknown-linux-gnu/lib/*.so
+  ln -srvft usr/lib usr/lib/rustlib/${CARCH}-unknown-linux-gnu/lib/*.so
 
   # Symlink the "self-contained" linker to our system lld
-  mkdir -pv usr/lib/rustlib/x86_64-unknown-linux-gnu/bin/gcc-ld
-  ln -srvf  usr/bin/lld          usr/lib/rustlib/x86_64-unknown-linux-gnu/bin/rust-lld
-  ln -srvf  usr/bin/llvm-objcopy usr/lib/rustlib/x86_64-unknown-linux-gnu/bin/rust-objcopy
-  ln -srvft usr/lib/rustlib/x86_64-unknown-linux-gnu/bin/gcc-ld usr/bin/{ld.lld,ld64.lld,lld-link,wasm-ld}
+  mkdir -pv usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/gcc-ld
+  ln -srvf  usr/bin/lld          usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/rust-lld
+  ln -srvf  usr/bin/llvm-objcopy usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/rust-objcopy
+  ln -srvft usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/gcc-ld usr/bin/{ld.lld,ld64.lld,lld-link,wasm-ld}
 
-  _pick dest-i686 usr/lib/rustlib/i686-unknown-linux-gnu usr/lib32
-  _pick dest-musl usr/lib/rustlib/x86_64-unknown-linux-musl
-  _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
-  _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+  _pick dest-musl usr/lib/rustlib/${CARCH}-unknown-linux-musl
   _pick dest-wasm usr/lib/rustlib/wasm32{,v1}-*
   _pick dest-src  usr/lib/rustlib/src
+
+  if [[ $CARCH == x86_64 ]]; then
+    _pick dest-i686 usr/lib/rustlib/i686-unknown-linux-gnu
+    _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
+    _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+  fi
+}
+
+_install_licenses() {
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
+    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
 }
 
 package_rust() {
@@ -376,9 +232,11 @@ package_lib32-rust-libs() {
   replaces=(lib32-rust)
 
   cp -a dest-i686/* "$pkgdir"
+  _install_licenses
 
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
-    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+  cd "$pkgdir"
+  mkdir -pv usr/lib32
+  ln -srvft usr/lib32 usr/lib/rustlib/i686-unknown-linux-gnu/lib/*.so
 }
 
 package_rust-musl() {
@@ -386,9 +244,7 @@ package_rust-musl() {
   depends=(rust)
 
   cp -a dest-musl/* "$pkgdir"
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
-    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+  _install_licenses
 }
 
 package_rust-aarch64-gnu() {
@@ -400,9 +256,7 @@ package_rust-aarch64-gnu() {
   )
 
   cp -a dest-aarch64-gnu/* "$pkgdir"
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
-    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+  _install_licenses
 }
 
 package_rust-aarch64-musl() {
@@ -413,9 +267,7 @@ package_rust-aarch64-musl() {
   )
 
   cp -a dest-aarch64-musl/* "$pkgdir"
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
-    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+  _install_licenses
 }
 
 package_rust-wasm() {
@@ -426,9 +278,7 @@ package_rust-wasm() {
   )
 
   cp -a dest-wasm/* "$pkgdir"
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
-    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+  _install_licenses
 }
 
 package_rust-src() {
@@ -436,9 +286,7 @@ package_rust-src() {
   depends=(rust)
 
   cp -a dest-src/* "$pkgdir"
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 \
-    rustc-$pkgver-src/{COPYRIGHT,LICENSE-MIT}
+  _install_licenses
 }
 
 # vim:set ts=2 sw=2 et:
