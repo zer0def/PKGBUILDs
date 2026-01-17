@@ -4,7 +4,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 # Contributor: An Nguyen <an-1258@outlook.com>
 
-pkgver=20.1.8
+pkgver=21.1.8
 pkgbase="clang${pkgver%%.*}"
 pkgname=(
   "clang${pkgver%%.*}"
@@ -42,7 +42,7 @@ source=(
   enable-fstack-protector-strong-by-default.patch
 )
 sha256sums=(
-  'a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d'
+  'b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff'
   #'94a3d4df2443f9dc9e256e6c0c661ff4a4ca4f34a5ca351f065511b9694faf2a'
   #'8832b4ee02fe8a0e57fca608288242f80e348ee9b60be3eb0069c8b91a42fbf4'
   #'e88768730a7a46e7952758ec80f831997e30e7dbab53077decae3f71f4fc315e'
@@ -50,7 +50,7 @@ sha256sums=(
   'ef319e65f927718e1d3b1a23c480d686b1d292e2a0bf27229540964f9734117a'
 )
 b2sums=(
-  'b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b'
+  '3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4'
   #'e6742b4dab1246d3580ee6a91acb45a6224653c6d9c17c3c24fd698cf95dfab06ca73afafcd9e2f2272d0e31ae0de59244a57d4888c5079eadf63e2aa5aef16f'
   #'67e12d004f8f13b9fe944d146b0cbdff70a36748dc686a296605f0d3f3869b7d0ad0c23f4b7492c930753130b8ac2fc2fe2ba871fa3ffc0d2aef71fff1ffa787'
   #'8c7324d50a4f8f9b81d67512f5b3b05ce9c30b960439e9c6cf02ece8f72bc48149646547450d8b2bc8023339b2cb152b513ab2eca83b21089636e95b3e85d0ac'
@@ -165,7 +165,7 @@ _python_optimize() {
   python -OO -m compileall "$@"
 }
 
-package_clang20() {
+package_clang21() {
   cd "${srcdir}/llvm-project/clang/build"
 
   DESTDIR="${pkgdir}" ninja install-distribution
@@ -189,7 +189,7 @@ package_clang20() {
   rm -f "${pkgdir}/usr/bin/clang-${pkgver%%.*}-${pkgver%%.*}"
 }
 
-package_clang20-default() {
+package_clang21-default() {
   provides=('clang')
 
   mkdir -p "${pkgdir}/usr/"{bin,include,lib/{clang/${pkgver%%.*}/include,cmake},share/{clang{,-doc},doc/clang{,-tools},man/man1,scan-{build,view}}}

@@ -1,36 +1,36 @@
-pkgbase = clang20
-	pkgdesc = C language family frontend for LLVM 20
-	pkgver = 20.1.8
+pkgbase = clang21
+	pkgdesc = C language family frontend for LLVM 21
+	pkgver = 21.1.8
 	pkgrel = 3
 	url = https://clang.llvm.org/
 	arch = x86_64
 	license = custom:Apache 2.0 with LLVM Exception
 	checkdepends = llvm
-	makedepends = llvm20
-	makedepends = llvm20-libs
+	makedepends = llvm21
+	makedepends = llvm21-libs
 	makedepends = llvm
 	makedepends = cmake
 	makedepends = ninja
 	makedepends = python
 	makedepends = python-fissix
-	depends = compiler-rt20
-	depends = llvm20-libs
+	depends = compiler-rt21
+	depends = llvm21-libs
 	depends = gcc
 	optdepends = openmp: OpenMP support in clang with -fopenmp
-	optdepends = llvm20: referenced by some clang headers
+	optdepends = llvm21: referenced by some clang headers
 	options = !lto
-	source = git+https://github.com/llvm/llvm-project#tag=llvmorg-20.1.8?signed
+	source = git+https://github.com/llvm/llvm-project#tag=llvmorg-21.1.8?signed
 	source = enable-fstack-protector-strong-by-default.patch
 	validpgpkeys = 474E22316ABF4785A88C6E8EA2C794A986419D8A
 	validpgpkeys = D574BD5D1D0E98895E3BF90044F2485E45D59042
 	validpgpkeys = FFB3368980F3E6BB5737145A316C56D064CACBA5
 	validpgpkeys = 71046D1E9C6656BDD61171873E83BABF4A4F9E85
-	sha256sums = a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d
+	sha256sums = b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff
 	sha256sums = ef319e65f927718e1d3b1a23c480d686b1d292e2a0bf27229540964f9734117a
-	b2sums = b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b
+	b2sums = 3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4
 	b2sums = 5e3e949867d6e3e1b78e2b24a75192058020b095b402de452e2611ff9a7b9bccbf370d841d987b331cad06fe4cc23ea0ad31b21c5e84f0a3f5055d3761621463
 
-pkgname = clang20
+pkgname = clang21
 
-pkgname = clang20-default
+pkgname = clang21-default
 	provides = clang
