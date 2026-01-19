@@ -10,8 +10,6 @@ pkgname=(
   rust-musl
   rust-wasm
   rust-src
-)
-pkgname_x86_64=(
   lib32-rust-libs
   rust-aarch64-gnu
   rust-aarch64-musl
@@ -222,6 +220,7 @@ package_rust() {
 
 package_lib32-rust-libs() {
   pkgdesc="32-bit target and libraries for Rust"
+  arch=(x86_64)
   depends=(
     lib32-gcc-libs
     lib32-glibc
@@ -249,6 +248,7 @@ package_rust-musl() {
 
 package_rust-aarch64-gnu() {
   pkgdesc="AArch64 GNU target for Rust"
+  arch=(x86_64)
   depends=(
     aarch64-linux-gnu-gcc
     aarch64-linux-gnu-glibc
@@ -261,6 +261,7 @@ package_rust-aarch64-gnu() {
 
 package_rust-aarch64-musl() {
   pkgdesc="AArch64 Musl target for Rust"
+  arch=(x86_64)
   depends=(
     aarch64-linux-gnu-gcc
     rust
