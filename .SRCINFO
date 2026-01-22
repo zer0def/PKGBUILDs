@@ -79,14 +79,14 @@ pkgname = rust-musl
 	pkgdesc = Musl target for Rust
 	depends = rust
 
+pkgname = rust-src
+	pkgdesc = Source code for the Rust standard library
+	depends = rust
+
 pkgname = rust-wasm
 	pkgdesc = WebAssembly targets for Rust
 	depends = rust
 	depends = wasm-component-ld
-
-pkgname = rust-src
-	pkgdesc = Source code for the Rust standard library
-	depends = rust
 
 pkgname = lib32-rust-libs
 	pkgdesc = 32-bit target and libraries for Rust

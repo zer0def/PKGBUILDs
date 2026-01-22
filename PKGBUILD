@@ -8,8 +8,10 @@ pkgbase=rust
 pkgname=(
   rust
   rust-musl
-  rust-wasm
   rust-src
+  rust-wasm
+
+  # x86_64 only
   lib32-rust-libs
   rust-aarch64-gnu
   rust-aarch64-musl
@@ -218,6 +220,33 @@ package_rust() {
   cp -a dest-rust/* "$pkgdir"
 }
 
+package_rust-musl() {
+  pkgdesc="Musl target for Rust"
+  depends=(rust)
+
+  cp -a dest-musl/* "$pkgdir"
+  _install_licenses
+}
+
+package_rust-src() {
+  pkgdesc="Source code for the Rust standard library"
+  depends=(rust)
+
+  cp -a dest-src/* "$pkgdir"
+  _install_licenses
+}
+
+package_rust-wasm() {
+  pkgdesc="WebAssembly targets for Rust"
+  depends=(
+    rust
+    wasm-component-ld
+  )
+
+  cp -a dest-wasm/* "$pkgdir"
+  _install_licenses
+}
+
 package_lib32-rust-libs() {
   pkgdesc="32-bit target and libraries for Rust"
   arch=(x86_64)
@@ -236,14 +265,6 @@ package_lib32-rust-libs() {
   cd "$pkgdir"
   mkdir -pv usr/lib32
   ln -srvft usr/lib32 usr/lib/rustlib/i686-unknown-linux-gnu/lib/*.so
-}
-
-package_rust-musl() {
-  pkgdesc="Musl target for Rust"
-  depends=(rust)
-
-  cp -a dest-musl/* "$pkgdir"
-  _install_licenses
 }
 
 package_rust-aarch64-gnu() {
@@ -268,25 +289,6 @@ package_rust-aarch64-musl() {
   )
 
   cp -a dest-aarch64-musl/* "$pkgdir"
-  _install_licenses
-}
-
-package_rust-wasm() {
-  pkgdesc="WebAssembly targets for Rust"
-  depends=(
-    rust
-    wasm-component-ld
-  )
-
-  cp -a dest-wasm/* "$pkgdir"
-  _install_licenses
-}
-
-package_rust-src() {
-  pkgdesc="Source code for the Rust standard library"
-  depends=(rust)
-
-  cp -a dest-src/* "$pkgdir"
   _install_licenses
 }
 
