@@ -11,12 +11,14 @@ pkgname=(
   rust-src
   rust-wasm
 
-  # x86_64 and loong64
-  rust-aarch64-gnu
-  rust-aarch64-musl
   # x86_64 only
   lib32-rust-libs
-  # loong64 only
+
+  # non-aarch64
+  rust-aarch64-gnu
+  rust-aarch64-musl
+  
+  # non-x86_64
   rust-x86_64-gnu
   rust-x86_64-musl
 )
@@ -28,6 +30,7 @@ url=https://www.rust-lang.org/
 arch=(
   aarch64
   loong64
+  riscv64
   x86_64
 )
 license=("Apache-2.0 OR MIT")
@@ -72,6 +75,14 @@ makedepends_loong64=(
   x86_64-linux-gnu-glibc
   musl-x86_64
 )
+makedepends_riscv64=(
+  aarch64-linux-gnu-gcc
+  aarch64-linux-gnu-glibc
+  musl-aarch64
+  x86_64-linux-gnu-gcc
+  x86_64-linux-gnu-glibc
+  musl-x86_64
+)
 checkdepends=(
   gdb
   procps-ng
@@ -107,6 +118,12 @@ source=(
   0007-compiler-Swap-primary-and-secondary-lib-dirs.patch
 )
 source_aarch64=(bootstrap.aarch64.toml)
+source_riscv64=(
+  bootstrap.riscv64.toml
+  # Make rust riscv64 musl target link libc statically, to align with
+  # the behavior that rust x86_64 musl target links it statically.
+  riscv-musl-crt-default-static.patch
+)
 source_x86_64=(bootstrap.x86_64.toml)
 source_loong64=(bootstrap.loong64.toml)
 b2sums=('ab35dfebfc8c9beb0b93fa564d7178da225f47591fb5de90566d59fb0dcf55a275f014c287805df3f901aba80374e92f5bdd93ac925585a869eed5dcd2571d48'
@@ -119,6 +136,8 @@ b2sums=('ab35dfebfc8c9beb0b93fa564d7178da225f47591fb5de90566d59fb0dcf55a275f014c
         '8015b14bd00f412c0935961fce5f9671fe3d51256a70eacbf61573c4c8ae35f3cd81372681fe406395ca571363e9f9a9c5b40969e79513f22d808e677a841ae7'
         'b8e3d23c3a7617e231246465a264708789152abfc73203d901d64290701fabffff59d600fc8ecb1ec5d507313125d17c4040ec769474f4d58ea159d9cafc3910')
 b2sums_aarch64=('63ce33811457d6f271ea92ef0b3c2c0ae81d0c2cc8545273ad308237131c6eb1807d56e4de75037b525d19b6d405f9c5558665d85bd821a2d05ae40c1f9f2926')
+b2sums_riscv64=('5f495e01fbadb8af3c350f9f55ce706115b381e987e04f6407b5b80811794bbb48ecf6107457a11aa424cd229fc8ef366f5ef18e996395d6c2739c6cebb2e629'
+                'c7e4849c433bba9fd69f05e6b242e94fcd229e9470e086bd93e6782ff811b418fd46596fe503b507c3cd677089f7e54fabffa5f88a98e965742e06e381619e49')
 b2sums_x86_64=('b1808412ce71ec37b80bc44034e13fb4918577052b5cae0ee4809ffc499c7ccfeb01dfb8a1c49141a0b614861875680f80e6fff4add8c015a4c4becda3859e1e')
 b2sums_loong64=('a1dcbb5b20b4576e68f4f8244a064a39b440d7d00e929f85bb37b859b610a074dff77e10affa9ec1342349e79dc2a788f75bbfe54035837c9572806d494ea474')
 validpgpkeys=(
@@ -127,6 +146,7 @@ validpgpkeys=(
 
 case $CARCH in
   loong64) _arch=loongarch64 ;;
+  riscv64) _arch=riscv64gc ;;
         *) _arch=$CARCH ;;
 esac
 
@@ -209,6 +229,11 @@ build() {
     _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
     _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
   elif [[ $CARCH == loong64 ]]; then
+    _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
+    _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+    _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
+    _pick dest-x86_64-musl usr/lib/rustlib/x86_64-unknown-linux-musl
+  elif [[ $CARCH == riscv64 ]]; then
     _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
     _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
     _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
@@ -296,6 +321,7 @@ package_rust-aarch64-gnu() {
   pkgdesc="AArch64 GNU target for Rust"
   arch=(
     loong64
+    riscv64
     x86_64
   )
   depends=(
@@ -312,6 +338,7 @@ package_rust-aarch64-musl() {
   pkgdesc="AArch64 Musl target for Rust"
   arch=(
     loong64
+    riscv64
     x86_64
   )
   depends=(
@@ -325,7 +352,10 @@ package_rust-aarch64-musl() {
 
 package_rust-x86_64-gnu() {
   pkgdesc="x86_64 GNU target for Rust"
-  arch=(loong64)
+  arch=(
+    loong64
+    riscv64
+  )
   depends=(
     x86_64-linux-gnu-gcc
     x86_64-linux-gnu-glibc
@@ -338,7 +368,10 @@ package_rust-x86_64-gnu() {
 
 package_rust-x86_64-musl() {
   pkgdesc="x86_64 Musl target for Rust"
-  arch=(loong64)
+  arch=(
+    loong64
+    riscv64
+  )
   depends=(
     x86_64-linux-gnu-gcc
     rust
