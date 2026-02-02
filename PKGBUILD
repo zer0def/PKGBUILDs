@@ -11,10 +11,14 @@ pkgname=(
   rust-src
   rust-wasm
 
-  # x86_64 only
-  lib32-rust-libs
+  # x86_64 and loong64
   rust-aarch64-gnu
   rust-aarch64-musl
+  # x86_64 only
+  lib32-rust-libs
+  # loong64 only
+  rust-x86_64-gnu
+  rust-x86_64-musl
 )
 pkgver=1.93.0
 pkgrel=1
@@ -23,6 +27,7 @@ pkgdesc="Systems programming language focused on safety, speed and concurrency"
 url=https://www.rust-lang.org/
 arch=(
   aarch64
+  loong64
   x86_64
 )
 license=("Apache-2.0 OR MIT")
@@ -58,6 +63,14 @@ makedepends_x86_64=(
   lib32-gcc-libs
   lib32-glibc
   musl-aarch64
+)
+makedepends_loong64=(
+  aarch64-linux-gnu-gcc
+  aarch64-linux-gnu-glibc
+  musl-aarch64
+  x86_64-linux-gnu-gcc
+  x86_64-linux-gnu-glibc
+  musl-x86_64
 )
 checkdepends=(
   gdb
@@ -95,6 +108,7 @@ source=(
 )
 source_aarch64=(bootstrap.aarch64.toml)
 source_x86_64=(bootstrap.x86_64.toml)
+source_loong64=(bootstrap.loong64.toml)
 b2sums=('ab35dfebfc8c9beb0b93fa564d7178da225f47591fb5de90566d59fb0dcf55a275f014c287805df3f901aba80374e92f5bdd93ac925585a869eed5dcd2571d48'
         'SKIP'
         'f4a836270fb15b419f05db590c0f95f95c171addf85bf7324257690df29eac9139e53c0b73dd74b56921cc0c238e92bb0f3ba3b0969fac9c5cc90caf2cad0384'
@@ -106,9 +120,15 @@ b2sums=('ab35dfebfc8c9beb0b93fa564d7178da225f47591fb5de90566d59fb0dcf55a275f014c
         'b8e3d23c3a7617e231246465a264708789152abfc73203d901d64290701fabffff59d600fc8ecb1ec5d507313125d17c4040ec769474f4d58ea159d9cafc3910')
 b2sums_aarch64=('63ce33811457d6f271ea92ef0b3c2c0ae81d0c2cc8545273ad308237131c6eb1807d56e4de75037b525d19b6d405f9c5558665d85bd821a2d05ae40c1f9f2926')
 b2sums_x86_64=('b1808412ce71ec37b80bc44034e13fb4918577052b5cae0ee4809ffc499c7ccfeb01dfb8a1c49141a0b614861875680f80e6fff4add8c015a4c4becda3859e1e')
+b2sums_loong64=('a1dcbb5b20b4576e68f4f8244a064a39b440d7d00e929f85bb37b859b610a074dff77e10affa9ec1342349e79dc2a788f75bbfe54035837c9572806d494ea474')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
+
+case $CARCH in
+  loong64) _arch=loongarch64 ;;
+        *) _arch=$CARCH ;;
+esac
 
 # Make sure the duplication in rust-wasm is found
 COMPRESSZST+=(--long)
@@ -172,15 +192,15 @@ build() {
 
   # rustbuild always installs copies of the shared libraries to /usr/lib,
   # overwrite them with symlinks to the per-architecture versions
-  ln -srvft usr/lib usr/lib/rustlib/${CARCH}-unknown-linux-gnu/lib/*.so
+  ln -srvft usr/lib usr/lib/rustlib/${_arch}-unknown-linux-gnu/lib/*.so
 
   # Symlink the "self-contained" linker to our system lld
-  mkdir -pv usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/gcc-ld
-  ln -srvf  usr/bin/lld          usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/rust-lld
-  ln -srvf  usr/bin/llvm-objcopy usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/rust-objcopy
-  ln -srvft usr/lib/rustlib/${CARCH}-unknown-linux-gnu/bin/gcc-ld usr/bin/{ld.lld,ld64.lld,lld-link,wasm-ld}
+  mkdir -pv usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/gcc-ld
+  ln -srvf  usr/bin/lld          usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/rust-lld
+  ln -srvf  usr/bin/llvm-objcopy usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/rust-objcopy
+  ln -srvft usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/gcc-ld usr/bin/{ld.lld,ld64.lld,lld-link,wasm-ld}
 
-  _pick dest-musl usr/lib/rustlib/${CARCH}-unknown-linux-musl
+  _pick dest-musl usr/lib/rustlib/${_arch}-unknown-linux-musl
   _pick dest-wasm usr/lib/rustlib/wasm32{,v1}-*
   _pick dest-src  usr/lib/rustlib/src
 
@@ -188,6 +208,11 @@ build() {
     _pick dest-i686 usr/lib/rustlib/i686-unknown-linux-gnu
     _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
     _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+  elif [[ $CARCH == loong64 ]]; then
+    _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
+    _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+    _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
+    _pick dest-x86_64-musl usr/lib/rustlib/x86_64-unknown-linux-musl
   fi
 }
 
@@ -269,7 +294,10 @@ package_lib32-rust-libs() {
 
 package_rust-aarch64-gnu() {
   pkgdesc="AArch64 GNU target for Rust"
-  arch=(x86_64)
+  arch=(
+    loong64
+    x86_64
+  )
   depends=(
     aarch64-linux-gnu-gcc
     aarch64-linux-gnu-glibc
@@ -282,13 +310,41 @@ package_rust-aarch64-gnu() {
 
 package_rust-aarch64-musl() {
   pkgdesc="AArch64 Musl target for Rust"
-  arch=(x86_64)
+  arch=(
+    loong64
+    x86_64
+  )
   depends=(
     aarch64-linux-gnu-gcc
     rust
   )
 
   cp -a dest-aarch64-musl/* "$pkgdir"
+  _install_licenses
+}
+
+package_rust-x86_64-gnu() {
+  pkgdesc="x86_64 GNU target for Rust"
+  arch=(loong64)
+  depends=(
+    x86_64-linux-gnu-gcc
+    x86_64-linux-gnu-glibc
+    rust
+  )
+
+  cp -a dest-x86_64-gnu/* "$pkgdir"
+  _install_licenses
+}
+
+package_rust-x86_64-musl() {
+  pkgdesc="x86_64 Musl target for Rust"
+  arch=(loong64)
+  depends=(
+    x86_64-linux-gnu-gcc
+    rust
+  )
+
+  cp -a dest-x86_64-musl/* "$pkgdir"
   _install_licenses
 }
 
