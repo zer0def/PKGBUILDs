@@ -3,77 +3,120 @@
 # Contributor: Evangelos Foutras <evangelos@foutrelis.com>
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
-pkgname=lld17
+_pkgbase=lld
 pkgver=17.0.6
-pkgrel=2
-pkgdesc="Linker from LLVM 17"
+pkgname=("${_pkgbase}${pkgver%%.*}" "${_pkgbase}${pkgver%%.*}-default")
+pkgrel=3
+pkgdesc="Linker from LLVM ${pkgver%%.*}"
 arch=('x86_64')
 url="https://lld.llvm.org/"
 license=('custom:Apache 2.0 with LLVM Exception')
-depends=('llvm17-libs' 'gcc-libs' 'zlib' 'zstd')
-makedepends=('llvm17' 'llvm' 'cmake' 'ninja' 'python-sphinx')
-options=('!lto') # LTO causes a couple of test failures
-_source_base=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver
-source=($_source_base/lld-$pkgver.src.tar.xz
-        $_source_base/llvm-$pkgver.src.tar.xz
-        $_source_base/libunwind-$pkgver.src.tar.xz
-        $_source_base/cmake-$pkgver.src.tar.xz)
-sha256sums=('4ac13125616dc44905b85820aa403d27ec1226329b7f674daeb5f5584c6f0b22'
-            'b638167da139126ca11917b6880207cc6e8f9d1cbb1a48d87d017f697ef78188'
-            '9e7535a353aa862730b4ba38df42e06f6856b40c4cc51b57f27b5046dc21d70d'
-            '807f069c54dc20cb47b21c1f6acafdd9c649f3ae015609040d6182cab01140f4')
+depends=("llvm${pkgver%%.*}-libs" 'gcc-libs' 'zlib' 'zstd')
+makedepends=(
+  "llvm${pkgver%%.*}" "llvm${pkgver%%.*}-libs"
+  'llvm' 'cmake' 'ninja' 'python-sphinx'
+)
+checkdepends=('llvm')
+options=('!lto')  # echo "${CARCH}" | grep -qvE '^arm|86$' || options+=('!lto')
+source=("git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed")
+sha256sums=('5cba4bf5388b65e4883908519ec087b5cca23ef3c747fa01e382802c1c62b1da')
+b2sums=('1c138b23672a3c689319e0096806c2832db037e67d7758743660dabf3dc56dc6a91ba845155e07fb2bfa5c5cef3e50dee8aba10c327e73d6a791eeaf4c64d43d')
+validpgpkeys=(
+  '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
+  'D574BD5D1D0E98895E3BF90044F2485E45D59042'  # Tobias Hieta <tobias@hieta.se>
+  'FFB3368980F3E6BB5737145A316C56D064CACBA5'  # Douglas Yung <douglas.yung@sony.com>
+  '71046D1E9C6656BDD61171873E83BABF4A4F9E85'  # Cullen Rhodes <cullen.rhodes@arm.com>
+)
 
 prepare() {
-  # https://bugs.llvm.org/show_bug.cgi?id=49228
-  mv libunwind{-$pkgver.src,}
-
-  mv cmake{-$pkgver.src,}
-  cd lld-$pkgver.src
-  mkdir build
+  mkdir -p "${srcdir}/llvm-project/lld/build"
 }
 
 build() {
-  cd lld-$pkgver.src/build
+  echo "${CARCH}" | grep -qvE '^i[3-5]86$' || CFLAGS="${CFLAGS/-fcf-protection/}" CXXFLAGS="${CXXFLAGS/-fcf-protection/}"  # i386-i586
+  [ "${CARCH#arm}" = "${CARCH}" ] || CFLAGS="${CFLAGS/-mno-omit-leaf-frame-pointer/}" CXXFLAGS="${CXXFLAGS/-mno-omit-leaf-frame-pointer/}"  # armv7
+  export CFLAGS CXXFLAGS
+  cd "${srcdir}/llvm-project/lld/build"
 
   local cmake_args=(
     -G Ninja
     -DCMAKE_BUILD_TYPE=Release
-    -DCMAKE_INSTALL_PREFIX=/usr/lib/llvm17
-    -DCMAKE_PREFIX_PATH=/usr/lib/llvm17
-    -DCMAKE_INSTALL_DOCDIR=share/doc
+    -DCMAKE_INSTALL_PREFIX="/usr/lib/llvm${pkgver%%.*}"
+    -DCMAKE_PREFIX_PATH="/usr/lib/llvm${pkgver%%.*}"
+    -DCMAKE_SKIP_INSTALL_RPATH=ON
     -DCMAKE_SKIP_RPATH=ON
     -DBUILD_SHARED_LIBS=ON
-    -DLLVM_BUILD_DOCS=ON
-    -DLLVM_ENABLE_SPHINX=ON
-    -DLLVM_EXTERNAL_LIT=/usr/bin/lit
+    -DLLVM_CMAKE_DIR="/usr/lib/llvm${pkgver%%.*}/lib/cmake"
+    -DLLVM_CONFIG="/usr/lib/llvm${pkgver%%.*}/bin/llvm-config"
+    -DLLVM_EXTERNAL_LIT=/usr/bin/lit  # lit${pkgver%%.*}?
+
     -DLLVM_INCLUDE_TESTS=ON
     -DLLVM_LINK_LLVM_DYLIB=ON
-    -DLLVM_MAIN_SRC_DIR="$srcdir/llvm-$pkgver.src"
+    -DLLVM_MAIN_SRC_DIR="${srcdir}/llvm-project/llvm"
+
+    -DLLVM_ENABLE_SPHINX=OFF
+    # no longer present
+    -DLLVM_BUILD_DOCS=OFF
+    -DCMAKE_INSTALL_DOCDIR=share/doc
     -DSPHINX_WARNINGS_AS_ERRORS=OFF
   )
-  cmake .. "${cmake_args[@]}"
-  ninja
+  cmake --trace .. "${cmake_args[@]}"
+  ninja -v
 }
 
 check() {
-  cd lld-$pkgver.src/build
-  ninja check-lld
+  [ "${CARCH%64*}" != "${CARCH}" ] || return 0
+  return 0  # can't find proper lit?
+  cd "${srcdir}/llvm-project/lld/build"
+  ninja -v check-lld
 }
 
-package() {
-  cd lld-$pkgver.src/build
+package_lld17() {
+  cd "${srcdir}/llvm-project/lld/build"
 
-  DESTDIR="$pkgdir" ninja install
-  install -Dm644 ../LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  DESTDIR="${pkgdir}" ninja -v install
+  install -Dm644 ../LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
   # https://bugs.llvm.org/show_bug.cgi?id=42455
-  install -Dm644 -t "$pkgdir/usr/lib/llvm17/share/man/man1" ../docs/ld.lld.1
+  install -Dm644 -t "${pkgdir}/usr/lib/llvm${pkgver%%.*}/share/man/man1" ../docs/ld.lld.1
 
   # Remove documentation sources
-  rm -r "$pkgdir"/usr/lib/llvm17/share/doc/lld/html/{_sources,.buildinfo}
+  rm -rf "${pkgdir}/usr/lib/llvm${pkgver%%.*}/share/doc/lld/html/_sources" \
+    "${pkgdir}/usr/lib/llvm${pkgver%%.*}/share/doc/lld/html/.buildinfo"
 
-  for lib in $(find "$pkgdir"/usr/lib/llvm17/lib/ -maxdepth 1 -type f -name '*.so.17' -printf '%f\n'); do
-    ln -s ./llvm17/lib/"$lib" "$pkgdir"/usr/lib/"$lib"
+  for lib in $(find "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/" -maxdepth 1 -type f -name "*.so.${pkgver%%.*}" -printf '%f\n'); do
+    ln -s "llvm${pkgver%%.*}/lib/${lib}" "${pkgdir}/usr/lib/${lib}"
+  done
+
+  local _libname _lib
+  :||for _libname in COFF Common ELF MachO MinGW Wasm; do
+    _lib="liblld${_libname}.so.${pkgver%.*}"
+    mv "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/${_lib}" "${pkgdir}/usr/lib/${_lib}"
+    ln -s "../../${_lib}" "${pkgdir}/usr/lib/llvm${pkgver%%.*}/lib/${_lib}"
+  done
+}
+
+package_lld17-default() {
+  pkgdesc="Linker from LLVM ${pkgver%%.*} - default symlinks"
+  depends=("${_pkgbase}${pkgver%%.*}")
+  provides=('lld')
+  conflicts=('lld')
+
+  for j in bin include lib/cmake share/doc; do  # share/man/man*
+    j="$(readlink -f "${pkgdir}/../${_pkgbase}${pkgver%%.*}/usr/lib/llvm${pkgver%%.*}/"${j} | head -n1)"
+    j="${j#${pkgdir%/*}/${_pkgbase}${pkgver%%.*}/usr/lib/llvm${pkgver%%.*}/}"
+
+    _backwards=''; for i in $(seq $(echo "${j}" | tr '/' '\n' | wc -l)); do _backwards="${_backwards}/.."; done
+
+    mkdir -p "${pkgdir}/usr/${j}"
+    for i in "${pkgdir}/../${_pkgbase}${pkgver%%.*}/usr/lib/llvm${pkgver%%.*}/${j}/"*; do _basename="${i##*/}"
+      ln -s "../lib/llvm${pkgver%%.*}/${j}/${_basename}" "${pkgdir}/usr/${j}/${_basename}"
+    done
+  done
+
+  for i in "${pkgdir}/../${_pkgbase}${pkgver%%.*}/usr/lib/llvm${pkgver%%.*}/lib/"*; do
+    _basename="${i##*/}"; [ "${_basename}" != "cmake" ] || continue
+    ln -s "../lib/llvm${pkgver%%.*}/lib/${_basename}" "${pkgdir}/usr/lib/${_basename}"
   done
 }
 
