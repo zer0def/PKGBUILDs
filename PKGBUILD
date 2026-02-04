@@ -4,7 +4,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
 _pkgbase=lld
-pkgver=20.1.8
+pkgver=21.1.8
 pkgname=("${_pkgbase}${pkgver%%.*}" "${_pkgbase}${pkgver%%.*}-default")
 pkgrel=3
 pkgdesc="Linker from LLVM ${pkgver%%.*}"
@@ -19,8 +19,8 @@ makedepends=(
 checkdepends=('llvm')
 options=('!lto')  # echo "${CARCH}" | grep -qvE '^arm|86$' || options+=('!lto')
 source=("git+https://github.com/llvm/llvm-project#tag=llvmorg-${pkgver}?signed")
-sha256sums=('a32a1b6c8ced45d64ab36c5a146831b2c3eac77cb85650bb0e5af397caa9d48d')
-b2sums=('b1edb1989bf6aa90ac5fb91fd4ba9ba2a74a2e64c3db8e26e3683ef6cf323ca3b7a37f50b732a611ba4d7d54fb265da1b6a0107e3f403231be777ec58dcdae9b')
+sha256sums=('b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff')
+b2sums=('3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4')
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
   'D574BD5D1D0E98895E3BF90044F2485E45D59042'  # Tobias Hieta <tobias@hieta.se>
@@ -71,7 +71,7 @@ check() {
   ninja -v check-lld
 }
 
-package_lld20() {
+package_lld21() {
   cd "${srcdir}/llvm-project/lld/build"
 
   DESTDIR="${pkgdir}" ninja -v install
@@ -96,7 +96,7 @@ package_lld20() {
   done
 }
 
-package_lld20-default() {
+package_lld21-default() {
   pkgdesc="Linker from LLVM ${pkgver%%.*} - default symlinks"
   depends=("${_pkgbase}${pkgver%%.*}")
   provides=('lld')
