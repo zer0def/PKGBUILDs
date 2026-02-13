@@ -140,12 +140,6 @@ validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
 
-case $CARCH in
-  loong64) _arch=loongarch64 ;;
-  riscv64) _arch=riscv64gc ;;
-        *) _arch=$CARCH ;;
-esac
-
 # Make sure the duplication in rust-wasm is found
 COMPRESSZST+=(--long)
 
@@ -206,35 +200,40 @@ build() {
     rmdir -p --ignore-fail-on-non-empty "$d"
   done
 
+  local host_tuple
+  case $CARCH in
+    loong64) host_tuple=loongarch64-unknown-linux-gnu ;;
+    riscv64) host_tuple=riscv64gc-unknown-linux-gnu ;;
+          *) host_tuple=$CARCH-unknown-linux-gnu ;;
+  esac
+
   # rustbuild always installs copies of the shared libraries to /usr/lib,
   # overwrite them with symlinks to the per-architecture versions
-  ln -srvft usr/lib usr/lib/rustlib/${_arch}-unknown-linux-gnu/lib/*.so
+  ln -srvft usr/lib usr/lib/rustlib/$host_tuple/lib/*.so
 
   # Symlink the "self-contained" linker to our system lld
-  mkdir -pv usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/gcc-ld
-  ln -srvf  usr/bin/lld          usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/rust-lld
-  ln -srvf  usr/bin/llvm-objcopy usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/rust-objcopy
-  ln -srvft usr/lib/rustlib/${_arch}-unknown-linux-gnu/bin/gcc-ld usr/bin/{ld.lld,ld64.lld,lld-link,wasm-ld}
+  mkdir -pv usr/lib/rustlib/$host_tuple/bin/gcc-ld
+  ln -srvf  usr/bin/lld          usr/lib/rustlib/$host_tuple/bin/rust-lld
+  ln -srvf  usr/bin/llvm-objcopy usr/lib/rustlib/$host_tuple/bin/rust-objcopy
+  ln -srvft usr/lib/rustlib/$host_tuple/bin/gcc-ld usr/bin/{ld.lld,ld64.lld,lld-link,wasm-ld}
 
-  _pick dest-musl usr/lib/rustlib/${_arch}-unknown-linux-musl
+  _pick dest-musl usr/lib/rustlib/${host_tuple/gnu/musl}
   _pick dest-wasm usr/lib/rustlib/wasm32{,v1}-*
   _pick dest-src  usr/lib/rustlib/src
 
-  if [[ $CARCH == x86_64 ]]; then
-    _pick dest-i686 usr/lib/rustlib/i686-unknown-linux-gnu
-    _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
-    _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
-  elif [[ $CARCH == loong64 ]]; then
-    _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
-    _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
-    _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
-    _pick dest-x86_64-musl usr/lib/rustlib/x86_64-unknown-linux-musl
-  elif [[ $CARCH == riscv64 ]]; then
-    _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
-    _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
-    _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
-    _pick dest-x86_64-musl usr/lib/rustlib/x86_64-unknown-linux-musl
-  fi
+  case $CARCH in
+    x86_64)
+      _pick dest-i686 usr/lib/rustlib/i686-unknown-linux-gnu
+      _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
+      _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+      ;;
+    loong64|riscv64)
+      _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
+      _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
+      _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
+      _pick dest-x86_64-musl usr/lib/rustlib/x86_64-unknown-linux-musl
+      ;;
+  esac
 }
 
 _install_licenses() {
