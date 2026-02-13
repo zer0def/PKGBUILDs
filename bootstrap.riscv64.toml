@@ -13,10 +13,10 @@ description = "%description%"
 target = [
   "riscv64gc-unknown-linux-gnu",
   "riscv64gc-unknown-linux-musl",
-  "x86_64-unknown-linux-gnu",
-  "x86_64-unknown-linux-musl",
   "aarch64-unknown-linux-gnu",
   "aarch64-unknown-linux-musl",
+  "x86_64-unknown-linux-gnu",
+  "x86_64-unknown-linux-musl",
   "wasm32-unknown-unknown",
   "wasm32v1-none",
   "wasm32-wasip1",
@@ -87,25 +87,6 @@ linker = "riscv64-linux-gnu-gcc"
 default-linker = "riscv64-linux-gnu-gcc"
 sanitizers = false
 
-[target.x86_64-unknown-linux-gnu]
-cc = "x86_64-linux-gnu-gcc"
-cxx = "x86_64-linux-gnu-g++"
-ar = "x86_64-linux-gnu-gcc-ar"
-ranlib = "x86_64-linux-gnu-ranlib"
-linker = "x86_64-linux-gnu-gcc"
-default-linker = "x86_64-linux-gnu-gcc"
-sanitizers = false
-
-[target.x86_64-unknown-linux-musl]
-musl-root = "/usr/x86_64-linux-musl/lib/musl"
-cc = "x86_64-linux-musl-gcc"
-cxx = "x86_64-linux-gnu-g++"
-ar = "x86_64-linux-gnu-gcc-ar"
-ranlib = "x86_64-linux-gnu-ranlib"
-linker = "x86_64-linux-gnu-gcc"
-default-linker = "x86_64-linux-gnu-gcc"
-sanitizers = false
-
 [target.aarch64-unknown-linux-gnu]
 cc = "aarch64-linux-gnu-gcc"
 cxx = "aarch64-linux-gnu-g++"
@@ -123,6 +104,25 @@ ar = "aarch64-linux-gnu-gcc-ar"
 ranlib = "aarch64-linux-gnu-gcc-ranlib"
 linker = "aarch64-linux-gnu-gcc"
 default-linker = "aarch64-linux-gnu-gcc"
+sanitizers = false
+
+[target.x86_64-unknown-linux-gnu]
+cc = "x86_64-linux-gnu-gcc"
+cxx = "x86_64-linux-gnu-g++"
+ar = "x86_64-linux-gnu-gcc-ar"
+ranlib = "x86_64-linux-gnu-ranlib"
+linker = "x86_64-linux-gnu-gcc"
+default-linker = "x86_64-linux-gnu-gcc"
+sanitizers = false
+
+[target.x86_64-unknown-linux-musl]
+musl-root = "/usr/x86_64-linux-musl/lib/musl"
+cc = "x86_64-linux-musl-gcc"
+cxx = "x86_64-linux-gnu-g++"
+ar = "x86_64-linux-gnu-gcc-ar"
+ranlib = "x86_64-linux-gnu-ranlib"
+linker = "x86_64-linux-gnu-gcc"
+default-linker = "x86_64-linux-gnu-gcc"
 sanitizers = false
 
 [target.wasm32-unknown-unknown]

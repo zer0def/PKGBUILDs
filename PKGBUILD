@@ -14,11 +14,9 @@ pkgname=(
   # x86_64 only
   lib32-rust-libs
 
-  # non-aarch64
+  # cross targets
   rust-aarch64-gnu
   rust-aarch64-musl
-  
-  # non-x86_64
   rust-x86_64-gnu
   rust-x86_64-musl
 )
@@ -60,13 +58,6 @@ makedepends=(
   wasi-libc
   wasm-component-ld
 )
-makedepends_x86_64=(
-  aarch64-linux-gnu-gcc
-  aarch64-linux-gnu-glibc
-  lib32-gcc-libs
-  lib32-glibc
-  musl-aarch64
-)
 makedepends_loong64=(
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
@@ -82,6 +73,13 @@ makedepends_riscv64=(
   x86_64-linux-gnu-gcc
   x86_64-linux-gnu-glibc
   musl-x86_64
+)
+makedepends_x86_64=(
+  aarch64-linux-gnu-gcc
+  aarch64-linux-gnu-glibc
+  lib32-gcc-libs
+  lib32-glibc
+  musl-aarch64
 )
 checkdepends=(
   gdb
@@ -136,7 +134,7 @@ b2sums=('ab35dfebfc8c9beb0b93fa564d7178da225f47591fb5de90566d59fb0dcf55a275f014c
         'b8e3d23c3a7617e231246465a264708789152abfc73203d901d64290701fabffff59d600fc8ecb1ec5d507313125d17c4040ec769474f4d58ea159d9cafc3910')
 b2sums_aarch64=('63ce33811457d6f271ea92ef0b3c2c0ae81d0c2cc8545273ad308237131c6eb1807d56e4de75037b525d19b6d405f9c5558665d85bd821a2d05ae40c1f9f2926')
 b2sums_loong64=('a1dcbb5b20b4576e68f4f8244a064a39b440d7d00e929f85bb37b859b610a074dff77e10affa9ec1342349e79dc2a788f75bbfe54035837c9572806d494ea474')
-b2sums_riscv64=('5f495e01fbadb8af3c350f9f55ce706115b381e987e04f6407b5b80811794bbb48ecf6107457a11aa424cd229fc8ef366f5ef18e996395d6c2739c6cebb2e629')
+b2sums_riscv64=('7922444650730064685aab22d80060ee36d41667a59d25a1e42bee7ed481a38b20b12316cdbc06a0b47a9b6e3ce36a4901a70677f0b29559ec88661bd633ab5f')
 b2sums_x86_64=('b1808412ce71ec37b80bc44034e13fb4918577052b5cae0ee4809ffc499c7ccfeb01dfb8a1c49141a0b614861875680f80e6fff4add8c015a4c4becda3859e1e')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
