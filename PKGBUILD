@@ -17,8 +17,6 @@ pkgname=(
   # cross targets
   rust-aarch64-gnu
   rust-aarch64-musl
-  rust-x86_64-gnu
-  rust-x86_64-musl
 )
 pkgver=1.93.1
 pkgrel=1
@@ -62,16 +60,12 @@ makedepends_loong64=(
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
   musl-aarch64
-  x86_64-linux-gnu-gcc
-  x86_64-linux-gnu-glibc
   musl-x86_64
 )
 makedepends_riscv64=(
   aarch64-linux-gnu-gcc
   aarch64-linux-gnu-glibc
   musl-aarch64
-  x86_64-linux-gnu-gcc
-  x86_64-linux-gnu-glibc
   musl-x86_64
 )
 makedepends_x86_64=(
@@ -133,8 +127,8 @@ b2sums=('cf6ebcd0ba99c6a169fbbc56daee3ecf0b090fe9fe09a9eac4ac65941a4f05bd0c71a77
         '6e473abbda7e77fb399b1b5ff0a50efa6b324a4b9f8e0904a0ebca1258e9a84be840465ef1ad716d968fbb580e7bb77d4af2f7dbbbad258749eb9025a7cbc899'
         'b8e3d23c3a7617e231246465a264708789152abfc73203d901d64290701fabffff59d600fc8ecb1ec5d507313125d17c4040ec769474f4d58ea159d9cafc3910')
 b2sums_aarch64=('63ce33811457d6f271ea92ef0b3c2c0ae81d0c2cc8545273ad308237131c6eb1807d56e4de75037b525d19b6d405f9c5558665d85bd821a2d05ae40c1f9f2926')
-b2sums_loong64=('a1dcbb5b20b4576e68f4f8244a064a39b440d7d00e929f85bb37b859b610a074dff77e10affa9ec1342349e79dc2a788f75bbfe54035837c9572806d494ea474')
-b2sums_riscv64=('7922444650730064685aab22d80060ee36d41667a59d25a1e42bee7ed481a38b20b12316cdbc06a0b47a9b6e3ce36a4901a70677f0b29559ec88661bd633ab5f')
+b2sums_loong64=('a497ca8556ad7586744395ae5c7aabe1380ab8886411da512ad49484d9fa693b4bd1b524722ef495b88deb07dfddab6ff28de04f9917283b21a93bea1cf9d675')
+b2sums_riscv64=('3ce81859c514c33fa2f9704bf0fd12507025d8fc02bee9a80a8553b9bad24ae7eecad2f8673f685a5cc5ab0c796520cb460fa32ba5ead06e55f5ce48f474a989')
 b2sums_x86_64=('b1808412ce71ec37b80bc44034e13fb4918577052b5cae0ee4809ffc499c7ccfeb01dfb8a1c49141a0b614861875680f80e6fff4add8c015a4c4becda3859e1e')
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
@@ -230,8 +224,6 @@ build() {
     loong64|riscv64)
       _pick dest-aarch64-gnu usr/lib/rustlib/aarch64-unknown-linux-gnu
       _pick dest-aarch64-musl usr/lib/rustlib/aarch64-unknown-linux-musl
-      _pick dest-x86_64-gnu usr/lib/rustlib/x86_64-unknown-linux-gnu
-      _pick dest-x86_64-musl usr/lib/rustlib/x86_64-unknown-linux-musl
       ;;
   esac
 }
@@ -342,37 +334,6 @@ package_rust-aarch64-musl() {
   )
 
   cp -a dest-aarch64-musl/* "$pkgdir"
-  _install_licenses
-}
-
-package_rust-x86_64-gnu() {
-  pkgdesc="x86_64 GNU target for Rust"
-  arch=(
-    loong64
-    riscv64
-  )
-  depends=(
-    x86_64-linux-gnu-gcc
-    x86_64-linux-gnu-glibc
-    rust
-  )
-
-  cp -a dest-x86_64-gnu/* "$pkgdir"
-  _install_licenses
-}
-
-package_rust-x86_64-musl() {
-  pkgdesc="x86_64 Musl target for Rust"
-  arch=(
-    loong64
-    riscv64
-  )
-  depends=(
-    x86_64-linux-gnu-gcc
-    rust
-  )
-
-  cp -a dest-x86_64-musl/* "$pkgdir"
   _install_licenses
 }
 
