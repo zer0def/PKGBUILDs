@@ -1,4 +1,4 @@
-pkgbase = libucontext
+pkgbase = libucontext-musl
 	pkgdesc = ucontext implementation featuring glibc-compatible ABI
 	pkgver = 1.5
 	pkgrel = 1
@@ -8,8 +8,9 @@ pkgbase = libucontext
 	makedepends = scdoc
 	makedepends = meson
 	makedepends = git
-	depends = glibc
+	depends = musl
+	options = staticlibs
 	source = git+https://github.com/kaniini/libucontext#tag=libucontext-1.5
 	sha256sums = e7702535979f6da207f267436bcbe3b4a802bbd641913441adcc1fb6efae58ea
 
-pkgname = libucontext
+pkgname = libucontext-musl
