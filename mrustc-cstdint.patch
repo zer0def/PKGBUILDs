@@ -1,0 +1,92 @@
+From 56e4d7a37155526497354a9a1e500ff9dc8a423d Mon Sep 17 00:00:00 2001
+From: fanquake <fanquake@gmail.com>
+Date: Wed, 16 Apr 2025 14:05:57 +0100
+Subject: [PATCH] refactor: add missing std lib includes
+
+This fixes compile issues when using GCC 15 / Clang 20. See porting to
+GCC 15:
+
+> In particular, the following headers are used less widely within
+> libstdc++ and may need to be included explicitly when compiling with GCC 15:
+> <stdint.h> (for int8_t, int32_t etc.) and <cstdint> (for std::int8_t, std::int32_t etc.)
+---
+ src/ast/path.hpp          | 1 +
+ src/ast/types.hpp         | 1 +
+ src/debug.cpp             | 1 +
+ src/hir/generic_ref.hpp   | 1 +
+ src/hir/type_ref.hpp      | 1 +
+ tools/minicargo/build.cpp | 1 +
+ 6 files changed, 6 insertions(+)
+
+diff --git a/src/ast/path.hpp b/src/ast/path.hpp
+index a131763c0..19a0b32f3 100644
+--- a/src/ast/path.hpp
++++ b/src/ast/path.hpp
+@@ -9,6 +9,7 @@
+ #define AST_PATH_HPP_INCLUDED
+ 
+ #include "../common.hpp"
++#include <cstdint>
+ #include <string>
+ #include <stdexcept>
+ #include <vector>
+diff --git a/src/ast/types.hpp b/src/ast/types.hpp
+index d849f85e3..4f3318fee 100644
+--- a/src/ast/types.hpp
++++ b/src/ast/types.hpp
+@@ -8,6 +8,7 @@
+ #ifndef TYPES_HPP_INCLUDED
+ #define TYPES_HPP_INCLUDED
+ 
++#include <cstdint>
+ #include <memory>
+ 
+ #include "../common.hpp"
+diff --git a/src/debug.cpp b/src/debug.cpp
+index f8b7dd1ed..c7350c188 100644
+--- a/src/debug.cpp
++++ b/src/debug.cpp
+@@ -5,6 +5,7 @@
+  * debug.cpp
+  * - Debug printing (with indenting)
+  */
++#include <cstdint>
+ #include <debug_inner.hpp>
+ #include <debug.hpp>
+ #include <set>
+diff --git a/src/hir/generic_ref.hpp b/src/hir/generic_ref.hpp
+index 7288c1174..500a22064 100644
+--- a/src/hir/generic_ref.hpp
++++ b/src/hir/generic_ref.hpp
+@@ -6,6 +6,7 @@
+  * - Reference to a generic
+  */
+ #pragma once
++#include <cstdint>
+ #include <rc_string.hpp>
+ 
+ /// Binding index for a Generic that indicates "Self"
+diff --git a/src/hir/type_ref.hpp b/src/hir/type_ref.hpp
+index 15989725b..e24a16648 100644
+--- a/src/hir/type_ref.hpp
++++ b/src/hir/type_ref.hpp
+@@ -7,6 +7,7 @@
+ */
+ #pragma once
+ 
++#include <cstdint>
+ #include <rc_string.hpp>
+ #include <span.hpp>
+ 
+diff --git a/tools/minicargo/build.cpp b/tools/minicargo/build.cpp
+index 7a3679bf2..e30e9ca8f 100644
+--- a/tools/minicargo/build.cpp
++++ b/tools/minicargo/build.cpp
+@@ -20,6 +20,7 @@
+ #include <fstream>
+ #include <cassert>
+ 
++#include <cstdint>
+ #include <unordered_map>
+ #include <algorithm>    // sort/find_if
+ 

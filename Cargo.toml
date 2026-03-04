@@ -1,0 +1,9 @@
+[package]
+name = "mrustc_standard_library"
+version = "0.0.0"
+[lib]
+path = "lib.rs"
+[dependencies]
+std = { path = "../library/std" }
+panic_unwind = { path = "../library/panic_unwind" }
+test = { path = "../library/test" }
