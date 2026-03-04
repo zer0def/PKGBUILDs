@@ -7,3 +7,6 @@ path = "lib.rs"
 std = { path = "../library/std" }
 panic_unwind = { path = "../library/panic_unwind" }
 test = { path = "../library/test" }
+rustc-std-workplace-core = { path = "../library/rustc-std-workspace-core" }
+rustc-std-workplace-alloc = { path = "../library/rustc-std-workspace-alloc" }
+rustc-std-workplace-std = { path = "../library/rustc-std-workspace-std" }

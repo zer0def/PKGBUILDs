@@ -40,11 +40,7 @@ depends=(
 )
 makedepends=(
   # these would likely benefit from an archlinux-java-style switch script for system default version
-  clang17 llvm17  # compiler-rt17 lld17  # also, in same source package: {,wasi-}libc++{,abi} libclc lldb openmp polly wasi-compiler-rt
-  clang18 llvm18  # compiler-rt18 lld18
-  clang19 llvm19  # compiler-rt19 lld19
-  clang20 llvm20  # compiler-rt20 lld20
-  clang21 llvm21  # compiler-rt21 lld21
+  clang21 llvm21  # compiler-rt21 lld21  # also, in same source package: {,wasi-}libc++{,abi} libclc lldb openmp polly wasi-compiler-rt
   git  # this can be made optional
 
   cmake
@@ -66,27 +62,11 @@ options=(
   !lto
 )
 source=(
-  #'https://github.com/thepowersgang/mrustc/archive/refs/tags/v0.11.2.tar.gz'
-  'git+https://github.com/thepowersgang/mrustc.git#tag=v0.11.2' 'Cargo.toml'
-  'mrustc-cstdint.patch::https://github.com/thepowersgang/mrustc/commit/56e4d7a37155526497354a9a1e500ff9dc8a423d.patch'
+  #'https://github.com/thepowersgang/mrustc/archive/refs/tags/v0.12.0.tar.gz'
+  'git+https://github.com/thepowersgang/mrustc.git#tag=v0.12.0' 'Cargo.toml'
+  #'mrustc-cstdint.patch::https://github.com/thepowersgang/mrustc/commit/56e4d7a37155526497354a9a1e500ff9dc8a423d.patch'
   'musl-dylib.patch'
 
-  'https://static.rust-lang.org/dist/rustc-1.74.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.75.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.76.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.77.2-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.78.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.79.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.80.1-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.81.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.82.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.83.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.84.1-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.85.1-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.86.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.87.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.88.0-src.tar.xz'{.asc,}
-  'https://static.rust-lang.org/dist/rustc-1.89.0-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.90.0-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.91.1-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.92.0-src.tar.xz'{.asc,}
@@ -119,50 +99,18 @@ source=(
   0008-compiler-Swap-primary-and-secondary-lib-dirs.patch
 )
 noextract=(
-  'rustc-1.74.0-src.tar.xz'
-  'rustc-1.75.0-src.tar.xz'
-  'rustc-1.76.0-src.tar.xz'
-  'rustc-1.77.2-src.tar.xz'
-  'rustc-1.78.0-src.tar.xz'
-  'rustc-1.79.0-src.tar.xz'
-  'rustc-1.80.1-src.tar.xz'
-  'rustc-1.81.0-src.tar.xz'
-  'rustc-1.82.0-src.tar.xz'
-  'rustc-1.83.0-src.tar.xz'
-  'rustc-1.84.1-src.tar.xz'
-  'rustc-1.85.1-src.tar.xz'
-  'rustc-1.86.0-src.tar.xz'
-  'rustc-1.87.0-src.tar.xz'
-  'rustc-1.88.0-src.tar.xz'
-  'rustc-1.89.0-src.tar.xz'
   'rustc-1.90.0-src.tar.xz'
   'rustc-1.91.1-src.tar.xz'
   'rustc-1.92.0-src.tar.xz'
   'rustc-1.93.1-src.tar.xz'
 )
 sha256sums=(
-  #'baf1e86311e004a638b35730b4d7e72644938a6bbbbf65a862245b92ba5325ad'
-  'd7d6c415e4dd4a3d587aded857ad3e55f64f8b75c0c3d613bd2704862c181633'
-  '3a53e5f957180c64afbf8f1bcf30201be360215c33878c834c2c9a80e87e9bd0'
-  '10d6d3d86ccf6addf9d0b19e86ff2b79f232081d1b3aaa966e5ecde3efa221f0'
+  #'c1ba35f5fc5c4ca2952d9f5526e900dcb6632ea7fd4d71fa58029b3bb563ae56'
+  '5f47fdadbc0c2b2d5f0bc795f3d45b550bb1fcda77c4351409ce53c61ac010f6'
+  '639e2604eda16b229e43eb8063099f8e3850663a6206988c08a9321793a5f7a3'
+  #'10d6d3d86ccf6addf9d0b19e86ff2b79f232081d1b3aaa966e5ecde3efa221f0'
   '8b5588bdf7df362e5431461250f56bb1f3519e4684cc7d14e2c542b8d6fbc5c2'
 
-  'SKIP' '23705e38c1a37acfd7fbb921c5dd8772619476e80d0b3b39ac8eb45bc0c33187'
-  'SKIP' '4526f786d673e4859ff2afa0bab2ba13c918b796519a25c1acce06dba9542340'
-  'SKIP' '805482b436442a6786d270cacbab8f00529e06141b27b7fb01909b97ce4f3464'
-  'SKIP' '4d214c4189e4dd934d47e869fa5721b2c33dbbbdea21f2fc7fa6df3f38c1dea2'
-  'SKIP' '8065824f0255faa3901db8206e6f9423f6f8c07cec28bc6f2797c6c948310ece'
-  'SKIP' 'ab826e84b8d48ec6eda3370065034dea8c006f6a946d78a9ba12bcb50e6d3c7a'
-  'SKIP' '6ab79b70dc57737a1de378f212fcf8852d67fe6cf272d122a15b3ea13be77947'
-  'SKIP' '36217ef7e32f40a180e3d79bd666b4dfdaed49dd381023a5fb765fd12d0092ce'
-  'SKIP' '1276a0bb8fa12288ba6fa96597d28b40e74c44257c051d3bc02c2b049bb38210'
-  'SKIP' '7b11d4242dab0921a7d54758ad3fe805153c979c144625fecde11735760f97df'
-  'SKIP' 'e23ec747a06ffd3e94155046f40b6664ac152c9ee3c2adfd90353a7ccff24226'
-  'SKIP' 'b1fbf809efe9f036939401e142631c201a53bcf43ec1696bd9f5290ba236a266'
-  'SKIP' 'd939eada065dc827a9d4dbb55bd48533ad14c16e7f0a42e70147029c82a7707b'
-  'SKIP' '8623b8651893e8c6aebfa45b6a90645a4f652f7b18189a0992a90d11ac2631f4'
-  'SKIP' '0c1dcbb4f762513d021e1a282c0ac58c0a423642b3a6bf581cafb5414df4193e'
-  'SKIP' '0b9d55610d8270e06c44f459d1e2b7918a5e673809c592abed9b9c600e33d95a'
   'SKIP' '6bfeaddd90ffda2f063492b092bfed925c4b8c701579baf4b1316e021470daac'
   'SKIP' '66401bb815e236cc6b2aacbbe23b61b286c1fe27a67902e7c0222cfe77b3dbab'
   'SKIP' 'ebee170bfe4c4dfc59521a101de651e5534f4dae889756a5c97ca9ea40d0c307'
@@ -178,28 +126,12 @@ sha256sums=(
   '4d1512b25ad40afef6172a5ceeb23c9a6e5a80f78aec0a334adc82f35f976978'
 )
 b2sums=(
-  #'e68178d952b3afef526f99dda24def646ebefbf661200e7b57a7ea054c511075a1455e6456f3fbb0e4c1042660f716f92bcee990054dbe7c1ebc4185ce0e3899'
-  '6e92d5575283812f61d38f0c5693125b972bff67c5de9a669961ae2767746005d299a48ece3a9994ef0785f6bfddf7c0bf0238d1b401904c4e0be805286d3fd6'
-  'e3403092e7f713b28e4b0ff599655e3a2f778e9638103a40b26981dd49dd2e3259a848609240dc3b594cfaa46b6fec6bf7c455e0bb6cd533e6be0396e34e8378'
-  '00d9bb759ca564b8c8401ab98e742da9112587c94409044f36bf536698c7326cfa9723c915187e36ac81eefd4b0b614d9f7de4e835684783f28547a20e9bbb5a'
+  #'056bf7a983d2b962062bf0e208665d1f3f6d4602fa13d0043b2085cb02e34d5d4e1a5c925bcd930e4ef4d04e88690cad96ae67b6d9c7d9734361bcedcd7f11d8'
+  '6ef1b82fd594feec0fb629a48cd2fc95f69c7424f163631cb1f765a09f5ef0a1af67298f6b6d144e14564fd802ee663233ea657706f2f7fff9a3f7c7775d8700'
+  'fa2257b8c17a5648539283a092843de17fddd4f300fb13cc34de50573d5ddc2eb15fcec8b5b14680c290f7b5b2c4f66bee76b0f44e0fb6fa3a65f5a6404bdedf'
+  #'00d9bb759ca564b8c8401ab98e742da9112587c94409044f36bf536698c7326cfa9723c915187e36ac81eefd4b0b614d9f7de4e835684783f28547a20e9bbb5a'
   '6e9c05936617766db6470e0587e198dfed603571bbb37758b47ed1babb65ec70ea46b7d65cdd98447014ae4ceba5ca7551ef5dcab69cd005fc8f2f19ab0c485f'
 
-  'SKIP' 'c5a8fdca7f2152033df6d2fa046d3fba98bbe988bd68da45132aa7248e6df18119ad7d07df08d0e6574a1b33a0cfc0105e60cc1aad3627e2984b7774c175137d'
-  'SKIP' '8937b80585eddaa3e1f1ef948899d14a170308518c6fef9fe569560cdd870053776956743f796055f2119399b9ca6c0df12fedd789ae46324d071e5126c4e495'
-  'SKIP' '0cf726841a837d9906d82a6216e65edad1e3e4a798ccd1ca3824c2098d0c45473854b8bf183c6e9ca70ba095752e77c4f5ef575d98c07243d609857214175f5e'
-  'SKIP' '13a5db07d9c7249f1334a98eaa989de9793dbd7abead293f1461c69459816d0ca04055cc5f086afe472e07c854d693ea07a69884d7543c63e532c164e1722357'
-  'SKIP' 'dedae58e413689de258f852c988a9a91d4cf14c9525f2619ca6155006ddc9b2262c8141ff995e4fc6ecceec383470e50d2fa0952d933db9b3957ce5c5b96f62e'
-  'SKIP' '753c0e9c537644d1a12b4d38024c22952a19513791c3da6f955690c544e58964bacbdb579f94cd05910697fc31f77ed6553e5ad3b111bbdfebeea8d2a4fa19f5'
-  'SKIP' '39891362f2a4bc249f5d943e3ded48d2add9cd9c0ee3c085d7fbefbfbc784f1e029308d9486cd35a6c03b77243077dc1196c75980faeea0d4319cee057509b6a'
-  'SKIP' 'd9f52da9092d0723c862ebbb2dc351cad0670be6872f691b4c9f36faf06803f072720ebd04f06745c355d807991b38312cc830b12d6d3f50b0574bb7325340b7'
-  'SKIP' '611f33e134c2d459c9af1695c0a4d033df93afc986e91a17fceb0dd293fb4ffbd5f7475ef571d36cecf49da6c3fdb3801c98d7f72f9dd1c39e42502f649b192f'
-  'SKIP' '217c85f7351a7c57a2684da2c7c81a32094187b3812dee628b327a5b2faca57235abc54d033c586c071c8bfa0c7360bb28761aaa42fe18414e388db704d81231'
-  'SKIP' '849e8c909493bf76ce9749b9dcb1967180223b91a41d690bc477e78557d4e24949c9a8d8276d824af8c54ad62bc4a998e7a8efbc0bbd2008a4f64f51a7690d48'
-  'SKIP' '1dddbbc0d14fe9551fd2eb59a47521ac7eaf783b8ebf5e89d3e82b38f3f1539c14626a86b6530a47e5a967d47a04db7a3daef568eb5164f42d98b6826346cffe'
-  'SKIP' '9f33a710a3e567d92f56091920643f5ef2ddf2ad52acb5d9ee78496a7b5dbc10da5a51c72cf2a6f66d543a531d3138a49767c98501ae4e885e03988d2ccfbb59'
-  'SKIP' '7ede723121ff8df3908674631ceaec75797d91ccd6f1df4afd7187878adbb8d99c9e8a3b11c6027703b2e8d06785299d93d8649f3eda7f356dd2a6734d99d05b'
-  'SKIP' 'fc17efbc8b2e54f2da61384097dcb3b8f595f27f7853f56cef034913f6b46a718113af0fe66f0e3b0afd184ec506b35f3b74172926cf727ddc061f567d54fa4c'
-  'SKIP' '9f6e3c595f843c239b57f14e26685e9856cffa10189b75627fee4dc82970a9b5f2c6f42e145d1c1042d934bd4db0334014c046450f7594d621b378d951546d5d'
   'SKIP' '82dbbe3b5fe79f623c74fb81a4c4372b14e7d765f0e9af3d76a6c4bde9899007c85c8af70dfd9facc06c37a9c8d03a4597ec87b2d053585ccbc2287332b27e70'
   'SKIP' '131a1b09954fcc505cb3976a78ed6fa2cd011b03d525f55f1101cbf2b1a467436eae6530c8cac09d0b2ace2606852781bd158335d2b3e7808d808de9a2d03403'
   'SKIP' '765e0f216dde8d375e19ca5b1cd3e051b182cc058e16a1307e82e60bac06de6919d18b6506cb14b3ff5e29c2730ef7d1c6e0d86c3bbf6b8148bbf683048eb99b'
@@ -217,7 +149,7 @@ b2sums=(
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
-_rust_llvm="1.74:17;1.75:17;1.76:17;1.77:18;1.78:18;1.79:18;1.80:18;1.81:18;1.82:19;1.83:19;1.84:19;1.85:19;1.86:20;1.87:20;1.88:21;1.89:21;1.90:21;1.91:21;1.92:21;1.93:21"  # >=1.88:21
+_rust_llvm="1.90:21;1.91:21;1.92:21;1.93:21"  # >=1.88:21
 
 # Make sure the duplication in rust-wasm is found
 COMPRESSZST+=(--long)
@@ -235,11 +167,11 @@ TARGET="${_CARCH}-unknown-linux-gnu"
 export TARGET TARGET32 TARGET_MUSL="${TARGET/-gnu/-musl}"
 
 prepare() {
-  patch -Np1 -d "${srcdir}/mrustc" -i "${srcdir}/mrustc-cstdint.patch"
+  :||patch -Np1 -d "${srcdir}/mrustc" -i "${srcdir}/mrustc-cstdint.patch"
 }
 
 _system_dylib() {
-  _rustc_ver="${1:-1.74.0}"
+  _rustc_ver="${1:-1.90.0}"
 
   # disable default static linking on linux targets
   grep -nr 'crt_static_default\s*=\s*true' \
@@ -269,7 +201,7 @@ build() {
   mkdir -p "${srcdir}/bin/"; export PATH="${srcdir}/bin${PATH:+:${PATH}}" WASI_SDK_PATH=/usr
 
   pushd "${srcdir}/mrustc"
-  export RUSTC_VERSION=1.74.0 MRUSTC_TARGET_VER=1.74 STD_ENV_ARCH="${CARCH}" PARLEVEL="$(nproc)"
+  export RUSTC_VERSION=1.90.0 MRUSTC_TARGET_VER=1.90 STD_ENV_ARCH="${CARCH}" PARLEVEL="$(nproc)"
   command -v ccache &>/dev/null && export MRUSTC_CCACHE=1 ||:
   make --trace bin/mrustc; make --trace -C tools/minicargo/; cp bin/minicargo bin/mrustc "${srcdir}/bin/"
   popd
@@ -293,7 +225,7 @@ build() {
     "${srcdir}/mrustc/lib/libproc_macro"
 
   _old_ld_library_path="${LD_LIBRARY_PATH}"
-  export LLVM_CONFIG=/usr/bin/llvm-config-17 CFG_RELEASE_CHANNEL="stable" \
+  export LLVM_CONFIG=/usr/bin/llvm-config-21 CFG_RELEASE_CHANNEL="stable" \
     LLVM_LINK_SHARED=1 REAL_LIBRARY_PATH_VAR="LD_LIBRARY_PATH" \
     LD_LIBRARY_PATH="${MRUSTC_LIBDIR}${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}" \
     CFG_RELEASE="${RUSTC_VERSION}" CFG_VERSION="${RUSTC_VERSION}-stable-mrustc" \
@@ -333,7 +265,7 @@ EOF
   ln -s config "${CARGO_HOME}/config.toml"
 
   export RUSTC="${srcdir}/bin/rustc" RUSTC_BOOTSTRAP=1 CARGO_HOME="${CARGO_HOME}" \
-    LLVM_CONFIG=/usr/bin/llvm-config-17 LLVM_LINK_SHARED=1 REAL_LIBRARY_PATH_VAR="LD_LIBRARY_PATH" \
+    LLVM_CONFIG=/usr/bin/llvm-config-21 LLVM_LINK_SHARED=1 REAL_LIBRARY_PATH_VAR="LD_LIBRARY_PATH" \
     RUSTFLAGS='-Z force-unstable-if-unmarked -C link_args=-Wl,-rpath,\$ORIGIN/../lib -C target-feature=-crt-static'
 
   cargo build --manifest-path "${srcdir}/rustc-${RUSTC_VERSION}-src/library/sysroot/Cargo.toml" \
@@ -348,13 +280,10 @@ EOF
   cargo build --manifest-path "${srcdir}/rustc-${RUSTC_VERSION}-src/src/tools/cargo/Cargo.toml" \
     --target "${TARGET}" -j$(nproc) --release --verbose
 
-  unset LLVM_CONFIG LLVM_LINK_SHARED REAL_LIBRARY_PATH REAL_LIBRARY_PATH_VAR
+  unset LLVM_CONFIG LLVM_LINK_SHARED REAL_LIBRARY_PATH REAL_LIBRARY_PATH_VAR  # LD_LIBRARY_PATH
 
   export RUST_BACKTRACE=full; _old_path="${PATH}"
-  for i in 1.74.0:0 1.75.0:116881 1.76.0:118703 1.77.2:118703 1.78.0:121754 1.79.0:123711 \
-    1.80.1:123711 1.81.0:127866 1.82.0:129295 1.83.0:131075 1.84.1:131075 1.85.1:134650 \
-    1.86.0:136941 1.87.0:138986 1.88.0:140732 1.89.0:142379 1.90.0:144675 1.91.1:146435 \
-    1.92.0:147888 1.93.1:148911; do
+  for i in 1.90.0:144675 1.91.1:146435 1.92.0:147888 1.93.1:148911; do
     _major="${i%.*}";_major="${_major#*.}"
     tar -C "${srcdir}" --strip-components 2 -xJ "rustc-${_prev:-${RUSTC_VERSION}}-${TARGET}/rustc/"{bin,lib} \
       -f "${srcdir}/rustc-${_prev:-${RUSTC_VERSION}}-src/build/dist/rustc-${_prev:-${RUSTC_VERSION}}-${TARGET}.tar.xz" || \
