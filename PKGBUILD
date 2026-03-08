@@ -11,7 +11,7 @@ pkgname=(
   rust-src
   rust-wasm
 )
-pkgver=1.93.1
+pkgver=1.94.1
 pkgrel=1
 epoch=1
 [ "${CARCH%_64*}" = "${CARCH}" ] || pkgname+=(lib32-rust-libs)
@@ -40,7 +40,8 @@ depends=(
 )
 makedepends=(
   # these would likely benefit from an archlinux-java-style switch script for system default version
-  clang21 llvm21  # compiler-rt21 lld21  # also, in same source package: {,wasi-}libc++{,abi} libclc lldb openmp polly wasi-compiler-rt
+  clang21 llvm21  # compiler-rt21 lld21
+  #clang22 llvm22  # compiler-rt22 lld22  # also, in same source package: {,wasi-}libc++{,abi} libclc lldb openmp polly wasi-compiler-rt
   git  # this can be made optional
 
   cmake
@@ -71,6 +72,7 @@ source=(
   'https://static.rust-lang.org/dist/rustc-1.91.1-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.92.0-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.93.1-src.tar.xz'{.asc,}
+  'https://static.rust-lang.org/dist/rustc-1.94.1-src.tar.xz'{.asc,}
 
   # Patch bootstrap so that rust-analyzer-proc-macro-srv
   # is in /usr/lib instead of /usr/libexec
@@ -103,6 +105,7 @@ noextract=(
   'rustc-1.91.1-src.tar.xz'
   'rustc-1.92.0-src.tar.xz'
   'rustc-1.93.1-src.tar.xz'
+  'rustc-1.94.1-src.tar.xz'
 )
 sha256sums=(
   #'c1ba35f5fc5c4ca2952d9f5526e900dcb6632ea7fd4d71fa58029b3bb563ae56'
@@ -115,6 +118,7 @@ sha256sums=(
   'SKIP' '66401bb815e236cc6b2aacbbe23b61b286c1fe27a67902e7c0222cfe77b3dbab'
   'SKIP' 'ebee170bfe4c4dfc59521a101de651e5534f4dae889756a5c97ca9ea40d0c307'
   'SKIP' '848c9171212c998c069e6979a205a1a44fa3235a463696d62e24701c83596ce0'
+  'SKIP' '174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571'
 
   'f25c3e4304f9d627997cc8a5d9cf1e1b4f11347e0158c35139679886feff1090'
   'c32508dbfb5dab9cccbd71430c54e6273fbc979d0bfdc6438904b398d8dbfbf5'
@@ -136,6 +140,7 @@ b2sums=(
   'SKIP' '131a1b09954fcc505cb3976a78ed6fa2cd011b03d525f55f1101cbf2b1a467436eae6530c8cac09d0b2ace2606852781bd158335d2b3e7808d808de9a2d03403'
   'SKIP' '765e0f216dde8d375e19ca5b1cd3e051b182cc058e16a1307e82e60bac06de6919d18b6506cb14b3ff5e29c2730ef7d1c6e0d86c3bbf6b8148bbf683048eb99b'
   'SKIP' 'fe5a9072161cf758221974f1f59b1a198b2c62b2317360cdb8b2516cfac8eecf40cd5e69bb186053555688a167cabae3a3227b9079c360d238b12c229ff2ddc1'
+  'SKIP' '1c8c1b3f2d32898d7bfee5daa49b2d99c2dc7c1a35773c9bd66f73d45ea87f553c596561596594da2562c5bdfbd44936c53617ab114b7144e94a7d178e859af3'
 
   'f4a836270fb15b419f05db590c0f95f95c171addf85bf7324257690df29eac9139e53c0b73dd74b56921cc0c238e92bb0f3ba3b0969fac9c5cc90caf2cad0384'
   '26edd385582537da6ef2c937aae70122fb6129bc18f43aca155bec010007da63d121a6aa07363c6d35bd7c6b8c799c1e0429d34787d4cc86125c5d176b5678cb'
@@ -149,7 +154,7 @@ b2sums=(
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
-_rust_llvm="1.90:21;1.91:21;1.92:21;1.93:21"  # >=1.88:21
+_rust_llvm="1.90:21;1.91:21;1.92:21;1.93:21;1.94:21"  # >=1.88:21 >=1.94:22
 
 # Make sure the duplication in rust-wasm is found
 COMPRESSZST+=(--long)
@@ -166,10 +171,6 @@ TARGET="${_CARCH}-unknown-linux-gnu"
 [ "${_CARCH#arm}"     = "${_CARCH}" ] || TARGET="${_CARCH%h}-unknown-linux-gnueabi$([ "${CARCH%h}" = "${CARCH}" ] || echo hf)"
 export TARGET TARGET32 TARGET_MUSL="${TARGET/-gnu/-musl}"
 
-prepare() {
-  :||patch -Np1 -d "${srcdir}/mrustc" -i "${srcdir}/mrustc-cstdint.patch"
-}
-
 _system_dylib() {
   _rustc_ver="${1:-1.90.0}"
 
@@ -185,6 +186,18 @@ _system_dylib() {
 
   ## can't remove llvm, because musl targets require CRTs, rendering this effort a foregone conclusion https://github.com/rust-lang/rust/pull/71769
   #rm -rf "${srcdir}/rustc-${_rustc_ver}-src/src/llvm-project"
+}
+
+prepare() {
+  :||patch -Np1 -d "${srcdir}/mrustc" -i "${srcdir}/mrustc-cstdint.patch"
+  :||{  # tests target version patch application
+  tar -xJf "${srcdir}/rustc-${pkgver}-src.tar.xz"; _system_dylib "${pkgver}"
+  for src in "${source[@]}"; do
+    local src="${src%%::*}";src="${src##*/}"
+    [[ "${src}" != 0*.patch ]] || patch -Np1 -d "${srcdir}/rustc-${pkgver}-src" -i "${srcdir}/${src}"
+  done
+  rm -rf "${srcdir}/rustc-${pkgver}-src"
+  }
 }
 
 _pick() {
@@ -283,7 +296,7 @@ EOF
   unset LLVM_CONFIG LLVM_LINK_SHARED REAL_LIBRARY_PATH REAL_LIBRARY_PATH_VAR  # LD_LIBRARY_PATH
 
   export RUST_BACKTRACE=full; _old_path="${PATH}"
-  for i in 1.90.0:144675 1.91.1:146435 1.92.0:147888 1.93.1:148911; do
+  for i in 1.90.0:144675 1.91.1:146435 1.92.0:147888 1.93.1:148911 1.94.1:149354; do
     _major="${i%.*}";_major="${_major#*.}"
     tar -C "${srcdir}" --strip-components 2 -xJ "rustc-${_prev:-${RUSTC_VERSION}}-${TARGET}/rustc/"{bin,lib} \
       -f "${srcdir}/rustc-${_prev:-${RUSTC_VERSION}}-src/build/dist/rustc-${_prev:-${RUSTC_VERSION}}-${TARGET}.tar.xz" || \
