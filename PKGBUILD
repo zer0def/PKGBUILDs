@@ -5,7 +5,7 @@
 # Contributor: Jan "heftig" Steffens <jan.steffens@gmail.com>
 
 _pkgbase=llvm
-pkgver=21.1.8
+pkgver=22.1.8
 pkgname=(
   "${_pkgbase}${pkgver%%.*}"
   "${_pkgbase}${pkgver%%.*}-libs"
@@ -38,12 +38,12 @@ source=(
   "0001-sdag-freeze-condition-in-select-of-load-fold.patch"  # https://github.com/llvm/llvm-project/issues/208611 # https://github.com/llvm/llvm-project/pull/208683
 )
 sha256sums=(
-  'b934e649489009c743469b375258ef91c034dab2aebb1f7d372ff2434cb808ff'
-  'cd3e1b224353edd2136cbdf85f78587a40e563422cb5f6dfcea04d601c6f2a24'
+  '22acb48afcad5f242c5d3fb4da5686d6e0db60b9ac600eb23bb32dc4135ac596'
+  '91eaec904dcc7e02cd4f5007d844e0b7cb34a2cd8b9757d8a3f329383978bb20'
 )
 b2sums=(
-  '3ca6ece7e4b70dea341dfe2c07ca7e130cd0073f2e9165c5a2e21e39439b4dbec2f4e8ae400bfea7a8159bd1682bbd8ee5c284a71987a6af876b54ea0d7698c4'
-  '99e02130ed7d6eb6481079c3e03a38e2166a0b7a3b8abffcef59ad7425a75b32793397e3657166a073de16c002d07568c3c016ea37609830f9ce1aeada3d31a7'
+  'eb51e8be34b0df15eaf05a347e14d4f1ada72c4243b3aeff6c08cf9d4d6275288a58e29a6f9f3fd9497d191944e215980c133269ac979698596e0ff6140830f1'
+  '64380d97411bec964826bcecd2eb9074b87bbd77f10d0a1c061cf849a687c63d361d752d5a061e823ed3614dca808ed28651905a5ad90dd53625e22d22080f27'
 )
 validpgpkeys=(
   '474E22316ABF4785A88C6E8EA2C794A986419D8A'  # Tom Stellard <tstellar@redhat.com>
@@ -89,7 +89,7 @@ _get_distribution_components() {
 prepare() {
   cd "${srcdir}/llvm-project/llvm"
 
-  #patch -Np1 -i "${srcdir}/0001-sdag-freeze-condition-in-select-of-load-fold.patch" -d "${srcdir}/llvm-project"
+  patch -Np1 -i "${srcdir}/0001-sdag-freeze-condition-in-select-of-load-fold.patch" -d "${srcdir}/llvm-project"
 
   # Remove CMake find module for zstd; breaks if out of sync with upstream zstd
   rm cmake/modules/Findzstd.cmake
@@ -163,7 +163,7 @@ check() {
   :||LD_LIBRARY_PATH="${PWD}/lib" ninja -v check
 }
 
-package_llvm21() {
+package_llvm22() {
   pkgdesc="Compiler infrastructure (LLVM ${pkgver%%.*})"
   depends=(
     "${_pkgbase}${pkgver%%.*}-libs"
@@ -201,7 +201,7 @@ package_llvm21() {
   install -Dm644 ../LICENSE.TXT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm21-libs() {
+package_llvm22-libs() {
   pkgdesc="LLVM ${pkgver%%.*} libraries"
   depends=(
     'gcc-libs'
@@ -224,7 +224,7 @@ package_llvm21-libs() {
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
-package_llvm21-default() {
+package_llvm22-default() {
   pkgdesc="LLVM ${pkgver%%.*} default symlinks"
   depends=("${_pkgbase}${pkgver%%.*}" "${_pkgbase}${pkgver%%.*}-libs")
   provides=('llvm' 'llvm-libs' 'llvm-default' 'libLLVM.so' 'libLTO.so' 'libRemarks.so' 'libLLVMCore.a')
