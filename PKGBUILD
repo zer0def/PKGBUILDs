@@ -11,7 +11,7 @@ pkgname=(
   rust-src
   rust-wasm
 )
-pkgver=1.95.0
+pkgver=1.96.1
 pkgrel=1
 epoch=1
 [ "${CARCH%_64*}" = "${CARCH}" ] || pkgname+=(lib32-rust-libs)
@@ -77,6 +77,7 @@ source=(
   'https://static.rust-lang.org/dist/rustc-1.93.1-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.94.1-src.tar.xz'{.asc,}
   'https://static.rust-lang.org/dist/rustc-1.95.0-src.tar.xz'{.asc,}
+  'https://static.rust-lang.org/dist/rustc-1.96.1-src.tar.xz'{.asc,}
 
   # Patch bootstrap so that rust-analyzer-proc-macro-srv
   # is in /usr/lib instead of /usr/libexec
@@ -111,6 +112,7 @@ noextract=(
   'rustc-1.93.1-src.tar.xz'
   'rustc-1.94.1-src.tar.xz'
   'rustc-1.95.0-src.tar.xz'
+  'rustc-1.96.1-src.tar.xz'
 )
 sha256sums=(
   #'c1ba35f5fc5c4ca2952d9f5526e900dcb6632ea7fd4d71fa58029b3bb563ae56'
@@ -125,6 +127,7 @@ sha256sums=(
   'SKIP' '848c9171212c998c069e6979a205a1a44fa3235a463696d62e24701c83596ce0'
   'SKIP' '174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571'
   'SKIP' '62b67230754da642a264ca0cb9fc08820c54e2ed7b3baba0289876d4cdb48c08'
+  'SKIP' '77a6ff3003a4ad0cb00697b043c879e3e1a15d945b1a1f63818903bfc3fa8b98'
 
   'f25c3e4304f9d627997cc8a5d9cf1e1b4f11347e0158c35139679886feff1090'
   'c32508dbfb5dab9cccbd71430c54e6273fbc979d0bfdc6438904b398d8dbfbf5'
@@ -148,6 +151,7 @@ b2sums=(
   'SKIP' 'fe5a9072161cf758221974f1f59b1a198b2c62b2317360cdb8b2516cfac8eecf40cd5e69bb186053555688a167cabae3a3227b9079c360d238b12c229ff2ddc1'
   'SKIP' '1c8c1b3f2d32898d7bfee5daa49b2d99c2dc7c1a35773c9bd66f73d45ea87f553c596561596594da2562c5bdfbd44936c53617ab114b7144e94a7d178e859af3'
   'SKIP' '0f255678231df79c9910cf5d9efbd762d1955ad78512194e3e06b3cec327f346bc98c526d2a8468ea53f57132c9765a134fe203267c1f6696e6719db820f342a'
+  'SKIP' 'b8a489293a232faf24a7eaaa439f752bc46848faecc67f5a6462632b33116628a76af8687ce27d42ac0a8662403ee83610e628059ff56651be67aaee88cdfa53'
 
   'f4a836270fb15b419f05db590c0f95f95c171addf85bf7324257690df29eac9139e53c0b73dd74b56921cc0c238e92bb0f3ba3b0969fac9c5cc90caf2cad0384'
   '26edd385582537da6ef2c937aae70122fb6129bc18f43aca155bec010007da63d121a6aa07363c6d35bd7c6b8c799c1e0429d34787d4cc86125c5d176b5678cb'
@@ -161,7 +165,7 @@ b2sums=(
 validpgpkeys=(
   108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE  # Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
 )
-_rust_llvm="1.90:21;1.91:21;1.92:21;1.93:21;1.94:21;1.95:21"  # >=1.88:21 >=1.95:22
+_rust_llvm="1.90:21;1.91:21;1.92:21;1.93:21;1.94:21;1.95:21;1.96:21"  # >=1.88:21 >=1.95:22
 
 # Make sure the duplication in rust-wasm is found
 COMPRESSZST+=(--long)
@@ -303,7 +307,7 @@ EOF
   unset LLVM_CONFIG LLVM_LINK_SHARED REAL_LIBRARY_PATH REAL_LIBRARY_PATH_VAR  # LD_LIBRARY_PATH
 
   export RUST_BACKTRACE=full; _old_path="${PATH}"
-  for i in 1.90.0:144675 1.91.1:146435 1.92.0:147888 1.93.1:148911 1.94.1:149354 1.95.0:149354; do
+  for i in 1.90.0:144675 1.91.1:146435 1.92.0:147888 1.93.1:148911 1.94.1:149354 1.95.0:149354 1.96.1:154508; do
     _major="${i%.*}";_major="${_major#*.}"
     tar -C "${srcdir}" --strip-components 2 -xJ "rustc-${_prev:-${RUSTC_VERSION}}-${TARGET}/rustc/"{bin,lib} \
       -f "${srcdir}/rustc-${_prev:-${RUSTC_VERSION}}-src/build/dist/rustc-${_prev:-${RUSTC_VERSION}}-${TARGET}.tar.xz" || \
