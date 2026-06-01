@@ -1,5 +1,5 @@
 pkgname=sandlock
-pkgver=0.8.1
+pkgver=0.8.2
 pkgrel=0
 pkgdesc="A process-based sandbox for Linux, no container, no VM, no root. "
 arch=('x86_64')
@@ -9,8 +9,8 @@ options=('!lto')
 depends=('glibc' 'libgcc')
 makedepends=('cargo')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/multikernel/sandlock/archive/refs/tags/v${pkgver}.tar.gz")
-sha512sums=('5bf9dff340c159708eefd77cfd8a361a937a9474ec416f2cb010ceb26fc2bd7d6cf0bb9efa0ce3f0395ef9497219d228f17e0aa5e1a9c60dad8e00d66f298305')
-b2sums=('3e441f03e9f809837086c7a81cebf8bbe92b3481a575886e3565350615726509d46ee7801e5f99519b161ff4a9ff7cbf714075f69048bd28bb09732e10a08ea6')
+sha512sums=('776a55db4521649842515a7b791062f58f1b883cda79924b4dc1ab6f708b7349dd8f3aa51162cd5604fe63bdf894dd40cf5c6c56e5793cb88e130f23cdb590d7')
+b2sums=('ef65fc484ea62b6a1d33a161bd9308b047546975bc2c3b9594f07f130e0e0f0b0aaa2e69fc63a9d3fba53fc52eafdf98cb1c32c693f25567252f46e829f1473a')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
