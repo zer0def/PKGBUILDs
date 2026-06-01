@@ -1,6 +1,6 @@
 pkgbase = sandlock
 	pkgdesc = A process-based sandbox for Linux, no container, no VM, no root.
-	pkgver = 0.8.0
+	pkgver = 0.8.1
 	pkgrel = 0
 	url = https://github.com/multikernel/sandlock
 	arch = x86_64
@@ -9,8 +9,8 @@ pkgbase = sandlock
 	depends = glibc
 	depends = libgcc
 	options = !lto
-	source = sandlock-0.8.0.tar.gz::https://github.com/multikernel/sandlock/archive/refs/tags/v0.8.0.tar.gz
-	sha512sums = ec2882b6f6c30de404d103494f1dd81efbe40dfec5fe84950ecda4f49ec323886ef33e6eb75a56f551a1a8b8f93e772dfe5f9e543e334278af3b459ad9b2d6a9
-	b2sums = 6830c8cd9c897b53a95b7e42fb969043fc8d352b56640e25cdb187619113b20883f359ce0129171963db0b411a85483dcd6b7a3845b763b5dee7e222c3f9f758
+	source = sandlock-0.8.1.tar.gz::https://github.com/multikernel/sandlock/archive/refs/tags/v0.8.1.tar.gz
+	sha512sums = 5bf9dff340c159708eefd77cfd8a361a937a9474ec416f2cb010ceb26fc2bd7d6cf0bb9efa0ce3f0395ef9497219d228f17e0aa5e1a9c60dad8e00d66f298305
+	b2sums = 3e441f03e9f809837086c7a81cebf8bbe92b3481a575886e3565350615726509d46ee7801e5f99519b161ff4a9ff7cbf714075f69048bd28bb09732e10a08ea6
 
 pkgname = sandlock
