@@ -1,18 +1,18 @@
 pkgbase = nvidia-fabricmanager
-	pkgver = 460.32.03.1
+	pkgver = 460.73.01.1
 	pkgrel = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
 	depends = rdma-core
 	options = !strip
-	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/nvidia-fabricmanager-460-460.32.03-1.x86_64.rpm
-	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/nvidia-fabricmanager-devel-460-460.32.03-1.x86_64.rpm
-	sha256sums_x86_64 = ab68f972f30bf7e37d47a38ad0ddb68a9d6b7772d766999481dd3b8759415c48
-	sha256sums_x86_64 = cfde5cfdb595aee0f85c94dcd180a159f4da08408ca770112cd4ef1001de8281
-	sha512sums_x86_64 = dd7ddfc56e9da78ebf7afd6efe3ede6b1bb1fdad52057b72b600f7776cf91ebe412a7e0e7b589df50e0f91adbda2e0fc8e62e96444308edd5c48fcd5d2bc63cf
-	sha512sums_x86_64 = 089019e20b38e82490704a251fe0cd9ad2d162987051024eb6b54f2b15aaf17a9a1e414c1176d6f0a27e1f8056d20447ece5490f3e97dda1f3592a92d4fc7823
-	b2sums_x86_64 = 35a2dc8fa81168c8bd9e0aa3035bb6bfaab81a684eca06d45c6a54755fd73eda9e72283843427d92801bd16071ed5535a93860fd07ede0e866caa8119628b9e9
-	b2sums_x86_64 = 09c75af573447986885f3cf5f629fb5a62a30cdb3a152186bc3eae751e62de32ed0b2f265ff8fec6d3f4045526a43d67f5afade1da3437b7ab1b01af329bfb9d
+	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/nvidia-fabricmanager-460-460.73.01-1.x86_64.rpm
+	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/nvidia-fabricmanager-devel-460-460.73.01-1.x86_64.rpm
+	sha256sums_x86_64 = ef2a56e8ca1b1f41c75862265ac54b016832b81ada342600691e0e09c3c5cdfb
+	sha256sums_x86_64 = 385ab139614f04d04ce44042403d153fa4d788b8f7544dce85f17c1563791389
+	sha512sums_x86_64 = e935ee1ba7d974de60c944cde8ca900a5c75478729e5b62cecdb4809f9390e63569ebfc0add5aa2fbd85755269c3621413fa0518aaeed9180a7da91d25bb9dac
+	sha512sums_x86_64 = 9af9521a88c9553f1bb13a6c8b1ce6b18a1796a3d7b978b9041a8ad57666c0898c99419139183ef20761307240280d2e55867b2ba94a0ce5ae47a9e19a7b746b
+	b2sums_x86_64 = 1b1d3e258851a6cfc336246a944816db71581ea409f6db3c3f0cc0d2d157c2560f7284496e35935852f855cec4da009772029e047479b108fbfaf26b7e7cd1a6
+	b2sums_x86_64 = a4a237df34bd05564854ac45003d21bb112b4412af4b6a718f5693a3308253a330d5bad73d815fc93308dc1bccb2b4276d0c9650875616c86290e3380544b886
 
 pkgname = nvidia-fabricmanager
