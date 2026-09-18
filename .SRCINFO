@@ -1,0 +1,19 @@
+pkgbase = datacenter-gpu-manager
+	pkgver = 2.0.13
+	pkgrel = 1
+	url = https://www.nvidia.com/
+	arch = x86_64
+	arch = aarch64
+	license = LicenseRef-NVIDIA-Driver-License-Agreement
+	options = !strip
+	options = !emptydirs
+	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/datacenter-gpu-manager-2.0.13-1-x86_64.rpm
+	sha256sums_x86_64 = afa49ac2db02605565cecdf7b88789e5570a02dd82b51ce5d04e150cedb418b8
+	sha512sums_x86_64 = c31fd5910950099afaf1c20230e2a70b2027f0ed598e93caf83769508ddc48d8a71770509ce129b507339625de1c5ce971fe746c85ed4d6f96c8d326e8ba21cc
+	b2sums_x86_64 = 00b80785e99c35368dba55a4111d92c0523f093ad091a7460b0a68a0a350122a5cd8481d7d5c304916bc706b585184e7751048df01a91184dae80c87113bf387
+	source_aarch64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/datacenter-gpu-manager-2.0.13-1-x86_64.rpm
+	sha256sums_aarch64 = 140ffa45638ef1fd1c5023fd1715e2e0c16fc26233475c73a5df95f17faf187d
+	sha512sums_aarch64 = fcaaf90acd3298cb599f8aa222f5d2c183e1d6845eefdbb7a4b533e241b60a11a8f47892451ea7b07e18fb8f775e12d1a6fb204e2589b51d265ae63034d8ef8f
+	b2sums_aarch64 = f7275c1b4f26ba6dacd825945dbad21ed58ac09add5d07d632d57c5ab91ccdaeee6ec7d27b7cdc4d7068ceb54cd15341fe0e468ec95d770445faf5d66e579e2e
+
+pkgname = datacenter-gpu-manager
