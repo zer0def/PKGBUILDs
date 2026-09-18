@@ -1,5 +1,5 @@
 pkgname=nvidia-fabricmanager
-pkgver=460.106.00
+pkgver=465.19.01.1
 pkgrel=1
 [ "${pkgver%%.*}" -lt 515 ] || _arm64=aarch64
 arch=(x86_64 ${_arm64})
@@ -9,8 +9,8 @@ options=('!strip')
 depends=('rdma-core')
 [ "${CARCH}" = "aarch64" ] && _archdir="sbsa" || _archdir="${CARCH}"
 
-_dash='-'
-_ver_prefix=''
+_dash=''
+_ver_prefix='-'
 _ver_suffix=''
 _devel_dash="$(echo -n ${dash:+-}${_ver_suffix:+-}|head -c1)"
 if [ "${pkgver##*.}" = "1" ]; then
@@ -49,16 +49,20 @@ b3sums_aarch64=(
 )
 fi
 sha256sums_x86_64=(
-  '1512cc0ec76663cd5efef61c56d469b0821ffdf147a1a562045f4b52bfb87fea'
+  '68c20ebdb9bd026533da494f782555ecf12cee55e07fde0685bc336bf75f13f7'
+  '3c56afe022a687b534d1b0ea83211b48184d966670eade541ca3361fffea7568'
 )
 sha512sums_x86_64=(
-  '50ae4c2d87658a6aeb07b48d92fc5666379024484919a7363025776c10b6d589d7757e19215d66a1568bdbba19e3207494deda7d899bf868f21208bc7a0a651a'
+  'a75e9f35484b7aa1a35b2526539c6c314448e1766c5b9c2202a743ef9e6dc4e55259cd5492fc423967d6bbdf68313a4a249c036c75f2776e5e507bef245cd30d'
+  'dc34f6b5661be5656831e76725ddc0f64658b9d54a549d0b5bd7541d07b7fed38680b828d543fc087f898f59a674d9d9b3a5824991444e1817ef20666c0b8158'
 )
 b2sums_x86_64=(
-  'd61b91fc7fca7b907c8c9843c6f571eb5abd23835a1d2f27d543c6d33f2c3fb4f613e19f5b5722a21dd457112ff2544dce80a2d7f4d7936f4c64837b37b13a69'
+  '6fdaedb8f8dc964cb82a289640b2eeb29f646b20425513068cdb04f6dfc64514530b02bc27d52e73e7dd204592d49c7aefc893b3c04a248a7cabe07b2a400193'
+  '2e49e146787defed1a581ff7c09afdf5f75727e89020101980eeeb45f162f2dd6902403b110b4bea1c30de6aa86832aa05ee76db78452bf9e266784d40a40c32'
 )
 b3sums_x86_64=(
-  '860894f857d48217d8d84db4e6a36c3ba3cec510ae3282155415339e102cf693'
+  '510116c88570da3af6e54b7d283f9341a2aeb80da6f042004538e7c3e03aba77'
+  '9c162a6a32ddd4f073d58370e386cd81e9e20c6e15d99418e00e9a951229fbbb'
 )
 
 package(){
