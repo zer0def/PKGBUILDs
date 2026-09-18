@@ -1,5 +1,5 @@
 pkgname=nvlsm
-pkgver=2025.06.5
+pkgver=2025.06.6
 pkgrel=1
 arch=('x86_64')
 url='https://www.nvidia.com/'
@@ -9,14 +9,14 @@ depends=('rdma-core')
 [ "${CARCH}" = "aarch64" ] && _archdir="sbsa" || _archdir="${CARCH}"
 source_x86_64=("https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvlsm/linux-x86_64/nvlsm-linux-x86_64-${pkgver}-archive.tar.xz")
 source_aarch64=("https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvlsm/linux-sbsa/nvlsm-linux-sbsa-${pkgver}-archive.tar.xz")
-sha256sums_x86_64=('4130187cb503805eb3c4d349513495bdb3c53e503a5b737b5d6053f623989c70')
-sha512sums_x86_64=('fe690537f9de77bf26d8c2982b91c16121ade9b1877b2dda9e7b5b3fed0841e5fa7c22bb30767b5bd45f27176346610b4eda7984b920e80474eaa81961625198')
-b2sums_x86_64=('dce8279b8911f4b57839077f9738416e0c2a8c8371d740e0e8973e665aa8334def4a88240ed51b8b4dabba4d42d0657bcae08abb44425f3aa5c468efc5ae119a')
-b3sums_x86_64=('5ba5c4a477892aa0875bd680476d79ab6d62370ec0d004ba9c3f513cb368eb09')
-sha256sums_aarch64=('4f25e213c87acb9c0ac75ec0d84d7146af310170e0cd187ffc744c9d1d3a657d')
-sha512sums_aarch64=('d83322ea43748b5f19d1ea011ad8dde19218d80ff507255a1884bc2b600d875dd3cfe737b29f4edfc96065c2761e4a2eda110c25a62d7cd2528b9b1a5e24d457')
-b2sums_aarch64=('cc29b8ed8465759958683b90c4101029e89aa83d7e8fe763a81e07f5e24b5e79f33d2cbcf491a5767fbde5731c9dbf95b6276073a6f324d85c092228a5bda5a5')
-b3sums_aarch64=('9d23685d8140f6c09da61dfdc0ee69fed8a483a899f60b06ead3b2489b765f74')
+sha256sums_x86_64=('bd77ad2504966450aab15041223eea34538a57e870b7d447c097ec721efba792')
+sha512sums_x86_64=('461f0a738d609d196134c037be655c0fdc1d7456e042babb97a18795e2fc3dee5b27db2022d351149ef9e9436722491148cfbe3d6b89048c3b6d390c74edcad5')
+b2sums_x86_64=('d571cbe8eff983e654716e1d695a72eb64f016589a195b807db7742acfb6325ec32067fbe31d4628bc6d213638ce2f865d9121e7683bfd8f3990a580e25dabd7')
+b3sums_x86_64=('eecc9f531f87cb302824bbdd2a2ab3648f9eefaccc0cbd7d016326263f6b209c')
+sha256sums_aarch64=('1f24d590129e4951d57b1ba75f321bc7ec66b487249ac53b771f0d3a5c5ff371')
+sha512sums_aarch64=('64df61215cf40f3122d507eedc96ff15b89c115c45070761b1b423de8087c6587d71221ceba07344a38c3b62a25e8377c56f8ea6f97ff1056b47fbbbbb7941c8')
+b2sums_aarch64=('e97ab9df095a8805b5c84c50287da36606d894360d7f731cfa5fdf486693fe32bfe23693c9549700bd033538d8277d5600cdf3609f7ef1b179cfdf8f0df19a90')
+b3sums_aarch64=('29411813ee2b32de0e196fa2765134a0ae2cb706395e3d6eee7b650e3a0618b2')
 
 package(){
   mkdir -p "${pkgdir}/usr/share/licenses/nvlsm"
