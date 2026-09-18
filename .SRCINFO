@@ -1,18 +1,18 @@
 pkgbase = nvlsm
-	pkgver = 2025.03.10
+	pkgver = 2025.06.5
 	pkgrel = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
 	depends = rdma-core
 	options = !strip
-	source_x86_64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvlsm/linux-x86_64/nvlsm-linux-x86_64-2025.03.10-archive.tar.xz
-	sha256sums_x86_64 = d09a01f9bddad928f8e78f6159b771d0a5498cfedc6f4e0814283cc98c35a7b3
-	sha512sums_x86_64 = 49e3e14114a6fb2a829318cf19ddae756da9ae9f690b9d5dd972f843d932df148b4e7c1a803f2bc762461f27ca87706bc2157bb0070e18cf05c837e774e5902f
-	b2sums_x86_64 = 4786091ba733081edf91cb9401c5eb248ee785b13aac6848d9e53084359d96b93f5567e21dd954390aa631c0a152bc19d9ad523a7760c2aafb6932d6a01cd57e
-	source_aarch64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvlsm/linux-sbsa/nvlsm-linux-sbsa-2025.03.10-archive.tar.xz
-	sha256sums_aarch64 = 286d3e172b1bb504e6acdbe001b66b35854e11efe6a00bf3e47003b45aeed6ca
-	sha512sums_aarch64 = 7e12b45646e33a865667a794e71ba23ce3e667353468d638d2d93f6a0586c616c1486f038d204f2f5cdf807a333f005391e9c9f2f5ffd321b576cd94ecd18473
-	b2sums_aarch64 = bd27a77b765d20ce2b632588fb8f7e07413bb212cc0d11c586f876fdabde0634442d14a9e34549c9198eb023dda0f81a63bf48550c0fd07b7985972c8e3f4355
+	source_x86_64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvlsm/linux-x86_64/nvlsm-linux-x86_64-2025.06.5-archive.tar.xz
+	sha256sums_x86_64 = 4130187cb503805eb3c4d349513495bdb3c53e503a5b737b5d6053f623989c70
+	sha512sums_x86_64 = fe690537f9de77bf26d8c2982b91c16121ade9b1877b2dda9e7b5b3fed0841e5fa7c22bb30767b5bd45f27176346610b4eda7984b920e80474eaa81961625198
+	b2sums_x86_64 = dce8279b8911f4b57839077f9738416e0c2a8c8371d740e0e8973e665aa8334def4a88240ed51b8b4dabba4d42d0657bcae08abb44425f3aa5c468efc5ae119a
+	source_aarch64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/nvlsm/linux-sbsa/nvlsm-linux-sbsa-2025.06.5-archive.tar.xz
+	sha256sums_aarch64 = 4f25e213c87acb9c0ac75ec0d84d7146af310170e0cd187ffc744c9d1d3a657d
+	sha512sums_aarch64 = d83322ea43748b5f19d1ea011ad8dde19218d80ff507255a1884bc2b600d875dd3cfe737b29f4edfc96065c2761e4a2eda110c25a62d7cd2528b9b1a5e24d457
+	b2sums_aarch64 = cc29b8ed8465759958683b90c4101029e89aa83d7e8fe763a81e07f5e24b5e79f33d2cbcf491a5767fbde5731c9dbf95b6276073a6f324d85c092228a5bda5a5
 
 pkgname = nvlsm
