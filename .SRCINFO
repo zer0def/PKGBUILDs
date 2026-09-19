@@ -1,18 +1,18 @@
 pkgbase = libnvidia-nscq
-	pkgver = 535.247.01
+	pkgver = 535.261.03
 	pkgrel = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	arch = aarch64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
 	options = !strip
-	source_x86_64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/libnvidia_nscq/linux-x86_64/libnvidia_nscq-linux-x86_64-535.247.01-archive.tar.xz
-	sha256sums_x86_64 = 87f3a52fd244197cd205994da4da1d950428a950d7734aa4bf4c4bce0ffeab58
-	sha512sums_x86_64 = dce4c7e4949809637aea1b9b3f0a62cf144709ee7e92d09e69f8991c37da603b9b2f0867775db52fa9a1707a5703e5bc3aa1250ea4af0785a1465f55b59b26e2
-	b2sums_x86_64 = f58b0520a65b03175b6b2031a6bab48fe94ded117f9e30f90233b57296219d4eaa3a492be6e63dd4507fcc9478120d60e4542794624cc3ee0f23c7bdcd37fa80
-	source_aarch64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/libnvidia_nscq/linux-x86_64/libnvidia_nscq-linux-x86_64-535.247.01-archive.tar.xz
-	sha256sums_aarch64 = c60e4bf07e5957de9f89110b83ac70f1ffef600a112742f78442c956f3ddd145
-	sha512sums_aarch64 = c661ec04ff4aa62dc4ee7f91d2e6fb97bd080c72f659562abe07f01ddaca6bf7c7eff9c49d14939d0295a8c462a382361995195ecae47a0e52678e54194e709f
-	b2sums_aarch64 = b685b7f3d894c3f2bb9f3780dfa5c227a15d41113d629de084387c5ec69b8af55d32a34ebf0bc610f5cc3257422d9467abec982f10ffd88d8e39266889ac4a87
+	source_x86_64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/libnvidia_nscq/linux-x86_64/libnvidia_nscq-linux-x86_64-535.261.03-archive.tar.xz
+	sha256sums_x86_64 = 2d88702c8001406908e8985f5ee01020d2a5b62f10619b1ad81f075c5f624aac
+	sha512sums_x86_64 = 341482dee3115b8e89f03c3b012ff879217fbe1d21c472b09c2e021b69dad299908079b02c101856867b342598480b94e9bb45983501799269e8190ca8fa864b
+	b2sums_x86_64 = c48d5a56cd90eebf37528a22330778cc4772e48cf41fed53adaf62124acb1274dd50857261bbf5b25eb7920b9db1d565279fd89cd60c2863b82f9f73b8dba1cd
+	source_aarch64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/libnvidia_nscq/linux-x86_64/libnvidia_nscq-linux-x86_64-535.261.03-archive.tar.xz
+	sha256sums_aarch64 = 1052ef18b783e53e2479161750bf92e053d44d3e885e69f2ba96c5de48610dc7
+	sha512sums_aarch64 = 14dca9a4e616c4260eda3f81eb71dffe9a46e2379571f45e9fcbd9d791fe9a658e6a6f38fe15ff8675dbae43d1096c2d50e19e8741456ee9460cea467e2e30b8
+	b2sums_aarch64 = 516fedbdf84902e3475a314387d5ddb277000f471a02bac213ca143ca274952eb7cb6890c51c218c1287b2e31bddfd3a1dcbf819d60d0bee7ecfc55314948fbd
 
 pkgname = libnvidia-nscq
