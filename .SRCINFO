@@ -1,13 +1,13 @@
 pkgbase = libnvidia-nscq
-	pkgver = 470.42.01.1
+	pkgver = 470.57.02.1
 	pkgrel = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
 	options = !strip
-	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvidia-nscq-470-470.42.01-1.x86_64.rpm
-	sha256sums_x86_64 = ca367dffdd533d61b8ddc52c3730d3dda5cdb4888fe1c800c55c62eef3cf169b
-	sha512sums_x86_64 = 4940d46cb5af8ae3ffa59031d87a96803571b9adde1f52b2693b5f371dcc4dbb6e934d39b197d61061a14ee094ff4c2d71a4683017415c42ae036cf6a1fe2bb3
-	b2sums_x86_64 = 4d3512ef1c6b0bf67530cbb0ee318cdb83cca6153a5637dfbb76e757e5699541e0406184a0f871e7dcce36381ba655171f30f1a8ba6da88c91e80a939c4453d2
+	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvidia-nscq-470-470.57.02-1.x86_64.rpm
+	sha256sums_x86_64 = 97db9ca6e3efc6b01c294323fe880f244b470381b8a58e52fb669c504146fc3f
+	sha512sums_x86_64 = f589849e2e5ec5ac12fd5e50b298e8bc8470fd93636cf2c5088aa12912a88e24ac6cbfe7bdaa2d5df7a3db9af165165a425b70835abcd9d1bf4ea5575b75c472
+	b2sums_x86_64 = ff027d341bec6d77d1229525df78b912304b802e0e0dcaaba75fc1e2d52dca76e5c88e05c5865c3ad82a393513fc760ef0410a9fecda7ad71afa648b13b998bc
 
 pkgname = libnvidia-nscq
