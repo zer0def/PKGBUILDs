@@ -1,5 +1,5 @@
 pkgname=libnvidia-nscq
-pkgver=590.44.01.1
+pkgver=590.48.01
 pkgrel=1
 [ "${pkgver%%.*}" -lt 515 ] || _arm64=aarch64
 arch=(x86_64 ${_arm64})
@@ -9,7 +9,7 @@ options=('!strip')
 [ "${CARCH}" = "aarch64" ] && _archdir="sbsa" || _archdir="${CARCH}"
 
 _ver_prefix=''
-_ver_suffix='-'
+_ver_suffix=''
 if [ "${pkgver##*.}" = "1" ]; then
   source_x86_64=(
     "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvidia-nscq${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.x86_64.rpm"
@@ -27,29 +27,29 @@ else
 fi
 if [ "${_arm64}x" != "x" ]; then
 sha256sums_aarch64=(
-  '1b55874fe5e14f3351f87860fb6bc3de7fe0ab997935b275b5c1b82033a55a7c'
+  'bc160a9a4ec62f3baaaae5dd1e40a6ee83daa17bfda4e9ebc8cd46f8fbc12b9a'
 )
 sha512sums_aarch64=(
-  'bb8b52b55f5483caf9f27c6c57ba42e1ec0b5426b3694e62319f75f8870985d36e3550c83c8163a4a4c7077b5a1299698393cb5c57e0072d07bcdb012fda6d2b'
+  '5d68b6a9a79f8101720b6fb6c2a626668bf07750ba600d1c79dbff35d149e33f9818c4f55863cb41d63f98287f6b09c9c498cd877fc4223a6c8e6e28e28a7d61'
 )
 b2sums_aarch64=(
-  '454a398d90548b8b65667ebb6dcdf909f6259e8cd94f8739e7ecbd5f60df97106bfa6f741a9e6c1baa511bcc7ded23311651ac2807450308bb1ec50db703cb6e'
+  'a8365288cd6b4c3e41320e38701d7d0ff511a70ed3261b804ea6e02f810bec670c2d9e0ddc22280e0129bcb3b16a98e786c684b07623ceeaa36d8ba71d4fd2fb'
 )
 b3sums_aarch64=(
-  'ec9f7f031d4a8e631071416339309a8d5fcba8245486545fab6d9907092325ae'
+  '458e2287e3b5c9e678d8562c96b22443bb73dab76ec5f4bf955f416c897ff17b'
 )
 fi
 sha256sums_x86_64=(
-  'e2b124e6a99cc1689fd1e5f5179dff5dc4c4f0949751aa4e4249a6c06f101a0a'
+  'f6e6f85ccd1bf0c53db291093d055dc6331b0049e7096741a115a1faa59fdb86'
 )
 sha512sums_x86_64=(
-  '97cf049db7519a0879dca49da7bcea2263ef87efeeec4b3aaeb9df998750a8564d8bfb524b117f6ba21ab356f4a7ae2f5ba82b5859909738d4f9734f01a2cc4d'
+  '7b3334c9a166f77d785b458e4296d18bb2a9024273bcff86d5c2652417384ff38166a8e91021e18e5fc31de862d0e139fdf7d2abbfd222dc9cebf49b50ec2f61'
 )
 b2sums_x86_64=(
-  '294633c4d91d8d50e5ea1ad56add1605a8ec8ccc46b86e7b315b284e4bfc1fd5d17ac538ed728500bd3761031770316a7558fc8e707ab1c7658940bba2226193'
+  'f05e823106c22563e191c201c110fbe585de4a5270a347fb20486349306daa6068138a31ea25330e925b9f2f6610b73e7ee2934e608c77ec30c1f034f005935c'
 )
 b3sums_x86_64=(
-  'cfab867723ca03d144be66e0cc6c73e712bd21a7ca05d9f221c25c28f1a81757'
+  'bf49112156f1387017abb9cff763beaa387ad7783150f0cf561700a5b12c5ac7'
 )
 
 package(){
