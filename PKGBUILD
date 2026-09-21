@@ -1,12 +1,12 @@
 pkgname=libnvsdm
-pkgver=565.57.01
+pkgver=570.86.10.1
 pkgrel=1
 arch=(x86_64)
 url='https://www.nvidia.com/'
 license=('LicenseRef-NVIDIA-Driver-License-Agreement')
 options=('!strip')
 
-_ver_prefix=''
+_ver_prefix='-'
 _ver_suffix=''
 _devel_dash="$(echo -n ${dash:+-}${_ver_suffix:+-}|head -c1)"
 if [ "${pkgver##*.}" = "1" ]; then
@@ -20,16 +20,16 @@ else
   )
 fi
 sha256sums_x86_64=(
-  'e0b09211207933a48ef7a618ed481bd58ee5e83c26b3a2a2eb84de104e3737f3'
+  '59c089ac74f91beaa575bc0cbf406c6cf4b7194288f4223a8d1c344902b172bc'
 )
 sha512sums_x86_64=(
-  'efd272a38c9394248e9e55d28b85aa08fc009d48a34b2b93840e95772854125b01f9a987ec0873d2cc5661d25ccb92811c76b91210a9e20325a3aac14560d7ef'
+  '75d8fe278068c9681c574e1da9d5f192f5662a1216f3df1b59dc56f9b6a3f8ac4e7c4c8d5f8968535cae611308b32c4f9abc4aa4507ae087dc02cd6dfbd9214d'
 )
 b2sums_x86_64=(
-  '83e3a8af51c3a3bac66111c85f25e514c364d764f3a7d774932b8197fd610dcbd021acc7802e9ee4b91e925fe9b53206130c39056cb8d53d0ad77c41589cdd4c'
+  '55f0969506a34cc8e2f44d2dc8518614d0876ef3af74baff8f5c10b662fef8666642760088b5bdf233d5f64a206d82d90329f2dc8421fc020ebf093427595eb5'
 )
 b3sums_x86_64=(
-  '6b73164829a93f62e5bbcfb123a0cfe10a8d31ac454fa2763926f57ded9913e2'
+  '7b372cb3a6137b9b27ce2e9ca0f5156f75e959c5b814a96f9174859eec5c842d'
 )
 
 package(){
