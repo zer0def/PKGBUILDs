@@ -11,10 +11,10 @@ for i in $versions; do
       _file="libnvsdm${_ver_prefix}-${i%.*}-${i##*.}${_ver_suffix}.${j}.rpm"
       _devel="libnvsdm-devel${_ver_prefix}-${i%.*}-${i##*.}${_ver_suffix}.${j}.rpm"
       lftp -c "pget https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/${_file}"
-      #lftp -c "pget https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/${_devel}"
+      lftp -c "pget https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/${_devel}"
       for k in sha256 sha512 b2 b3; do
-        #sed -z "s/\(${k}sums_${j}=\)([^)]*)/\1(\n  '$("${k}sum" "${_file}"|awk '{print $1}')'\n  '$("${k}sum" "${_devel}"|awk '{print $1}')'\n)/g" -i PKGBUILD
-        sed -z "s/\(${k}sums_${j}=\)([^)]*)/\1(\n  '$("${k}sum" "${_file}"|awk '{print $1}')'\n)/g" -i PKGBUILD
+        sed -z "s/\(${k}sums_${j}=\)([^)]*)/\1(\n  '$("${k}sum" "${_file}"|awk '{print $1}')'\n  '$("${k}sum" "${_devel}"|awk '{print $1}')'\n)/g" -i PKGBUILD
+        #sed -z "s/\(${k}sums_${j}=\)([^)]*)/\1(\n  '$("${k}sum" "${_file}"|awk '{print $1}')'\n)/g" -i PKGBUILD
       done
     } || {
       i="${i%:*}"

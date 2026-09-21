@@ -1,5 +1,5 @@
 pkgname=libnvsdm
-pkgver=575.57.08
+pkgver=580.65.06
 pkgrel=1
 arch=(x86_64)
 url='https://www.nvidia.com/'
@@ -12,7 +12,7 @@ _devel_dash="$(echo -n ${dash:+-}${_ver_suffix:+-}|head -c1)"
 if [ "${pkgver##*.}" = "1" ]; then
   source_x86_64=(
     "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvsdm${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.x86_64.rpm"
-    #"https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvsdm-devel${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.x86_64.rpm"
+    "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvsdm-devel${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.x86_64.rpm"
   )
 else
   source_x86_64=(
@@ -20,21 +20,21 @@ else
   )
 fi
 sha256sums_x86_64=(
-  '7a6ee934d5c328f9c05e967b63053c211f80485e0443ac119d887612a510ad53'
+  '8142c3684b0926f657ff35fbfceff617688d0349f5105fca3ed2fffa4b10b177'
 )
 sha512sums_x86_64=(
-  '4a374ca46fe6dea8d435f130f24a872c1bd1d7345360cdd51672be96fd5debb926b774d48e98b5434f1f990b821da412bc86138e61f59957fdb7753adc022e30'
+  'b14565c384bb15425aadbb1dd58f10a90127601fcdc82b0dc3092fa68268579daac81dd024a87f8a8596dfc9c84860f74073f2b8e7a3247a16d16ae5914ed0a3'
 )
 b2sums_x86_64=(
-  '5e42eb1aa4d394a8a696762648bc2d0c95be8942423a11c109a7239abe5cfaaccf3b2c6313960a8b45c03abaf812ebe0e9d9f854996429c56a9965e3789ab994'
+  '9f7f312c14c349ab09d08648afd7fa55843a40b186ec68daa907473c6d24728bc3700a62f2c52a9954c0548e89eb75f1a1958ca35a1aaa5e43eb45adcac28818'
 )
 b3sums_x86_64=(
-  'fa96808789d749a0a331dddbc1def708fa0a08c2eb71e52b92d804d67811e178'
+  '0272cf9bdae4db200cbf1c1ef4b6f4c06894a376a312f19dd4d1c9f7a77121ef'
 )
 
 package(){
   [ "${pkgver##*.}" = "1" ] && {
-    #bsdtar -C "${srcdir}" -xf "${srcdir}/libnvsdm-devel${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.${CARCH}.rpm"
+    bsdtar -C "${srcdir}" -xf "${srcdir}/libnvsdm-devel${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.${CARCH}.rpm"
     bsdtar -C "${srcdir}" -xf "${srcdir}/libnvsdm${_ver_prefix:+-${pkgver%%.*}}-${pkgver%.*}-${pkgver##*.}${_ver_suffix:+.el8}.${CARCH}.rpm"
 
     mkdir -p "${srcdir}/usr/lib" "${srcdir}/usr/share/licenses/${pkgname}"
