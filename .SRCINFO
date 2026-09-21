@@ -1,17 +1,13 @@
 pkgbase = libnvsdm
-	pkgver = 610.43.02.1
+	pkgver = 610.57.04
 	pkgrel = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
 	license = LicenseRef-NVIDIA-Driver-License-Agreement
 	options = !strip
-	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvsdm-610.43.02-1.el8.x86_64.rpm
-	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/libnvsdm-devel-610.43.02-1.el8.x86_64.rpm
-	sha256sums_x86_64 = 9b44b19c1c65bcf968801f678a93f875a3c44f61b138439b18027b921befe567
-	sha256sums_x86_64 = 6761b2c2f589f6ee2ae9b8ba260c4cd8b79af53fd9d6ea5e365f915a7752f79b
-	sha512sums_x86_64 = 7035d922f1496f1be15af9386e0cec2beca004eee585146a61d7d8019adf96b597f74c903ee095591aaa909729c3eba5e8b89d3c8067dd7549a1926abaa9826c
-	sha512sums_x86_64 = 5fafe836216fef5ae21e6a45de535510004594db7554ef3b436a8c3cd206c217b4b09f17cc8f38f725d7dbc605dabbebd80b8c3c2a0c035d5644c630d118d59d
-	b2sums_x86_64 = 60c755d59f082fe6e5dde120f5e29933179427638731d1526da1c5b80ce9bf03f6596e8abf213b3ff64c63d5a22ded3716e133a5b9c09cc59834b5af070d45cf
-	b2sums_x86_64 = 06646112a0bbfa5d04e4110570c1b1c7cc44ff1219c11dad96c720a01e8a6ae4c84b8cd06c57e6c04e0f66626543459a7934aaa229dde93e95a19b75f5785580
+	source_x86_64 = https://developer.download.nvidia.com/compute/nvidia-driver/redist/libnvsdm/linux-x86_64/libnvsdm-linux-x86_64-610.57.04-archive.tar.xz
+	sha256sums_x86_64 = 90448cc36588692eee10280364ddd4c9497e3cad544fcfbcc9d6318f9cc5cd1d
+	sha512sums_x86_64 = c552934c638decbb33ba20df7e285d16e526a7f7f055c10a399dfe1103ed4afb84cf201f7d4ab1e2f4ed0d5f566781d83696ac58a4f6d55abef5c9fa9627601b
+	b2sums_x86_64 = a7a12e852af25ccc269d7485a033500018f6d0a3be32c7e0eb8e1c3b583f1c84793f83acfc32bef668ffc052ee336d75c171914e5d306ff7a1a2d64a4035b1f7
 
 pkgname = libnvsdm
