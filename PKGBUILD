@@ -1,5 +1,5 @@
 pkgname=libnvsdm
-pkgver=580.126.20
+pkgver=580.159.03
 pkgrel=1
 arch=(x86_64)
 url='https://www.nvidia.com/'
@@ -20,16 +20,16 @@ else
   )
 fi
 sha256sums_x86_64=(
-  'c546ec22ff14d839750ff3eaaadac2e1144906db136362620a9c1cef1d3e0a0f'
+  'e190611c6993d56169cec86a647d9a18470e641ea494e04346a8b4cea36da948'
 )
 sha512sums_x86_64=(
-  'a582947e5117e4d20ea269dccf2c6798263dbe878c90429e5624c32c7cecded3226e14c5067253136cac0c7e259f603e235893372272628d18aaf3df9ab36a10'
+  'ef8aab36bc506c1663b9130e7a61939dce69d853ce0a24f1a68be29efa7e2d5cc4a00ad798ecf755f969d026b325b095d12b1eff2135f92182dd0a3836d363d1'
 )
 b2sums_x86_64=(
-  '6cc599c86833cb5a693e79b9fd013845087f9b9e460ef515687e213e5838fb03dd13edef393253c634cbc8ee898ba21f7f5c16e4a1263b8373b89d4d4b09d902'
+  '78798ab238713a3faf0b08c7dacc4fc9b710a49e464c5960ba95fde36ca495887345c967e23cce01284cd708a86e7c5c82eb61e57efe9b7dec0e8647cb199a6f'
 )
 b3sums_x86_64=(
-  '11cd40c38b7c15bd60737775a837dbc6d6caaac412749373d4ea8b819b9b8e42'
+  'c632bf417e26029ee86e4a8e30e016823823f6d55429298122c32c95179d3315'
 )
 
 package(){
@@ -47,7 +47,7 @@ package(){
     _srcdir="${srcdir}/libnvsdm-linux-${CARCH}-${pkgver}-archive"
     mkdir -p "${_srcdir}/share/licenses/${pkgname}"
     mv "${_srcdir}/LICENSE" "${_srcdir}/usr/share/doc/third-party-notices.txt" "${_srcdir}/share/licenses/${pkgname}"
-    rm -rf "${_srcdir}/usr"
+    rm -rf "${_srcdir}/usr" "${_srcdir}/apps"
 
     mkdir -p "${pkgdir}/usr";mv "${_srcdir}/"* "${pkgdir}/usr"
   }
