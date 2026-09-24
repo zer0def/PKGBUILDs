@@ -1,5 +1,5 @@
 pkgname=datacenter-gpu-manager
-pkgver=2.1.4
+pkgver=2.1.7
 pkgrel=1
 arch=('x86_64' 'aarch64')
 url='https://www.nvidia.com/'
@@ -8,14 +8,14 @@ options=('!strip' '!emptydirs')
 [ "${CARCH}" = "aarch64" ] && _archdir="sbsa" || _archdir="${CARCH}"
 source_x86_64=("https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-${pkgver}-1-${CARCH}.rpm")
 source_aarch64=("https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-${pkgver}-1-${CARCH}.rpm")
-sha256sums_x86_64=('4fe2895b1c9d06e528f9372ba27a3edf5928fcb22244e69d4a10726f9a20006c')
-sha512sums_x86_64=('515dc913fa30040cf9390996c8a883e120150ad9e6a67de9eaa54428f917dedaee368e4621a06d9400a5109b7a785dc6abe589f490a19b5661776aec32ee5c39')
-b2sums_x86_64=('8894e16a239eb2a40ca2593ed0584342d3325881ff9a4414e2c2d9507877b942ce95748b3c20cf7ccc4207dbef461d7bdeb5435f7fd4f7d2f9dabf0f7ddde753')
-b3sums_x86_64=('0f7fbd5f608f9f93e5981ff28861d1ecc717723d8ae25c13b2e51bb75885ea0b')
-sha256sums_aarch64=('4b9abceab80f5e49d20ba47bb65c080375bca3fa75cbf0f5adf6df6f4515afba')
-sha512sums_aarch64=('0ece31c120b1dbfd71bb400ee598c858aac06f93f05c0ade07ea46848cfb5495fb0ca2e91732a644dff4d25c6483063f27ab4c9b212b8ee90a20fc0578e79a8c')
-b2sums_aarch64=('dc1778b77332ee4d65304a8741a57ba652c27a44c8ffcfe353a63c6345789c5dbbde999009452a2cc977fb0bfd61e5cdfb49719de72df3e0d2eab41201464d5e')
-b3sums_aarch64=('79761162d5b9781505a191be65a02ef5addcff347f0a48b8a09db3b71b931e17')
+sha256sums_x86_64=('368f706b4d155f1753c644aec78db5dd997de30da376831327ca9745cfda8643')
+sha512sums_x86_64=('84364540489342b21d2f95805c6c3f24222c14b5b5bf670b63daa90c6f963c0b3735323bd4180c5fb174db01e97316c6207ed2940b376b9dd0f74e4bcc047028')
+b2sums_x86_64=('5f3eb39a297090d6a46beba825cb46d5014cf9eea51d83bdca8caa7065b1bfc42b691351c247c6688a774b7a25934749e3bcbadff237e66a940435660dc26f54')
+b3sums_x86_64=('51babb9da5d16734970fa3e12b7174aad56acef8abe3d3afaa690d7fb8190bb0')
+sha256sums_aarch64=('bdd70abd30bf008c9c74ebdbdfe3368190bdeaf588a53af3c826946a8d2f8940')
+sha512sums_aarch64=('e4cd07acabd07c6748e04dcb1c74de05d8d1e15ffc2e32477dd91cbfc6164bec4d64acc03488d19a8a6b19992f53ea065efdf29437ed717d92797bd76078e572')
+b2sums_aarch64=('c0804d25daea05b88e5d8ff3cb8ec81dd9253735582976e73ebeba639b512e69fcdb2271af9614f981a9f8633b4c8045b30f5d659abe093388987739433cb04b')
+b3sums_aarch64=('7ae19c4606cc8814a4a650a13c662d127d07fece9fe286a54ecf14f3317244f4')
 
 package(){
   mkdir -p "${srcdir}/usr/lib/datacenter-gpu-manager" "${srcdir}/usr/sbin" "${srcdir}/usr/share/doc/datacenter-gpu-manager/examples" "${srcdir}/usr/src/datacenter-gpu-manager"
