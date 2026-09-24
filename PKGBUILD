@@ -3,8 +3,9 @@ pkgname=(
   datacenter-gpu-manager-core
   datacenter-gpu-manager-cuda11
   datacenter-gpu-manager-cuda12
+  datacenter-gpu-manager-cuda13
 )
-pkgver=4.3.1
+pkgver=4.4.0
 [ "$(echo "${pkgver}"|sed 's/\./\n/g'|wc -l)" -le 3 ] || _rel="$((${i##*.}+1))" _pkgver="${pkgve%.*}"
 pkgrel=1
 arch=('x86_64' 'aarch64')
@@ -16,122 +17,155 @@ source_x86_64=(
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-core-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-cuda11-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-devel-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-multinode-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-multinode-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-multinode-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-cuda11-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
 )
 source_aarch64=(
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-core-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-cuda11-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-devel-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-multinode-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-multinode-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-multinode-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-cuda11-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-4-proprietary-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
 )
 noextract=(
   "datacenter-gpu-manager-4-core-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-cuda11-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "datacenter-gpu-manager-4-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-devel-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-multinode-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-multinode-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "datacenter-gpu-manager-4-multinode-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-proprietary-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-proprietary-cuda11-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   "datacenter-gpu-manager-4-proprietary-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  "datacenter-gpu-manager-4-proprietary-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
 )
 sha256sums_x86_64=(
-  '8841f3debc83bf49d8ffb75925725052bce68fd2bb9a6da9102c0fd57f244cd4'
-  'd7a5d5e2bd02eda424ec4707b15a7bf6aed4bc9ae775b476b9e6c89d69abb2c6'
-  '38b583798d184c57ffc17f1adda6d3c27328519d62556f76584b861015177d70'
-  '5e354d28805be4574043546662440278f387391af9ab3fefa166b5d1715ffb6c'
-  '06d5faba2e8c7121b869f6c165b23c3bc433f3c48d33dd425cc015e579816d6d'
-  'f1a98df58b00dc28bba128d6df3b7f39ecd44cde8d48c34ffc6dc0433ac3c8b8'
-  '1d78deb9790aa549f1971f1dd0f2bdc3226f5ea6e8f677b860125d19650c524b'
-  '4a14f6ed3130c392760335333a192429f3ae33934ceaa8258db4b5315d958a5f'
-  '812a6afa8c31c798dfc6f4fc1dbb02b1e88c366bf19dc4c6dd485dd96454a546'
+  '7a51744a1f287a0195cc1cb8ea67fdbc06773de7b422bc394c652f36b8617e69'
+  '0f5119978a715fd53bbb9e48b32d2beaf754b575e28962a288f14b1f59aa9bb9'
+  '40ac59a7544803f9098ac911c0bff4372fb004357be29175367aaa2d5682089a'
+  '9248d9a5c9daec1e4da479f964230174dec0038cf8554b6e89555064fe9496ff'
+  '881183f744d395f660d9ce3a0831b93c35611625932222b3b580ed9158cabb70'
+  'b62a7465b0d4828a70d6a701882a7b2d241579fda7c13f725fb1f4d353ea1b1c'
+  '187f50ebe599a8d7bc0f102ba40e279fedceb99215120e4e235bf71023427173'
+  '5939ed62c9188a5854da433e7d725d0d43a15bc4cea82f14a49e4ee9d6ccab69'
+  '5869bc18cbf7e946c1b80cb5909dc497f7f30a8ee37f2c59b8233084f81e0aea'
+  'da137b20e4f41bf624bb676cb63d5747f77f45f71d8d6ed87136f78941b57ee2'
+  'a05fb3ea4bf22a069fb373f4476ad747b9fb6f015006c76fffeb6c761cf7f173'
+  'ddc6fe70a628c03a4ed275540538cbfa955856997d41ccc186b4dc52cdbf170c'
 )
 sha512sums_x86_64=(
-  '1d35fb9b757b090bad1dd834f42ba82703b99c0b24256155626e01abe1b7e377f2164332ac4fd1498c0831369a4af0c29c1a9943703f3a3429386b821c93de0e'
-  'c7dc22dc53dd2b33d7956a2db17df6e05f6d1a09598168defad2191b1f63bc82f4e3401dddd1e47a2e251bf94681e45c826af3485e555aa8998719f1b87a6bb8'
-  '223d63dcb48ce16fb8f75d78c7f29cf77d2596faa02f1ecb9ce1b685906c39d8c30ab6276eb691471bae9c4e71c836472992b05c5a9c3ac009ef91bc125a746b'
-  '38c997c8a9efaaaad56ab33c4097c551c4f654170fb0a04a1341118027eb26091965efd39c2f028add6979c5b0fa8fd65307512d1db60bbbd066064cee7a483b'
-  '6bafd6f1b2656cb49ec1d94162c58b54f947e3be7bc72f8c73ee9fe8d2afb57e7294f502517550671d48d946472c905f0eeb49939b374b0c3d1a5602858b8d85'
-  '9fdaa08c7d458ae863aa053a743a203314774980a2bc3ee7df6eea50c6067ae68da9c8a2ad5656ee0ed642383884de40b7607a48d1cc58f137182fff3676f375'
-  'fa7dc5303b292cdcff8292bb7b03b042b2eeace4b52773cf770e7d020ef63450a0faafda807711978e77a1ebc840f35a2bb14aebb7b30189fa545b71e82c6bc7'
-  '5c9d6e5a0b295036dc5af24d72530c8d2078b0bbef17807f04f169a6cb3bcb528832d583386bc50247d34a5d15023611ddda51557edbcc17ce2e95c172d123b7'
-  'cb4e2abe44ce065ce0184a4ef5a915d97b79f03d65daaad5806702d953e6953174feeca0cab91a761db5df0eda8b1ed180e1fef41204021a9147ffe5cac730f1'
+  'a3df7b0a6c1adee16c008816c9132f696a0ca79d89451525b66168b6a5a798a45ef4b59d4b50945455e96953edbbaba818ab56c08f498108103050a31ec722bf'
+  'c50cebca3687ecef443a8260b49a2d6da6f314eae21eb87b9a7e422daca805bfb0feb018d027e3a1d5c2e2056e8f69e20104acc153fdb8aabae3081cf63909d9'
+  'aba28fd59b303c6161bfe3e5cef8519a6c26eff6f017977d4f32183f4d79e4b2917c13905531a7738830c1de4f6414706f519474255abcfb69d1c7e536b284a2'
+  '86f80ab2b65e6e4466b58e26b95e0cfb054aa73fa94a9644598ac6378440e61553c3b4b43a528b3af1f67ea3532a15e91e4c2740028ae60cc851bfa90fdd1ed7'
+  '0423786d190f77e632e08c276f54e17eea1a95f0bcfcf123e343b11f74346b691765733f18ded9cdcc151d6f652be6ea7551a21bc137a81828dedaaee569fc4b'
+  '02f815caa11e02393c897b2b5851dd6dc716c11b2bf8701c657da88953a2a639ee8b8d71162e42d514744b667307a810101fbf4beefd191adf3aca7201a1a15d'
+  '581df13f3068e4e599bc5c64a6244ded8717d4323cf9b5b58965b9577c4c238f0138ce115e1ea48c45ac92618a641dbc69efb52d806a538c227639f00b697dce'
+  '48217545f7a1a07ffef8b0e7acadadc314d61c62faf8bd76317594ffb0c4b768218ed7ee501884925dbf1ec8c04629796f7d9e5514916aa3c893e7e60c899dd3'
+  '8cd72e92420ad8b7469189b1d4c35899b6681fd6527a53de52c6fa20c2e29022cf9a71764079b8c7781ce9f81735a6338b8aa0d676fc182a0ec77dfb5576161a'
+  'ccd7063445de15b6e3be37cf29c77e9ce63dbbf5b1a3e39950ca277e97499688d7c7001b02ad889bc01e2ca4df705384991c11871308f202315a73efefb54e6b'
+  'da4df78322952cc692d5cfd6a566b33d57a5c6c73c3f8f069d625f73f59e9c61ae2adaf0a317c469f0ea6ade9320a5857708855a1efda920ebd9f6b867a259d7'
+  '5fb9da30bb22603a0fbc299b83b96dd27817d34eafd8504b81d23c7e0a88a5733113b74b5596c80fdd70b7ff7e1689f660f6d7f11d0de62a0a8617cc01844515'
 )
 b2sums_x86_64=(
-  '533cb3ba995e6c664c0e512e1bd3d5d5229ba713ec3ec6d8203e0eceeaaaa345ef2eb16a62e16622cf3ac8ef2338ee118ddae46393f1c154a2368a6fd3e8123c'
-  '7258cb22a7f7ca8570e644f79095acb566e0e4b4a179e83971e1882fb0cd0644d2d9245396c13a89b4d87ca0d6ab38c8253b3005f1aba075817d22ca8ea7dd97'
-  '840a9e2bf054a06f56bb061d30232a701c46f790cf243b6d226586380c8996d20777005ac36faa4b873db5e019801f5bc75188c4111989cfa5c273a290673d86'
-  '8c6991c682c8dfb2cf67f3c0bc99c02e2eaaa6d72a7cbd0d90fa7cfd8a60bcf0638ca4bb1c36fec8606d11f7310dc071fdad3b1aeaff78442ca28c24c6838755'
-  'dc102c86b2e8284697639c0f7b5e363d1204b57f2c438086e3a0ad2e83d557e75a35497ddb597e8d8e924bd0887f9a34ee53917710ffc4b52b9eb5a1125b60dc'
-  'ef01160dd9f35fe8fa5eb689cdf9b7c916b88cb132ac2e506779195f1a12e79b699fe8de0528f5e01304ef6a4586f0d971514414d9856e9d683eb4885e1d277c'
-  'd8b210a31c7ee2fbea7ea057f77e569e529ea236eb63979ce0ae4630b20164403d372ce84f6256904f3dfbee4e708d9616c9d350231d1983678918dfb2df707a'
-  '976630582b748105e721bc87fe1087864babc2007cad8a9e6552d867a0f25dcba574f7fa9e3c009b214d98da284672f4666fe7fe5850679f9171013bc411d136'
-  '62d77c6d5a0ffdc4d9754e57410e54776613f4472f0ba4be63ea2de0e2c47e821c8a7693be65a3ba707ff3342a9d33a0a989b07364497ac08c4aed2c3b58ccab'
+  '282b6b2604ff74bc997efbe4f01d6f732bc7499422a564c54f3cbe6236249e97c4822ab9fb7942ca1aa8ebf91ca198e7bdc2c722283a3615a36ff591859d4358'
+  '69086047caee20c117c9bfb7e5e84bc6a65b5a909978a5934518e51ff908fc86cc97d31afd0973b433beec98a6b73e75a140fb7e0b386d2d93a287518038cf69'
+  '5d1636f515683146e710d99fbf677a942db7a15709d459f51edfb2bfdabca26bf43b3ecfc64c75ea3aebec36eb06102c08f1d1fb34b8083e113a73ecdfbd450f'
+  '8b34b12e7f51e904141f15195f0faee5b0374703ba11786a891fa7925309de080c4ea6a6f706b340fd6d11e1316249490f09ea10b0c055c8666220d5af36626b'
+  '6de1b38f2e3ce16270a30794c6d8284f330388788843c2580d80f1b9d27c57203ab786e89e739772037ab0604a9cc62573c818a2f254aa190bbde8060908d730'
+  'ef59dd84435b22aaabfcee169d25f60566b7fe1c09afe62b270a2c982df8dfd166ba4e632363122f96657ab627618f2b20f31bb8c0072f182f5dd8768bbd6fbd'
+  '5c7a236765d0147acba53b0f63c138708e14648479aef081f6eb72dc26c1f4145de388482d083dac5f3e6789d10e424873bcb2673c6871d3c652710d1230762d'
+  '76c59c1a201ed1b01dfd48775211f136ee26a7d8d6b4d1c1269a005dd36521ad28d3b9c234e4c629af1d202eb1123447cc502ae146b1571743a5dbb6031e099e'
+  'dfcffb3c1d0a0f72cff726b29819a53180803ded6a13dfc33f9cd24e18912cb7e2f476d48f80a2ae8fd1833fc8422f29f8d3d79fb9c2998bd9c16dc369ccba84'
+  '937dce8b54b423e5af95839ec052bc81be36cc201fc6df2b93b42d5450ba4fc67d8e204fdb8d089c3285a9d10cdc5a9043ecf3683e3d2601bec17a41adb7f972'
+  '2038726345d26cadc1a6ec4ac125fdb362476057d458bf1dee1eb0632df0c14a83ad35a2cef5e7d30c5e4b6c09767ec57c73eb3569ed7d06e3aed117ea7ad8a8'
+  '2c751f350dd8a46adeceb308cba65a3b0c74fcd688823a38ca012aa5f5d2b8c985a5e082a7f496a08e61e40444699bc590d3c6ab17617080e5286e1843029750'
 )
 b3sums_x86_64=(
-  'e857b8d3866d12af714a27eb20c51bd2ab6e62056aec64d13027dfe67062b587'
-  '3714ee0fbef8a6e8de71d93bf19535dd06d46b3497169a1d673ed5b12bf398fd'
-  '9dfa4751fd4438295be1a5dc356ac6c31e4810a2fa0969d0145d1d5d520f743f'
-  '00fd9bb4beff0c1a1d0f86df91ed8fb012f47df06f5b3f3c86323160bc477d6d'
-  '5a651b48bc964fd79a856cf4336972c3da0c4fcc62d61612cb330fac2f24132e'
-  '975bdf8b12ba03b9aea1e75e0958c484829557ce0e3af4d11cb350eae583c028'
-  '7d501f165c48cbab643c06dd4e4c8d2878da93050dfe64b419293e56384b01cc'
-  'cf4ed110414cffa286674287a380d9e3b871ba8e1c2501febbe060700597c5f3'
-  '10f4ff55a37df4cfd0f843e3beb12092bb3a994540d61559c55937ae7664d12e'
+  'fe3cef82faf998d635f1cc21c771f69d53eb40959db62937b523af4895bca302'
+  'ad6ae2154f3ad9f8691339ba6d13b821a3426e00cad748d9babaa204aad6936f'
+  'd81769b35e6f395e5c8b80a322744255655dec277f1320978004c303d1b55c54'
+  '264d913e449f279eb57b140ca93e0387b63a5f19d045ccacbc127d6269fdd5cb'
+  '92929019a47d2ac498d9e88d01ea66c25a0c438233651809a221b5983d43d56f'
+  'ccfcb0487847b8b12b9b60c30e86cfbfd8bd946ddd9b40a4169d3877d24c577a'
+  'f4e1ec6e28357774803a2a157230efde916181d6c83c2c70d5f0f21ceba6737b'
+  '11ab5a5d5c695cf2d7ac7780641d439b01978ebe29a5238d5701cc77388cdee2'
+  'a42a48e5ca769dac10e4ed91b33e37c4567e366e9b340d4e28dc15c900edacb7'
+  '8942bf473833c101ca9fe13de5548048d89831eb195f837ce70dc33b000207e1'
+  'cfc5a8bd360946db08228c8ca954161bbf567de0c6bd6538a91d6c0a8386476d'
+  '98b9b1c302b3278e9b6e30f56459d09e1fee8ae057f945deee5051adf5e6be77'
 )
 sha256sums_aarch64=(
-  '93bcd609049137c1e41469812a743550809defaf5639a00428ac0c58097ff0c1'
-  '41a19104e184a66eceb92006fae235df8705939234a58a90e0ec8ae3db4639c9'
-  'e9b5910e8df44bd33069a6ec96279d330f75821d429ec276ab8b5939e2550b70'
-  'ece31fabd7f677015f76b69318fb8c7ae494fd82fd53d55434acf06491a2742f'
-  '2cc025bf672a297e87848a8ff73c9ca9cab8f8f1bc222f3fff74b0b20ac4abff'
-  '9cbb8d6850bdb045aa7dba20d4928f387a691dff553abdaaabc70b803e146240'
-  'b57d76da27913ea9da254c214ba6e816ce437bcae9e088684bfd267014b7addb'
-  '58f496ac2f024cade5e26be4a2a591c11a18bf26af1262fe3da5a1070c8f4248'
-  'f364dd1cf31185b628206095f37f1ddea0b47c92f2f2adf9c38e2288564bf687'
+  'def127142c53eb5c677f6a395716de73a333d326d824c5b6e770f632da0b100e'
+  '650ecbc51bd3625e54877178aeeefeeaa69e093ef6b910cdafef243ee8ddb492'
+  '9e58f877fdb608495032c708850d7ffafbde0060f91a0c0d07e512af3047bb85'
+  '7c2abf2a09be2cade2c7b4d8e2adf6088f0be6aa83e930197bce9151c3f052cf'
+  'b50b7373708d09aeaf479ffea26ba0fb8af2b831f219aedf088a0e90406dbb27'
+  'c6cba6634f5add16828633fb9526e72378af924c5798f387fea69e46d64bd1ae'
+  'eb071ecd4452d3d259612e691a48583b878d9b698ab06eee66a04f0bf5b3f9ed'
+  'fc7d1493d0239b0da92383af186f3f56a1aaeb94d243fdd51327cddfdb036124'
+  'dc26b77e962111d194a3818933ba65e323311a76a670e2e61a52cc62e35fbc45'
+  'dbd45810115c784552f7d7936b79ba1a530ae18f35a733b3023d7702f8953db3'
+  '20c7cffa8a9380c2557641fbfc99e3d32ba984483575c76e5096bc163722df1b'
+  '1b79a99a33b4617551b6b4dbe9a79bdd9f60d04c6b025f248fbf40e6a077ff1a'
 )
 sha512sums_aarch64=(
-  'b13eee79ec126c79b3b2f2ae9a55543180bc2b46d749fe0f49bc35eebf1151d4ccb4ec811af0b0dcc3a07bc9e7dd95f424e51325980b78d94612ef8b62a51465'
-  'be8ea7916402ad83354646ff883e38c4fbd926fc300a0b9164d4cb72847a108902bfdd7b57f357f4e60914d88f1d243e4a79902d0e68b4a79b7629b695511263'
-  '7e2b18bfabefc690c07e8c0daaa27e2a23325058f8d20bac206dca43cea24eeb9a1cd6ba4d73901e42ba60abdae639aa9e80f6ebd6eb749f883ed2b68b9f3775'
-  '041615d2f7957c4814de331edb67b8ddb51873e031d7678eea0a5e7a32e623340e3c144c4b266eb05c931ad5231b9ade958c19c8815a5d96c64b5cd4f75a9efa'
-  'bcd3f03e11a715dd0f38842ea92e26a066e773a657f9c6cca3c8bdc1c18cf745cda76d4c8cde8ebd5ccc1f255dfb1da4ceeb747466bbd9c60c5cfaf29dd1aa61'
-  'e36eb7d91466f9eebd7d77f7cff4bf7aa221c314dd2aafb70b2c42ee068c3f72ae78dc008803d6572d0b5d2b66d7df42cf1b3dd177103de080f87fbec7f7a6c0'
-  '06446841d36f82e11bafd58a9ef14646817506719b67700138c0779e3362f76925c96a8efa8af0c9d405aee6a8415c17afa16c2c9a2db25cc0d5dbbfc765b9f6'
-  '8a58a3c5f8ff532db0814746e0c720a22b407598be7d6428c162f6420c4dc9b12275f8abd843a5eb548660074b3e45007ba2b27e0f431be7fc4ca416a5e1c3e4'
-  '83d8dbf433457ccb969d70e6c730ca706f0425f2d2b2a5fe46f6ad34b75cf9153ff1001b3620bd8f105c0ae894a53177f8b2ca6403b11fac20ce9525961484b6'
+  '40cbafaf249d6a6b6205460621185c7e8a12fc6888b2372e27fa52a3657d26d835ece9fd2bf4eff57ebd6c2c5fc498665ffbc5c792a73b9b02ad6dfd9890e569'
+  'bfa0fca3cf2f63777bf0fa827022342c0b0cb4bdc7b542006fd609f7f3449ca68039eae5eda10da899f34e446062cb96ca950527300135857a5cf145212785b6'
+  'f5a55536de75ec72c106cdba4d8abbfc6e43dc9b986e1e138e26297e502cd02a7b8192efce13f7c2aa3b48e4dec9a7efdd02ff694d131af5e3014a01c975a8b3'
+  '4495f474899e79ffd9b1da6d41d7c77308850651d487b2871d3923ba235921396bc08cc2702e602105014b7660331633351adc5231993cba0eddd6e87b561db6'
+  '9e309bbe9502fdb5f34b59ba8a5dd19af31afc377b3744872a8b788a402bd4608d12e9446fd9210b2e476f0afc6cb7e0c97f225ec5c4b1fbd69302984dfdc02a'
+  '071ddf70f23b208f318b0b7fe60876ae3d1d1d2b2aef045f4648b7b0b77afeedcd2ada109ff72433c38cea806ea1a75f710ebdf8c000be49b93e6f1673aedc81'
+  '0f1d7fc7a9f0af00397af9a14a480d0e300453ba36f2dee82b9785897f18deccaadb9d734e8be80d3be10b6939f0b565af1a4674acd36a050a785e4895db92cc'
+  '602f4c2f445d1ec6621e7dc8c83088dace4990bb2fd65ace7c46dd937dc8d5c4a34f82abdc2b37ad320869125a7df64193b5929cc8464eb6e3423f54fb8115f3'
+  '8d843b23acf2be7e614ceafaff11b4731191d0f5fdabd82140b8bd067d1402cc10ce33032870080362007976e70b58bf4aad9d510b3b74a6d2cca228e62617fb'
+  '5d6cc245ba3cfb14cb1f37f235e6c1e19e9433e50c1a1546aa9a105206c9434a09e470b02c76a61e6c233a830651bfb25aac237d0ebf34aa313b477e8d71a611'
+  '6a4b366b8037915520686f27619c450ff450d665d62f78a3f36a1342ad63156b6abc391ef5e9078d4e55b422ab9a5b87a6a641884a5a4c608fce86b60a37d887'
+  'ce590868ba27c23d331a7aece69cc69d7dc40b1a48e822e536cbcdaafcd1ae129507e0869552189427f2e3ba46b098bde393fd0e5cf2398171265963a944f35b'
 )
 b2sums_aarch64=(
-  '0fecf6dc8e000bb601bfb76a561b02586259149726d0d12bb898bcdc54e72bb821a3587d1b52072cfc6e0a8d0c578f8cacbc3db2bb27611d50877b1a430d7e12'
-  '469f71ba61464cded4d6e7038697bb38ff1daaac8d492c284d239df7e147abe90878c03fbbd18cd3e045738936d80f71711fe263fb0b8b49ac3a123de1cd5c02'
-  '2151256ac5f883f52da183fd8bb4af613d0a37b781cb52dc159a0a13c6d78997ecf91f4990cf5197ec60ac7b9194b44b0796334d183f169694fcecb61e26043e'
-  'b2dbec9323203bd67b96ce8d1e835f4997175e7c11f52ebd9e1bf004f8ee8a0c966145db29a5acbd90a0e98d340540f03f54cb9daad76a899e8f4c042cdfe9aa'
-  'eba1705f5a91abe336151d767462cde9e541b0f39d60cd16728ed02101b8eb2cc52a4392a0d4b0605bd87a58857c87366b2f2f91f5eaba118e40323f346b977e'
-  '5c743f1946d900368143ad8d6d6f9feb0dd8587367dd10e21b7e0a0d75ffdd34a713ea04d388b2a97e12fbcd21a6ff89b4bd4c7294630d63992c772200f7c4f2'
-  'a1407fe3b6a9269435bc193480370dcd36900c37199b2024db20abf63620b05e47bdeb9b156ee3052d4b7fc7ef0ec7e841d7e810f66b951dd5db1f192331289c'
-  '0ba11387c7e6c6d787439f61a09833b9de3d9010257233f7df6b18ce1e00db14687886eb13f654ba79b47be0fc3020e3c668016fe20a0c5c2953ec324b9d4ea7'
-  'd2f3bcbaa177629f8b7b75a70d7cb28e81d32df0179f0caa5caef309b4b7aa335e40b8fce98a39cd600cd73bd5df30b206519d3b4b9adf7c0cd8ea8759a45f6c'
+  '2a72f67b5672d0b3ceb02a213898dc32e622b0bafde03dedfc8329f01b4a34d0f496f3a6618fa7c09b2fef89e4e2a22afe4006729eab63ff189b8c700c87ac89'
+  '1c4cf80f6af328316ceec9c59d2cc0d8753060782248fbbfe03df147e2cc9bc5cd57e3bcaf806bf179db02683d27e7b93e43a69ecfa482df7542d8f8818eb8b1'
+  '643eae3ad2a519989bb1fb74b2c125b9bab04ad629822da2d2431aa6a0470a782f32a945441f9f58254d27552d5b09ac60057cb987b8dc35162b4dffa32c9c38'
+  'fdcc908dc6bb12682fbabd0830ed9392185d9a84660faf5fc1a526db38ab0c8703e6d6aed75152c6de869f8680d7cfd12d587d87b089303a70515fa7af447f72'
+  '46795340ccc2a61c02ba167e81aebd9b69d2ed7ec470bcadd21c3344e7b63b1924475b856198402e79d5a357a0dd7854cf50efab33bc2ea49a3d415b3a489b91'
+  '34b86b7c7da83a49206e54599849058e727335faf5971bf1050fad9f20b7ec002f37b949ee99cd9d105edfa338f195d8d6f0f5460a7f22753473a12be90e46ea'
+  'db2908f56a6e62b510387d49e4ca2c6d16ca50ea2b4280c11ce924a13d54bda085a438fbd09de48100b04c25f1fc26bbb786c8e65f3d0e6b8d8bbd069fdb4bcd'
+  '0e8b23f49ad439878bb17be5f1baec24b9f8363400278637a5feb86d17401e0c614c6c09d0c0ddb8798ce13f7d1ebbf0e03c8473f0c9d14dbdf1ee5428bf8e4b'
+  'a721108ec760ed749aa9e788632594715031f08e7f8f602bec63d2b6e40288be7fef2b1bab4443f65d681e7e354172cbba02568549fe6e90fce6f9b95609e86a'
+  '2bb0984b34452fda18b13309a45b4f9d4e27056d7425b61a527fd862962cb78e708fce9ddb47b72a839cd724cc414ba09d26585bef7a48ccd9f10d3dd781d1e2'
+  'b2001cc9d78b144246a553ee899f7fc86fa9d838cac0937a069ad43959d46b0899ca1d85d8f2cc0c052d080e1a16ac5a434bba80660c0de727143333016ae6b2'
+  'd57405253705ed073532894a5984f1dd97dc605365c5199870df42b651e5ea65d7367c6f4d089732fa5d71c0ad4a4d2afc4859653d9830bd080befe2305dc317'
 )
 b3sums_aarch64=(
-  'b9141dedcafd763b0c54ca975ebea07348aba93670a725cbce1c8a9fb5b26621'
-  '8ecf7f625c220376b9c721aa3e42c0d3168ae4bac482b1987635369339bfc04d'
-  'c2b1c91cbb867dda51222bcec8ad528f1b59b3f1dcd761962b53bf78616a663e'
-  '90957f888196a5bab041a4bc461b7a662a1483b68495cbfb6dcc861f84285423'
-  '7e77a1b8e3b16d9c0045ab0e0aea070765bd21d87d6a5ecc916506aaa64bdbb5'
-  '004098b76ed7e603ea49ebc665ea54f40fd7ce4fd4bf83d813e772f454beedae'
-  'd2ff4cd30b4b3129919406638744cbbef466f402a040cb42d5a88b6bff08f255'
-  'c2e9f81e50c2e9e1c870b26ff4a7007845834b5323aee150dc0f89c110cf30da'
-  '82f55faa784bc6ba707042074c9013c610b5db99e2072acff7912ad3ef0799b9'
+  '175dc679fe3c054f8ccadc762cf27c2df3e21b3035f039a510ed6a1c2084379d'
+  'e7600de00e39c7090cbac36b81ae2f8feb4b55052e9a8bda7dd7848201441258'
+  '34b91f77d788574f73089b450b26b4d0769f744d4dcc9a15cb15970d5b92a309'
+  'fce4627501d8b3db81eec9cf2dc4541fb755837830a811d1f84c5ec0ff5a683e'
+  'c2783d80e5169becc5870877351bdb3176c0af9c1798b3cda47811575f87fb2e'
+  '4306b57ced94d57e80e574e7af1c10e02aca6322d31d72f13a62981e1ec7273c'
+  '666babcdaf8f926847018720149f2cfca04b32494d203bdbe75e142ff57c8e67'
+  '088de4d6c5ffe96b55f2e76442f829d864739e5df3567da59c795839e9de964f'
+  '7b8a7a1a5f3a10cfec4dcc3b13ad068a3a1888fed8b21550ce6b59f62aeec8fa'
+  '55e946dff849de305d581c52167e8e97a17943e488abc53c1b2ba6ca23b9fff6'
+  '59575c6ca6a41756296ff9992431ce49fa0d302caf5de2d6a6c56701c24c8578'
+  'db3bd0c7ee793ca844396bd7bbb1bae247dfe5709f157e455aa4d459ff8ac030'
 )
 
 package_datacenter-gpu-manager-core(){
@@ -159,6 +193,16 @@ package_datacenter-gpu-manager-cuda12(){
   bsdtar -C "${pkgdir}" -xf "${srcdir}/datacenter-gpu-manager-4-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   bsdtar -C "${pkgdir}" -xf "${srcdir}/datacenter-gpu-manager-4-multinode-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   bsdtar -C "${pkgdir}" -xf "${srcdir}/datacenter-gpu-manager-4-proprietary-cuda12-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  mkdir -p "${pkgdir}/usr/lib"
+  mv "${pkgdir}/usr/lib64/"* "${pkgdir}/usr/libexec/"* "${pkgdir}/usr/lib"
+  rm -rf "${pkgdir}/usr/lib64/" "${pkgdir}/usr/libexec/" "${pkgdir}/usr/lib/.build-id"
+}
+
+package_datacenter-gpu-manager-cuda13(){
+  depends=("datacenter-gpu-manager-core=${pkgver}")
+  bsdtar -C "${pkgdir}" -xf "${srcdir}/datacenter-gpu-manager-4-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  bsdtar -C "${pkgdir}" -xf "${srcdir}/datacenter-gpu-manager-4-multinode-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
+  bsdtar -C "${pkgdir}" -xf "${srcdir}/datacenter-gpu-manager-4-proprietary-cuda13-${_pkgver:-${pkgver}}-${_rel:-1}.${CARCH}.rpm"
   mkdir -p "${pkgdir}/usr/lib"
   mv "${pkgdir}/usr/lib64/"* "${pkgdir}/usr/libexec/"* "${pkgdir}/usr/lib"
   rm -rf "${pkgdir}/usr/lib64/" "${pkgdir}/usr/libexec/" "${pkgdir}/usr/lib/.build-id"
