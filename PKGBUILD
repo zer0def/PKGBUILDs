@@ -1,5 +1,5 @@
 pkgname=datacenter-gpu-manager-exporter
-pkgver=4.7.0
+pkgver=4.7.1
 pkgrel=1
 arch=('x86_64' 'aarch64')
 url='https://www.nvidia.com/'
@@ -9,14 +9,14 @@ depends=('datacenter-gpu-manager-4-core>=4')  # probably capped to major 5
 [ "${CARCH}" = "aarch64" ] && _archdir="sbsa" || _archdir="${CARCH}"
 source_x86_64=("https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-exporter-${pkgver}-1.${CARCH}.rpm")
 source_aarch64=("https://developer.download.nvidia.com/compute/cuda/repos/rhel8/${_archdir}/datacenter-gpu-manager-exporter-${pkgver}-1.${CARCH}.rpm")
-sha256sums_x86_64=('e0ca0600fe850b2c2b1549ef0bd6a19c570ba0ed7e6458044d0a07385fa3153c')
-sha512sums_x86_64=('a1495d8f50f017fbe73cbe7d33d29d010bf11d25ab8951adfa3fe97280039091cc6ef22607647906aa888f094888797b259fda121fcf15fa13eebbc4099521c4')
-b2sums_x86_64=('5b6b01fbe9e0ff0334e2ae47c3aac7c5b23c6b4e3f63f46c7d2e5a6b48b10f667f0cb05c5d68041349b54183897a3e1f2ce40f7f0cae921c81d50b0dce503a04')
-b3sums_x86_64=('10d8ccfcfb0118be37bb4d4e7f21c34a542ef572cfe1a864fb34ad7c5ff1061a')
-sha256sums_aarch64=('fba37dcaf49ae62b500226d6646d73b0d53424c8ba6ec13a8ab9aea4b5613ecc')
-sha512sums_aarch64=('767216d7b225663f875cf5bd0e284a25421657f4e1c02fb92ff800a2172a30aba81911d436304866199fe3c93caec6b992f0afb529504e4d11e9344679a3d9ee')
-b2sums_aarch64=('17175e1ef7f3361ddfbdb9caeae3b7e930599db99ab28c2701f07114ce3ce61e20ddca3d33567877216d9aa620d60a279111294a38c422b5f0257dc0540f05a8')
-b3sums_aarch64=('076037393c006d6d09103be409706b3a7e85352c9cd35e6d30d657444ac6cd3b')
+sha256sums_x86_64=('8a64df857525c01868802c8c3580075ba323374e951dc5d60b85c88c3ab0e5c6')
+sha512sums_x86_64=('0c9fdcbee4bceac0a647df801608296175d3800ed75d0b3fcff71d89a249887f4e234ff8493938abb3158e4132f271340a432d5bf9393ebd82ee8c1a08762e81')
+b2sums_x86_64=('0760a94ba19d7de311459e2710d6c1c49827f66464eed98e47bffccd24027b6d4d6c556ab53bce06275a2a6c8cb7ed0e6ed0feb8dc0c1c224e4dcc6167448b58')
+b3sums_x86_64=('310639d79c77933f37fb9c488fbf94475fe31d54ecec36aebfbc933f16c40b45')
+sha256sums_aarch64=('ab006ee9e20289efa2794a8ee610131924f8645a56bc3de0f5ad0e007f75084a')
+sha512sums_aarch64=('c0acafa5a2467a83c171cf41e115b37b3e96d91c062b5f19aa0ba3f197c26510b906173e3ec154fa9318bf016e9a0072e652d2dff928b21f9a9acfba0a74a43e')
+b2sums_aarch64=('90f90825bc5a7ec7c9439a102588b6157b1b6f53b59dd4d1c29c296baaf45f1c33d4ee341cb772670eb6be861cac6a5c8a3e6e87ddd7d299074872f614ab1497')
+b3sums_aarch64=('3cdfcae086cce1591c941e67be47a1b2d519f48f1c8706a6f9da05945eb46437')
 
 package(){
   rm "${srcdir}/"*.rpm
