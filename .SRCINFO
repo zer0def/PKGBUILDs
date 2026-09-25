@@ -1,5 +1,5 @@
 pkgbase = datacenter-gpu-manager-exporter
-	pkgver = 4.8.1
+	pkgver = 4.8.2
 	pkgrel = 1
 	url = https://www.nvidia.com/
 	arch = x86_64
@@ -8,13 +8,13 @@ pkgbase = datacenter-gpu-manager-exporter
 	depends = datacenter-gpu-manager-4-core>=4
 	options = !strip
 	options = !emptydirs
-	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/datacenter-gpu-manager-exporter-4.8.1-1.x86_64.rpm
-	sha256sums_x86_64 = 3bc8b47cff1462a2520fc93c5d775e696f1cff9b97f227a26418e065bc900d7a
-	sha512sums_x86_64 = 372862781777b3df98b0e88cff96bd93055cc51fdc47d3cb6bbf8bcb6e77f28c2435dcb0873dd7c0b88c2649ec3901b5009d025cf5f16cb41230a0c4b66c8324
-	b2sums_x86_64 = 54890132d1540685c653f67602329bbdd6bd465ce57a660d8a3fe0f8f383818c505db00794c1738a8899344ca990acd41851d2a08a81e6c45129eb5d42d5fcc4
-	source_aarch64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/datacenter-gpu-manager-exporter-4.8.1-1.x86_64.rpm
-	sha256sums_aarch64 = 7de8ed8654ac3199af80b890449ddd37d084a2a4f5b106d97a0e24023d63c74c
-	sha512sums_aarch64 = e1c1a5e445131e020a26e1a5d6496cd5c8cfbbcf976d6a43acb81894b5fbb48bf0bd1cc77b5f9d98a14a4e84f8f9657f71198c5f944b215a63a75f022e0887bb
-	b2sums_aarch64 = c76789d37a60106695614688bd8a37cc06dfa2b25032337a5a448687b356d5c31692cd91ef6a9c9136c83584a3b1f6ad04fd642bdec806bf5251838ec4794ba3
+	source_x86_64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/datacenter-gpu-manager-exporter-4.8.2-1.x86_64.rpm
+	sha256sums_x86_64 = 7998b58b8be69f939ce31f1f893cf00815831b6703425a394ab08d3d8087ccb8
+	sha512sums_x86_64 = e8ba6c94344bb83fc956efc96ee44ca8960728c7baa25a10a4f52ec5a5640529219c531a63e6b9f0e77c8ac17c135a92ac827ab21d9c4c4e49e39f1715700e1c
+	b2sums_x86_64 = 76db118fa755e4fc825bd782f94373233dce09fd31a01ed38511aaccdc94347eabf705f5f5892fcc35b5ac4540edea6017b4986764228896dfd2a0f95442e02e
+	source_aarch64 = https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/datacenter-gpu-manager-exporter-4.8.2-1.x86_64.rpm
+	sha256sums_aarch64 = d53f75254b27443ced9cf1ebee5c528606a8d236095a0a20f1a607551268e0db
+	sha512sums_aarch64 = af6ea4c003d9b3a8a26858d9b53f281c4e7fcd8b9626529291bb703171bfa6a289f7e094e94cf5ac6e3f055cbed4623468c95a3917078f441e0aebf076aeadc0
+	b2sums_aarch64 = 21dd9631818e2d51fc4ebbc278023231ed2797b71a04f633a94a0ecd6f0e6b1e04d9c9c6d8764b2bb38a04c697a757870ed85c1c37b01738998215377608bb33
 
 pkgname = datacenter-gpu-manager-exporter
