@@ -1,5 +1,5 @@
 pkgname=libnvat
-pkgver=2026.04.29
+pkgver=2026.06.09
 pkgrel=1
 arch=(
   'x86_64'  # 'aarch64'?
@@ -7,13 +7,11 @@ arch=(
 url='https://github.com/nvidia/attestation-sdk'
 license=('Apache2')
 depends=(
-  'curl' 'libstdc++' 'openssl' 'xmlsec' 'zlib' 'gcc-libs'  # 'glibc'
-  'libxml2'  # 'libxml2<2.12'
+  'curl' 'libstdc++' 'libxml2' 'openssl' 'xmlsec' 'zlib' 'gcc-libs'  # 'glibc'
 )
 makedepends=(
   'cmake' 'rust' 'corrosion' 'fmt' 'nlohmann-json' 'jwt-cpp'  # 'regorus'
 )
-options=('!lto')
 # static deps
 _corrosion=6be991bb34c348dfb8344be22f3606288ea5c7fd
 _fmt=10.2.1 _json=3.12.0 _jwt_cpp=0.7.1 _regorus=0.4.0 _spdlog=1.14.1
@@ -28,7 +26,7 @@ source=(
   "https://github.com/gabime/spdlog/archive/refs/tags/v${_spdlog}.tar.gz"
 )
 sha256sums=(
-  '594ab084fdb8de0e2b7a536fb74a4a6074bca4cbbc4f2d5cf66e9f4578e892af'
+  'cfc1379cffbe6f5ad5a11ae4c35a21ab282b07472b8cc3816a0c5bceb0d92b1e'
 
   '84d8fbc2810af9a42e250411dcd30b8e8cc59deba196c1dcd1fb44fec459a793'
   'a688d15a839671f13bd02ad1880b78e0077a800dcb97fc6b5c00602c074573b2'
@@ -38,7 +36,7 @@ sha256sums=(
   '1586508029a7d0670dfcb2d97575dcdc242d3868a259742b69f100801ab4e16b'
 )
 sha512sums=(
-  '907d9b8603ceb55514d2c09358558d90591cddc9c7d76b29601b9a56004b32f96d2194a82e98d07c2d45bcb853368c68dffe9e9978a56fe28c440e887d31fab8'
+  'f494177d50e3f41512b5a8d3518c6c02b620a5daf9ead5cdba472793f1cc21d612a608f4f9a8f11c1c4769cf2d89a0ae976729fcf5583101d82a0477ab075c5b'
 
   '1946845f5db1ade049a91279003b3bbbc0f59f34b0d874d5143e31fd4f3ad8fe43a8c6193b18ea2bb40b70c0fadc8c0f65f3f0e87d4bb4ad3ad285a8535f5daf'
   '870bbf9dc1c2ac82e0765ea094d87dd53384f43642de07a8826d3c0f82ada64ac6413aa7c55a4a6b43db67aab7d276232c9b0d8c0927eef32e0ec250900b3fa8'
@@ -48,7 +46,7 @@ sha512sums=(
   'd8f36a3d65a43d8c64900e46137827aadb05559948b2f5a389bea16ed1bfac07d113ee11cf47970913298d6c37400355fe6895cda8fa6dcf6abd9da0d8f199e9'
 )
 b2sums=(
-  'e7cdb326a8b9cf8a6ff8dce1d81b19a2e01292cf99f5089041a88ce2d6272941277d21755f0e44de7a41f14629eae9be5dd08c3210368e77bf9c32f4c71036c6'
+  'f6fc881f2dfda2bdddf6589cb3c0100f2479af59a7432ecf877dea0facc808165ade133b977eb81da47f2c360f2eefae032fa083f763014557ae4c021c86cab9'
 
   'a4fe209b6bacb9a19a083440bdd72e30165b7f0c6be3c9953d8088e183e81d1783978cdae6a79406771dc9f9c8956a67e1de76597e8367436e667c5a6f6194c4'
   '9dd13aaee853232dc55f77432264adb15948e78babc323ae86348ce7ad8a6b08d46b351a27d414e8fe56b0e8999dc495d3531b3d1b26905e65db1c658cb01e19'
@@ -58,7 +56,7 @@ b2sums=(
   '70ac5142acfd765c649f2e34286bae3b5082db284dd1ca7c3d7424a53dd658f7d308bef0b5e0c89192fc3931f1fe5efdba91e460c7b3df836dffc22b66f821fa'
 )
 b3sums=(
-  'e8ff89740fd00fe129c4554df81b64989b4a802eb46f139019141f5af37a665b'
+  '171d62bd6217f4ae8684b6ba34cb02ef636439b36654e57ef276e2ed6ab1e656'
 
   'b25c163d4e61ea24ca244fcbead4a3dc1c44b4b7770a3e857297c80f141e0401'
   '8c18490ba8fd4d2cbc029fcc1042afae8a0a38284bda0f4babb52c3c0c7002cb'
@@ -69,7 +67,6 @@ b3sums=(
 )
 prepare(){
   sed -i '/opa-runtime/d' "${srcdir}/regorus-regorus-v${_regorus}/Cargo.toml"  # power down unnecessary 'git rev-parse HEAD' call
-  sed -i 's/xmlErrorPtr/const xmlError*/' "${srcdir}/attestation-sdk-${pkgver}/nv-attestation-sdk-cpp/src/rim.cpp"
 }
 build(){
   cd "${srcdir}/attestation-sdk-${pkgver}"
