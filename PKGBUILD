@@ -1,8 +1,8 @@
 # Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
 # Maintainer: Konstantin Gizdov <arch@kge.pw>
-pkgname=(cuda cuda-tools)
-pkgbase=cuda
 pkgver=11.8.0
+pkgname=("cuda${pkgver%.*}" "cuda${pkgver%.*}-tools")
+pkgbase="cuda${pkgver%.*}"
 _driverver=520.61.05
 pkgrel=1
 pkgdesc="NVIDIA's GPU programming toolkit"
@@ -85,52 +85,50 @@ build() {
   cd "${srcdir}/builds"
 
   rm -r NVIDIA*.run bin
-  mkdir -p "${_prepdir}/opt/cuda/extras"
-  mv integration nsight_compute nsight_systems EULA.txt "${_prepdir}/opt/cuda"
-  mv cuda_demo_suite/extras/demo_suite "${_prepdir}/opt/cuda/extras/demo_suite"
-  mv cuda_sanitizer_api/compute-sanitizer "${_prepdir}/opt/cuda/extras/compute-sanitizer"
+  mkdir -p "${_prepdir}/opt/cuda/${pkgver%.*}/extras"
+  mv integration nsight_compute nsight_systems EULA.txt "${_prepdir}/opt/cuda/${pkgver%.*}"
+  mv cuda_demo_suite/extras/demo_suite "${_prepdir}/opt/cuda/${pkgver%.*}/extras/demo_suite"
+  mv cuda_sanitizer_api/compute-sanitizer "${_prepdir}/opt/cuda/${pkgver%.*}/extras/compute-sanitizer"
   rmdir cuda_sanitizer_api
   for lib in *; do
     if [[ "$lib" =~ .*"version.json".* ]]; then
       continue
     fi
-    cp -r $lib/* "${_prepdir}/opt/cuda/"
+    cp -r $lib/* "${_prepdir}/opt/cuda/${pkgver%.*}/"
   done
 
   # Delete some unnecessary files
-  rm -r "${_prepdir}"/opt/cuda/bin/cuda-uninstaller
+  rm -r "${_prepdir}/opt/cuda/${pkgver%.*}/bin/cuda-uninstaller"
 
   # Define compilers for CUDA to use.
   # This allows us to use older versions of GCC if we have to.
-  ln -s /usr/bin/gcc-11 "${_prepdir}/opt/cuda/bin/gcc"
-  ln -s /usr/bin/g++-11 "${_prepdir}/opt/cuda/bin/g++"
+  ln -s ../../../../usr/bin/gcc-11 "${_prepdir}/opt/cuda/${pkgver%.*}/bin/gcc"
+  ln -s ../../../../usr/bin/g++-11 "${_prepdir}/opt/cuda/${pkgver%.*}/bin/g++"
 
   # Install profile and ld.so.config files
-  install -Dm755 "${srcdir}/cuda.sh" "${_prepdir}/etc/profile.d/cuda.sh"
-  install -Dm644 "${srcdir}/cuda.conf" "${_prepdir}/etc/ld.so.conf.d/cuda.conf"
+  mkdir -p "${_prepdir}/etc/profile.d/" "${_prepdir}/etc/ld.so.conf.d/"
+  sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/cuda.sh" >"${_prepdir}/etc/profile.d/cuda${pkgver%.*}.sh"
+  sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/cuda.conf" >"${_prepdir}/etc/ld.so.conf.d/cuda${pkgver%.*}.conf"
 
   # Install pkgconfig files
-  mkdir -p "$_prepdir"/usr/lib/pkgconfig
-  cp "${srcdir}"/*.pc "${_prepdir}"/usr/lib/pkgconfig
+  mkdir -p "${_prepdir}/usr/lib/pkgconfig"
+  for i in "${srcdir}/"*.pc; do i="${i##*/}";i="${i%.pc}";sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/${i}.pc" >"${_prepdir}/usr/lib/pkgconfig/${i}-${pkgver%.*}.pc";done
 
   mkdir -p "${_prepdir}/usr/share/licenses/${pkgname}"
-  ln -s /opt/cuda/EULA.txt "${_prepdir}/usr/share/licenses/${pkgname}/EULA.txt"
-  ln -s /opt/cuda/README "${_prepdir}/usr/share/licenses/${pkgname}/README"
+  for i in EULA.txt README; do ln -s "../../../../opt/cuda/${pkgver%.*}/${i}" "${_prepdir}/usr/share/licenses/${pkgname}/${i}"; done
 
   # Allow newer compilers to work. This is not officially supported in the Arch package but
   # if users want to try, let them try.
   # See https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#system-requirements
   # for official requirements
-  sed -i "/.*unsupported GNU version.*/d" "${_prepdir}"/opt/cuda/targets/x86_64-linux/include/crt/host_config.h
-  sed -i "/.*unsupported clang version.*/d" "${_prepdir}"/opt/cuda/targets/x86_64-linux/include/crt/host_config.h
+  sed -i "/.*unsupported GNU version.*/d" "${_prepdir}/opt/cuda/${pkgver%.*}/targets/x86_64-linux/include/crt/host_config.h"
+  sed -i "/.*unsupported clang version.*/d" "${_prepdir}/opt/cuda/${pkgver%.*}/targets/x86_64-linux/include/crt/host_config.h"
 
   # Fix Makefile paths to CUDA
-  for f in $(find "$_prepdir"/opt/cuda -name Makefile); do
-    sed -i "s|/usr/local/cuda|/opt/cuda|g" "$f"
-  done
+  for f in $(find "${_prepdir}/opt/cuda/${pkgver%.*}" -name Makefile); do sed -i "s|/usr/local/cuda|/opt/cuda/${pkgver%.*}|g" "$f";done
 }
 
-package_cuda() {
+package_cuda11.8() {
   replaces=('cuda-toolkit' 'cuda-sdk' 'cuda-static')
   provides=('cuda-toolkit' 'cuda-sdk' 'libcudart.so' 'libcublas.so' 'libcusolver.so' 'libcusparse.so')
   optdepends=('gdb: for cuda-gdb'
@@ -141,28 +139,30 @@ package_cuda() {
   cd "${_prepdir}"
   cp -al * "${pkgdir}"
   # remove broken links
-  rm "${pkgdir}"/opt/cuda/include/include
-  rm "${pkgdir}"/opt/cuda/lib64/lib64
+  rm "${pkgdir}/opt/cuda/${pkgver%.*}/include/include"
+  rm "${pkgdir}/opt/cuda/${pkgver%.*}/lib64/lib64"
 
-  rm -r "${pkgdir}"/opt/cuda/{bin/nvvp,bin/computeprof,libnvvp,nsight*}
+  rm -r "${pkgdir}/opt/cuda/${pkgver%.*}/"{bin/nvvp,bin/computeprof,libnvvp,nsight*}
 }
 
-package_cuda-tools() {
+package_cuda11.8-tools() {
   pkgdesc="NVIDIA's GPU programming toolkit (extra tools: nvvp, nsight)"
-  depends=('cuda' 'java-runtime=8' 'nss')
+  depends=("cuda${pkgver%.*}" 'java-runtime=8' 'nss')
   optdepends=('perl: required by some NVVP plugins')
 
   local _prepdir="${srcdir}/prep"
 
-  mkdir -p "${pkgdir}/opt/cuda/bin"
-  mv "${_prepdir}"/opt/cuda/nsight* "${pkgdir}/opt/cuda"
-  mv "${_prepdir}"/opt/cuda/bin/nvvp "${pkgdir}/opt/cuda/bin/nvvp"
-  mv "${_prepdir}"/opt/cuda/bin/computeprof "${pkgdir}/opt/cuda/bin/computeprof"
-  mv "${_prepdir}"/opt/cuda/libnvvp "${pkgdir}/opt/cuda"
+  mkdir -p "${pkgdir}/opt/cuda/${pkgver%.*}/bin"
+  mv "${_prepdir}/opt/cuda/${pkgver%.*}/"nsight* "${pkgdir}/opt/cuda/${pkgver%.*}"
+  mv "${_prepdir}/opt/cuda/${pkgver%.*}/bin/nvvp" "${pkgdir}/opt/cuda/${pkgver%.*}/bin/nvvp"
+  mv "${_prepdir}/opt/cuda/${pkgver%.*}/bin/computeprof" "${pkgdir}/opt/cuda/${pkgver%.*}/bin/computeprof"
+  mv "${_prepdir}/opt/cuda/${pkgver%.*}/libnvvp" "${pkgdir}/opt/cuda/${pkgver%.*}"
 
   # licenses
+  :||{
   mkdir -p "${pkgdir}/usr/share/licenses"
   ln -s /usr/share/licenses/cuda "${pkgdir}/usr/share/licenses/${pkgname}"
+  }
 }
 
 # vim:set ts=2 sw=2 et:
