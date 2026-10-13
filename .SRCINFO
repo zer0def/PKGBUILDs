@@ -1,4 +1,4 @@
-pkgbase = cuda
+pkgbase = cuda12.9
 	pkgdesc = NVIDIA's GPU programming toolkit
 	pkgver = 12.9.1
 	pkgrel = 2
@@ -85,7 +85,7 @@ pkgbase = cuda
 	sha512sums = a6107446d30b3e95b63064c56a86622cf186e140de2ed2de476035ad1d7caaf056af6c86149818edbd6b488942b24724d176cf8f976f272ab4023bbe2f972681
 	sha512sums = c7c7dbb0e21cb2342ede4bf730fe1191d59879e03151707c5519f4cafb64f1f7fdc3211f9d451ca789ab362de67cd43c2d4e1e2a714c8537a601b36cb63cb5b2
 
-pkgname = cuda
+pkgname = cuda12.9
 	optdepends = gdb: for cuda-gdb
 	optdepends = glu: required for some profiling tools in CUPTI
 	optdepends = nvidia-utils: for NVIDIA drivers (not needed in CDI containers)
@@ -100,9 +100,9 @@ pkgname = cuda
 	replaces = cuda-sdk
 	replaces = cuda-static
 
-pkgname = cuda-tools
+pkgname = cuda12.9-tools
 	pkgdesc = NVIDIA's GPU programming toolkit (extra tools: nvvp, nsight, compute-sanitizer)
-	depends = cuda
+	depends = cuda12.9
 	depends = java-runtime=8
 	depends = nss
 	optdepends = perl: required by some NVVP plugins

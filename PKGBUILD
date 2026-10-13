@@ -2,9 +2,9 @@
 # Maintainer: Konstantin Gizdov <arch@kge.pw>
 # Maintainer: Jakub Klinkovský <lahwaacz at archlinux dot org>
 
-pkgname=(cuda cuda-tools)
-pkgbase=cuda
 pkgver=12.9.1
+pkgname=("cuda${pkgver%.*}" "cuda${pkgver%.*}-tools")
+pkgbase="cuda${pkgver%.*}"
 # Before upgrading, make sure that we ship at least this version of
 # nvidia-utils as otherwise we'll get stuff such as #7.
 _driverver=575.57.08
@@ -95,10 +95,10 @@ prepare() {
 }
 
 build() {
-  local _prepdir="${srcdir}"/prep
-  local _prepdir_tools="${srcdir}"/prep_tools
+  local _prepdir="${srcdir}/prep"
+  local _prepdir_tools="${srcdir}/prep_tools"
 
-  cd "${srcdir}"/builds/
+  cd "${srcdir}/builds"
 
   # Delete some unnecessary files
   find . -name cuda-uninstaller -delete
@@ -107,7 +107,7 @@ build() {
   rm version.json
 
   # Move component directories for the cuda-tools package
-  mkdir -p "${_prepdir_tools}"/opt/cuda/
+  mkdir -p "${_prepdir_tools}/opt/cuda/${pkgver%.*}/"
   local tools_components=(
     cuda_nsight/{bin,nsightee_plugins}
     cuda_nvvp/{bin,libnvvp}
@@ -117,51 +117,51 @@ build() {
   )
   for component in "${tools_components[@]}"; do
     # workaround for mv not merging the destination directory
-    cp -alr "$component" "${_prepdir_tools}"/opt/cuda/
+    cp -alr "$component" "${_prepdir_tools}/opt/cuda/${pkgver%.*}/"
     rm -r "$component"
   done
   # These directories should be now empty, remove them to ensure we did not miss anything above
   rmdir cuda_nvvp cuda_nsight cuda_sanitizer_api
 
   # Add symlink for compute-sanitizer binary to appear in PATH
-  ln -s ../compute-sanitizer/compute-sanitizer "${_prepdir_tools}"/opt/cuda/bin/compute-sanitizer
+  ln -s ../compute-sanitizer/compute-sanitizer "${_prepdir_tools}/opt/cuda/${pkgver%.*}/bin/compute-sanitizer"
 
   # Move remaining components for the cuda package
-  mkdir -p "${_prepdir}"/opt/cuda/
-  mv EULA.txt "${_prepdir}"/opt/cuda/
+  mkdir -p "${_prepdir}/opt/cuda/${pkgver%.*}/"
+  mv EULA.txt "${_prepdir}/opt/cuda/${pkgver%.*}/"
   for lib in *; do
     # workaround for mv not merging the destination directory
     # (overwrite with --force since some files like EULA.txt or LICENSE come from multiple directories)
-    cp -alr --force "$lib"/* "${_prepdir}"/opt/cuda/
+    cp -alr --force "$lib"/* "${_prepdir}/opt/cuda/${pkgver%.*}/"
     rm -r "$lib"
   done
 
   # Remove broken links
-  rm "${_prepdir}"/opt/cuda/include/include
-  rm "${_prepdir}"/opt/cuda/lib64/lib64
+  rm "${_prepdir}/opt/cuda/${pkgver%.*}/include/include"
+  rm "${_prepdir}/opt/cuda/${pkgver%.*}/lib64/lib64"
 
   # Add a symlink lib->lib64 as some libraries might expect that (FS#76951)
-  ln -s lib64 "${_prepdir}"/opt/cuda/lib
+  ln -s lib64 "${_prepdir}/opt/cuda/${pkgver%.*}/lib"
 
   # Allow newer compilers to work. This is not officially supported in the Arch package but
   # if users want to try, let them try.
   # See https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#system-requirements
   # for official requirements
-  sed -i "/.*unsupported GNU version.*/d" "${_prepdir}"/opt/cuda/targets/x86_64-linux/include/crt/host_config.h
-  sed -i "/.*unsupported clang version.*/d" "${_prepdir}"/opt/cuda/targets/x86_64-linux/include/crt/host_config.h
+  sed -i "/.*unsupported GNU version.*/d" "${_prepdir}/opt/cuda/${pkgver%.*}/targets/x86_64-linux/include/crt/host_config.h"
+  sed -i "/.*unsupported clang version.*/d" "${_prepdir}/opt/cuda/${pkgver%.*}/targets/x86_64-linux/include/crt/host_config.h"
 
   # Fix Makefile paths to CUDA
-  for f in $(find "$_prepdir"/opt/cuda -name Makefile); do
-    sed -i "s|/usr/local/cuda|/opt/cuda|g" "$f"
+  for f in $(find "${_prepdir}/opt/cuda/${pkgver%.*}" -name Makefile); do
+    sed -i "s|/usr/local/cuda|/opt/cuda/${pkgver%.*}|g" "$f"
   done
 
   # Patch for compatibility with glibc 2.41
-  patch -p1 -d "$_prepdir" -i "$srcdir"/fix-glibc241.patch
+  sed "s#opt/cuda/#opt/cuda/${pkgver%.*}/#g" "${srcdir}/fix-glibc241.patch" | patch -p1 -d "${_prepdir}"
   # Patch for compatibility with glibc 2.42
-  patch -p1 -d "$_prepdir" -i "$srcdir"/fix-glibc242.patch
+  sed "s#opt/cuda/#opt/cuda/${pkgver%.*}/#g" "${srcdir}/fix-glibc242.patch" | patch -p1 -d "${_prepdir}"
 }
 
-package_cuda() {
+package_cuda12.9() {
   replaces=('cuda-toolkit' 'cuda-sdk' 'cuda-static')
   provides=('cuda-toolkit' 'cuda-sdk' 'libcudart.so' 'libcublas.so' 'libcusolver.so' 'libcusparse.so')
   optdepends=('gdb: for cuda-gdb'
@@ -173,32 +173,39 @@ package_cuda() {
   mv "${_prepdir}"/* "${pkgdir}"
 
   # Install pkgconfig files
-  install -vDm 644 -t "${pkgdir}"/usr/lib/pkgconfig/ "${srcdir}"/*.pc
+  mkdir -p "${pkgdir}/usr/lib/pkgconfig"
+  for i in "${srcdir}/"*.pc; do i="${i##*/}";i="${i%.pc}";sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/${i}.pc" >"${pkgdir}/usr/lib/pkgconfig/${i}-${pkgver%.*}.pc";done
 
   # Install profile and ld.so.config files
-  install -vDm 644 "${srcdir}"/cuda.sh -t "${pkgdir}"/etc/profile.d/
-  install -vDm 644 "${srcdir}"/cuda.conf -t "${pkgdir}"/etc/ld.so.conf.d/
+  mkdir -p "${pkgdir}/etc/profile.d/" "${pkgdir}/etc/ld.so.conf.d/"
+  sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/cuda.sh" >"${pkgdir}/etc/profile.d/cuda${pkgver%.*}.sh"
+  sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/cuda.conf" >"${pkgdir}/etc/ld.so.conf.d/cuda${pkgver%.*}.conf"
 
   # Licenses
   mkdir -p "${pkgdir}"/usr/share/licenses/${pkgname}/
-  ln -s /opt/cuda/EULA.txt "${pkgdir}"/usr/share/licenses/${pkgname}/EULA.txt
-  ln -s /opt/cuda/README "${pkgdir}"/usr/share/licenses/${pkgname}/README
+  for i in EULA.txt README; do ln -s "../../../../opt/cuda/${pkgver%.*}/${i}" "${pkgdir}/usr/share/licenses/${pkgname}/${i}"; done
 }
 
-package_cuda-tools() {
+package_cuda12.9-tools() {
   pkgdesc+=" (extra tools: nvvp, nsight, compute-sanitizer)"
-  depends=('cuda' 'java-runtime=8' 'nss')
+  depends=("cuda${pkgver%.*}" 'java-runtime=8' 'nss')
   optdepends=('perl: required by some NVVP plugins')
 
-  local _prepdir_tools="${srcdir}"/prep_tools
+  local _prepdir_tools="${srcdir}/prep_tools"
   mv "${_prepdir_tools}"/* "${pkgdir}"
 
   # Install desktop entries
-  install -vDm 644 -t "${pkgdir}"/usr/share/applications/ "${srcdir}"/*.desktop
+  mkdir -p "${pkgdir}/usr/share/applications"
+  for i in "${srcdir}/"*.desktop; do
+    i="${i##*/}";i="${i%.desktop}";[ "${i%-*}" = "${i#*-}" ] && _tgt="${i}${pkgver%.*}.desktop" || _tgt="${i%-*}${pkgver%.*}-${i#*-}.desktop"
+    sed "s#/opt/cuda#/opt/cuda/${pkgver%.*}#g" "${srcdir}/${i}.desktop" >"${pkgdir}/usr/share/applications/${_tgt}"
+  done
 
   # Licenses
+  :||{
   mkdir -p "${pkgdir}"/usr/share/licenses/
-  ln -s /usr/share/licenses/cuda "${pkgdir}"/usr/share/licenses/${pkgname}
+  ln -s "/usr/share/licenses/cuda" "${pkgdir}/usr/share/licenses/${pkgname}"
+  }
 }
 
 # vim:set ts=2 sw=2 et:
